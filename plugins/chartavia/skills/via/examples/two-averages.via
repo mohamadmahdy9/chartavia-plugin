@@ -1,0 +1,22 @@
+# Two moving averages with cross marks
+# متوسطين متحركين مع علامات التقاطع
+
+indicator "Two averages" overlay
+
+input fast = 9  "Fast period"  1..200
+input slow = 21 "Slow period"  1..400
+
+let a = ema(close, fast)
+let b = ema(close, slow)
+
+draw a name "Fast" color blue
+draw b name "Slow" color white width 2
+
+if crossup(a, b) then
+  mark below "▲" color blue
+  alert "Fast average crossed above slow at {close}"
+end
+if crossdown(a, b) then
+  mark above "▼" color gray
+  alert "Fast average crossed below slow at {close}"
+end

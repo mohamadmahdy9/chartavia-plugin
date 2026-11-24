@@ -1,0 +1,16 @@
+# MACD with colored histogram
+# ماكد مع هيستوجرام ملوّن
+
+indicator "MACD columns"
+
+input fast = 12
+input slow = 26
+input signal = 9
+
+let (line, sig, hist) = macd(close, fast, slow, signal)
+let growing = hist > prev(hist)
+
+draw hist name "Histogram" as columns color hist >= 0 ? (growing ? blue : fade(blue, 0.5)) : (growing ? fade(rose, 0.5) : rose)
+draw line name "MACD" color white
+draw sig name "Signal" color gold
+level 0 color fade(gray, 0.5)

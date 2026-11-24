@@ -1,0 +1,16 @@
+{
+  "name": "chartavia",
+  "description": "Claude plugins for Chartavia, the charting platform. Write Via indicators and trading experts with Claude.",
+  "owner": {
+    "name": "Chartavia",
+    "url": "https://chartavia.com"
+  },
+  "plugins": [
+    {
+      "name": "chartavia",
+      "source": "./plugins/chartavia",
+      "description": "Helps you write Via indicators and experts for Chartavia, checks them with the real compiler and test-runs them.",
+      "version": "0.1.0"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+# Expert: trade the average cross
+# خبير: تداول تقاطع المتوسطات
+
+expert "Average cross"
+
+option capital = 10000
+option fee = 0.1
+option size = 100
+
+input fast = 9 "Fast" 1..200
+input slow = 21 "Slow" 2..400
+
+let a = ema(close, fast)
+let b = ema(close, slow)
+draw a name "Fast" color blue
+draw b name "Slow" color white
+
+if crossup(a, b) then buy
+if crossdown(a, b) then sell

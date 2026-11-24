@@ -1,0 +1,18 @@
+# Volatility bands with squeeze highlight
+# نطاقات التذبذب مع إبراز الانضغاط
+
+indicator "Bands squeeze" overlay
+
+input length = 20 "Length" 5..200
+input dev = 2 "Width (deviations)"
+
+let (up, mid, dn) = bands(close, length, dev)
+let spread = (up - dn) / mid * 100
+let tight = spread < lowest(spread, 120) * 1.1
+
+draw up name "Upper" color fade(blue, 0.8)
+draw mid name "Middle" color gray
+draw dn name "Lower" color fade(blue, 0.8)
+
+if tight then paint fade(gold, 0.35)
+if tight and not prev(tight) then mark above "squeeze" color gold

@@ -1,0 +1,18 @@
+# RSI with zones and colored line
+# مؤشر القوة النسبية مع مناطق وتلوين
+
+indicator "RSI zones"
+
+input length = 14 "Length" 2..100
+input upper = 70 "Overbought" 50..100
+input lower = 30 "Oversold" 0..50
+
+let r = rsi(close, length)
+
+draw r name "RSI" color r > upper ? rose : r < lower ? mint : blue width 2
+level upper name "Overbought" color gray dashed
+level 50 color fade(gray, 0.4)
+level lower name "Oversold" color gray dashed
+
+if crossdown(r, upper) then alert "RSI left the overbought zone: {r}"
+if crossup(r, lower) then alert "RSI left the oversold zone: {r}"
