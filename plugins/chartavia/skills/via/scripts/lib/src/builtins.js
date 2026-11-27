@@ -1,8 +1,9 @@
 "use strict";
-// Built-in series, colors and functions of the Via language.
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FUNC_AR = exports.FUNCS = exports.CONSTANTS = exports.THEME_DARK = exports.THEME_LIGHT = exports.COLORS = exports.POSITION_SERIES = exports.BAR_SERIES = exports.SERIES_AR = void 0;
 exports.themeColor = themeColor;
+// Built-in series, colors and functions of the Via language.
+const objects_1 = require("./objects");
 // ---------- names ----------
 exports.SERIES_AR = {
     "افتتاح": "open", "أعلى": "high", "اعلى": "high", "أدنى": "low", "ادنى": "low", "إغلاق": "close", "اغلاق": "close",
@@ -346,8 +347,10 @@ exports.FUNCS = {
         f: (a) => (typeof a[0] === "string" && /^#[0-9a-f]{6}/i.test(a[0]) && isNum(a[1]) ? hexToRgba(a[0], a[1]) : a[0]),
     },
 };
+Object.assign(exports.FUNCS, objects_1.OBJECT_FUNCS);
 // Arabic aliases for the most used functions.
 exports.FUNC_AR = {
+    ...objects_1.OBJECT_FUNC_AR,
     "متوسط": "avg", "متوسط_أسي": "ema", "سابق": "prev", "تقاطع_صاعد": "crossup", "تقاطع_هابط": "crossdown",
     "أعلى_قيمة": "highest", "أدنى_قيمة": "lowest", "مجموع": "sum", "انحراف": "stdev", "قوة_نسبية": "rsi",
     "مدى_حقيقي": "atr", "قيمة_مطلقة": "abs", "تقريب": "round", "أكبر": "max", "أصغر": "min",

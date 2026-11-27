@@ -5,11 +5,13 @@ exports.run = run;
 const builtins_1 = require("./builtins");
 const check_1 = require("./check");
 const errors_1 = require("./errors");
+const objects_1 = require("./objects");
 const LOOP_LIMIT = 5000, MAX_MARKS = 500;
 const DEFAULT_COLORS = ["#7480ff", "#f3efe7", "#ffb547", "#6fa8ff", "#ff6a8c", "#5fc9a8", "#a08cff", "#c9b48a"];
 function inputsOf(p) {
     return p.body.filter((s) => s.k === "input").map((s) => ({
-        name: s.name, label: s.label, def: s.def, min: s.min, max: s.max, type: typeof s.def === "boolean" ? "bool" : "number",
+        name: s.name, label: s.label, def: s.def, min: s.min, max: s.max, type: s.time ? "time" : typeof s.def === "boolean" ? "bool" : typeof s.def === "string" ? "color" : "number",
+        ...(s.group ? { group: s.group } : {}), ...(s.options ? { options: s.options } : {}),
     }));
 }
 const isNum = (v) => typeof v === "number" && Number.isFinite(v);
@@ -36,6 +38,12 @@ function run(p, input, opts = {}) {
         if (s.k === "input") {
             const given = opts.inputs?.[s.name];
             let v = given !== undefined && typeof given === typeof s.def ? given : s.def;
+            if (typeof v === "string" && !/^#[0-9a-f]{6}([0-9a-f]{2})?$/i.test(v))
+                v = s.def;
+            if (typeof v === "string")
+                v = v.toLowerCase();
+            if (typeof v === "number" && !Number.isFinite(v))
+                v = s.def;
             if (typeof v === "number") {
                 if (s.min !== undefined)
                     v = Math.max(s.min, v);
@@ -76,6 +84,47 @@ function run(p, input, opts = {}) {
     const marks = [];
     const paints = [];
     const alerts = [];
+    const objects = new Map(); // insertion order = creation order
+    const perType = { line: [], box: [], label: [] };
+    let nextId = 1;
+    let panelWhere = "top_right";
+    const cells = new Map();
+    let callPos = { line: 0, col: 0 };
+    const fx = {
+        add(d) {
+            const id = nextId++;
+            objects.set(id, { id, ...d });
+            const q = perType[d.type];
+            q.push(id);
+            if (q.length > objects_1.MAX_OBJECTS)
+                objects.delete(q.shift());
+            return id;
+        },
+        get(id) { return typeof id === "number" ? objects.get(id) : undefined; },
+        erase(id) {
+            if (typeof id !== "number")
+                return;
+            const d = objects.get(id);
+            if (!d)
+                return;
+            objects.delete(id);
+            const q = perType[d.type];
+            const k = q.indexOf(id);
+            if (k >= 0)
+                q.splice(k, 1);
+        },
+        cell(c) {
+            if (!cells.has(`${c.row}:${c.col}`) && cells.size >= objects_1.MAX_CELLS.rows * objects_1.MAX_CELLS.cols)
+                return;
+            cells.set(`${c.row}:${c.col}`, c);
+        },
+        panel(w) { panelWhere = w; },
+        fail(code, args = {}) { (0, errors_1.fail)(code, callPos, args); },
+    };
+    const finish = () => ({
+        drawings: [...objects.values()],
+        panel: cells.size ? { where: panelWhere, cells: [...cells.values()].sort((a, b) => a.row - b.row || a.col - b.col) } : null,
+    });
     const draws = p.body.filter((s) => s.k === "draw");
     draws.forEach((d, k) => plots.push({
         name: d.label ?? `plot ${k + 1}`, style: d.style, width: d.width, color: DEFAULT_COLORS[k % DEFAULT_COLORS.length],
@@ -155,6 +204,8 @@ function run(p, input, opts = {}) {
                 if (e.op === "or")
                     return truthy(evalE(e.a, locals, path)) || truthy(evalE(e.b, locals, path));
                 const a = evalE(e.a, locals, path), b = evalE(e.b, locals, path);
+                if (e.op === "+" && (typeof a === "string" || typeof b === "string"))
+                    return (0, objects_1.toText)(a) + (0, objects_1.toText)(b);
                 if (e.op === "==" || e.op === "!=") {
                     if (a === null || b === null)
                         return false;
@@ -241,8 +292,9 @@ function run(p, input, opts = {}) {
             else
                 vals[k] = evalE(a, locals, path);
         });
+        callPos = e;
         const ctx = {
-            i, bars, st: s.st,
+            i, bars, st: s.st, fx,
             arg: (k) => views[k] ?? { full: false, at: (q) => (q === 0 ? vals[k] : null) },
             num: (v, what) => { if (v === null)
                 return null; if (typeof v !== "number")
@@ -403,11 +455,11 @@ function run(p, input, opts = {}) {
     }
     catch (x) {
         if (x instanceof errors_1.ViaFail) {
-            return { ok: false, error: x.err, plots, levels, marks, paints, alerts, warnings, ops, report: bt?.report(bars) };
+            return { ok: false, error: x.err, plots, levels, marks, paints, alerts, ...finish(), warnings, ops, report: bt?.report(bars) };
         }
         throw x;
     }
-    return { ok: true, plots, levels, marks, paints, alerts, warnings, ops, report: bt?.report(bars) };
+    return { ok: true, plots, levels, marks, paints, alerts, ...finish(), warnings, ops, report: bt?.report(bars) };
 }
 // ---------- backtester ----------
 function newBacktest(o, n) {

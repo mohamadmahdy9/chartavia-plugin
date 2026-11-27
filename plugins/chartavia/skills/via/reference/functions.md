@@ -10,7 +10,7 @@
 | `close` | `إغلاق` | Bar close |
 | `volume` | `حجم` | Bar volume |
 | `time` | `وقت` | Bar open time in ms since 1970 (UTC) |
-| `bar` | `شمعة` | Bar index, 0 is the oldest loaded bar |
+| `bar` | `شمعة` | Bar number, 0 is the oldest loaded bar (the number the legend shows) |
 | `median` |  | (high + low) / 2 |
 | `typical` |  | (high + low + close) / 3 |
 | `last` | `أخيرة` | yes only on the newest bar |
@@ -74,6 +74,59 @@
 | `willr(n)` | Williams range, -100 to 0. <br>مؤشر ويليامز من -100 لـ 0. |  |
 | `momentum(x, n)` | x minus x n bars ago. <br>x ناقص قيمتها من n شمعة. |  |
 
+## Lists (Via 0.2) · القوائم (ڤيا 0.2)
+
+| Function | Meaning | Example |
+|---|---|---|
+| `list(a, b, ...)` | A new list, empty or with the given items. Keep it with `keep` so it lasts across bars. <br>قائمة جديدة فاضية أو فيها العناصر دي. احفظها بـ keep عشان تفضل من شمعة للتانية. | `keep highs = list()` |
+| `push(xs, v)` | Add v at the end; returns the new length. <br>يضيف v في الآخر ويرجّع الطول الجديد. | `push(highs, high)` |
+| `push_front(xs, v)` | Add v at the start. <br>يضيف v في الأول. |  |
+| `pop(xs)` | Remove and return the last item. <br>يشيل آخر عنصر ويرجّعه. |  |
+| `pop_front(xs)` | Remove and return the first item. <br>يشيل أول عنصر ويرجّعه. |  |
+| `get(xs, i)` | Item i (0 is the first, -1 the last), or none. <br>العنصر رقم i (0 الأول و-1 الأخير)، أو لاشيء. | `get(highs, -1)` |
+| `put(xs, i, v)` | Replace item i. <br>يغيّر العنصر رقم i. |  |
+| `remove(xs, i)` | Remove item i and return it. <br>يشيل العنصر رقم i ويرجّعه. |  |
+| `clear(xs)` | Empty the list. <br>يفضّي القائمة. |  |
+| `len(xs)` | Number of items. <br>عدد العناصر. |  |
+| `list_max(xs)` | Largest number in the list. <br>أكبر رقم في القائمة. |  |
+| `list_min(xs)` | Smallest number in the list. <br>أصغر رقم في القائمة. |  |
+| `list_sum(xs)` | Sum of the numbers in the list. <br>مجموع الأرقام في القائمة. |  |
+
+## Chart objects and panel (Via 0.2) · رسومات الشارت واللوحة (ڤيا 0.2)
+
+| Function | Meaning | Example |
+|---|---|---|
+| `new_line(bar1, price1, bar2, price2, color?, width?, style?, extend?)` | Draw a line between two points and return its id. style: "solid", "dashed", "dotted"; extend: "none", "right", "left", "both". At most 500 lines; the oldest goes first. <br>يرسم خط بين نقطتين ويرجّع رقمه. الشكل: solid أو dashed أو dotted، والامتداد: none أو right أو left أو both. 500 خط بالكتير، والأقدم بيتشال. | `new_line(bar - 10, low, bar, high, blue, 2, "dashed")` |
+| `new_box(bar1, top, bar2, bottom, color?, fill?, text?)` | Draw a filled rectangle and return its id (zones, order blocks, gaps). <br>يرسم مستطيل ملوّن ويرجّع رقمه (مناطق، أوردر بلوك، فجوات). | `new_box(bar - 3, high, bar, low, blue, fade(blue, 0.15))` |
+| `new_label(bar, price, text, color?, where?, text_color?)` | Write text at a point; where is "above", "below", "center", "right" or "left". A see-through color shows the text alone. <br>يكتب نص عند نقطة؛ المكان above أو below أو center أو right أو left. لو اللون شفاف بيظهر النص لوحده. | `new_label(bar, high, "HH", gold, "above")` |
+| `move(id, bar1, price1, bar2?, price2?)` | Move an object's points. <br>يحرّك نقط الرسمة. |  |
+| `stretch(id, bar2)` | Move only the right end, e.g. keep a box running to the current bar. <br>يحرّك الطرف اليمين بس، زي إنك تمد صندوق لحد الشمعة الحالية. | `stretch(zone, bar)` |
+| `retext(id, text)` | Change a label's or box's text. <br>يغيّر نص اللافتة أو الصندوق. |  |
+| `recolor(id, color, fill?)` | Change an object's colors. <br>يغيّر ألوان الرسمة. |  |
+| `erase(id)` | Delete an object. <br>يمسح الرسمة. |  |
+| `exists(id)` | yes while the object is on the chart. <br>نعم طول ما الرسمة موجودة. |  |
+| `x1_of(id)` | Bar of an object's first point. <br>شمعة أول نقطة في الرسمة. |  |
+| `y1_of(id)` | Price of an object's first point. <br>سعر أول نقطة في الرسمة. |  |
+| `x2_of(id)` | Bar of an object's second point. <br>شمعة تاني نقطة في الرسمة. |  |
+| `y2_of(id)` | Price of an object's second point. <br>سعر تاني نقطة في الرسمة. |  |
+| `cell(row, col, text, color?, background?)` | Write one cell of the dashboard panel (rows 0-29, columns 0-11). The panel shows the values from the newest bar. <br>يكتب خلية في لوحة البيانات (صفوف 0-29، أعمدة 0-11). اللوحة بتعرض قيم آخر شمعة. | `cell(0, 0, "Trend"); cell(0, 1, up ? "Up" : "Down", white, blue)` |
+| `panel(where)` | Where the panel sits: "top_right" (default), "top_left", "bottom_right", "bottom_left". <br>مكان اللوحة: top_right (الافتراضي) أو top_left أو bottom_right أو bottom_left. |  |
+
+## Text, time and higher timeframes (Via 0.2) · النصوص والوقت والفريمات الأعلى (ڤيا 0.2)
+
+| Function | Meaning | Example |
+|---|---|---|
+| `to_text(x, digits?)` | A number as text. "+" also joins text: "RSI " + to_text(r, 1). <br>يحوّل الرقم لنص. وعلامة + بتلزق النصوص: "RSI " + to_text(r, 1). | `to_text(close, 2)` |
+| `hour(tz?)` | Hour the bar opened; tz is hours from UTC (2 for Cairo winter). <br>ساعة فتح الشمعة؛ tz فرق الساعات عن UTC (2 للقاهرة في الشتا). | `hour(2)` |
+| `minute(tz?)` | Minute the bar opened. <br>دقيقة فتح الشمعة. |  |
+| `weekday(tz?)` | Day of the week, 1 = Monday ... 7 = Sunday. <br>يوم الأسبوع، 1 = الاتنين لحد 7 = الحد. |  |
+| `monthday(tz?)` | Day of the month. <br>يوم الشهر. |  |
+| `month(tz?)` | Month, 1 to 12. <br>الشهر من 1 لـ 12. |  |
+| `year(tz?)` | Year. <br>السنة. |  |
+| `in_session(start, end, tz?)` | yes when the bar opens inside a daily window given as hhmm; windows may cross midnight. <br>نعم لو الشمعة فتحت جوه فترة يومية مكتوبة hhmm؛ الفترة ممكن تعدّي نص الليل. | `in_session(1500, 1800, 2)` |
+| `bar_minutes()` | The chart's timeframe in minutes. <br>فريم الشارت بالدقايق. |  |
+| `htf(field, minutes, back = 0)` | Open, high, low or close of a higher-timeframe bar built from the chart's bars. back 0 is the bar still forming (never future data), 1 the last finished one. <br>افتتاح أو أعلى أو أدنى أو إغلاق شمعة فريم أعلى مبنية من شموع الشارت. back = 0 الشمعة اللي لسه بتتكوّن (من غير بيانات مستقبلية)، و1 آخر شمعة خلصت. | `htf("high", 1440, 1)` |
+
 ## Math · الرياضيات
 
 | Function | Meaning | Example |
@@ -109,6 +162,21 @@
 - `تقريب` = `round`
 - `أكبر` = `max`
 - `أصغر` = `min`
+- `قائمة` = `list`
+- `أضف` = `push`
+- `اسحب` = `pop`
+- `عنصر` = `get`
+- `عدد` = `len`
+- `خط_جديد` = `new_line`
+- `صندوق_جديد` = `new_box`
+- `لافتة_جديدة` = `new_label`
+- `حرّك` = `move`
+- `امسح` = `erase`
+- `خلية` = `cell`
+- `لوحة` = `panel`
+- `نص` = `to_text`
+- `ساعة` = `hour`
+- `فريم_أعلى` = `htf`
 
 ## Keywords and their Arabic spellings
 

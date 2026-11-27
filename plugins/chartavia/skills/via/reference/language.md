@@ -1,4 +1,4 @@
-# Via language reference (v0.1)
+# Via language reference (v0.2)
 
 **Via** (ڤيا) is Chartavia's own language for writing **indicators** and **experts**
 (automated strategies). A script runs once per bar, from the oldest bar to the newest.
@@ -54,6 +54,14 @@ info homepage "https://chartavia.com/u/nour"
 info id "nour.trend-filter"     # stable id used by the marketplace
 ```
 
+A script that ports someone else's study or code credits them with two more lines. The Store shows them
+on the product page as "Original idea", with the link and the license:
+
+```via
+info credit "J. Welles Wilder Jr."                       # who created the study or the original code
+info source "https://en.wikipedia.org/wiki/Parabolic_SAR" # a public page about it (https only)
+```
+
 These lines do not change how the script runs. The marketplace and the script library read them.
 
 ## 2. Values
@@ -74,8 +82,21 @@ Use `either(x, fallback)` to replace it.
 - `let name = expr` defines a series, recomputed every bar.
 - `keep name = expr` defines a value that **persists across bars**. `expr` is evaluated
   only on the first bar. Change it later with `name := expr`.
-- `input name = <number|bool> ["label"] [min..max]` declares a setting the user can
-  edit in the indicator dialog. Inputs are constants.
+- `input name = <number|bool|#colour> ["label"] [min..max] [group "Section"] [options "A|B|C"]` declares a
+  setting the user can edit in the indicator dialog. Inputs are constants.
+  `group` (Arabic `قسم`) puts the input in a section of the settings dialog; inputs with the same
+  group name are shown together. `options` (Arabic `اختيارات`) turns a number input into a list:
+  the value is the chosen item's position, from 0 (`min..max` is filled in for you).
+  Example: `input source = 0 "Color source" options "Structure|EMA 8/21|Momentum" group "Candles"`.
+  A colour default (`#rrggbb` or `#rrggbbaa`) makes a colour input: the settings show a colour picker and the
+  input can be used anywhere a colour goes. Example: `input upColor = #f3efe7 "Rising colour" group "Colors"`.
+  `time` (Arabic `وقت`) makes a date-and-time input: the settings show a date picker in the chart's time zone, and
+  the value is a time in ms like the `time` series, `0` while no date is picked. An optional date in quotes,
+  `"YYYY-MM-DD"` or `"YYYY-MM-DD HH:MM"` (UTC), is the default. Example:
+  `input start = time "2026-11-20 14:00" "Start"` then `if start > 0 and time >= start then ...`.
+  To pick a candle by its number instead, use a number input and compare it with `bar`
+  (`input from = 300 "From bar"` then `if bar >= from then ...`). The chart can show each candle's number in the
+  legend (chart settings → "Bar number in the legend"), and drawing coordinates use the same number.
 - `fn name(a, b) = expr` defines a function. Functions are pure: they cannot draw,
   trade or change `keep` values.
 
@@ -92,7 +113,7 @@ Names are case-sensitive. A name cannot be defined twice.
 | `close`  | `إغلاق`  | bar close                                |
 | `volume` | `حجم`    | bar volume                               |
 | `time`   | `وقت`    | bar open time, ms since 1970 UTC         |
-| `bar`    | `شمعة`   | bar index, 0 = oldest loaded bar         |
+| `bar`    | `شمعة`   | bar number, 0 = oldest loaded bar (shown in the legend) |
 | `median` |          | (high + low) / 2                         |
 | `typical`|          | (high + low + close) / 3                 |
 | `last`   | `أخيرة`  | `yes` only on the newest bar             |
@@ -312,3 +333,54 @@ Errors give a line and column, in English and Arabic:
 line 7, col 12: unknown name "clse". Did you mean "close"?
 السطر 7، العمود 12: اسم غير معروف "clse". هل تقصد "close"؟
 ```
+
+## 14. Lists, chart objects and the panel (v0.2)
+
+The new function names (`len`, `get`, `hour`, ...) can still be used as variable names, so scripts written for v0.1 keep working. A call such as `len(xs)` always means the function.
+
+### Lists
+`list()` makes a list. Keep it with `keep` so it lasts from bar to bar, then change it with
+`push`, `push_front`, `pop`, `pop_front`, `put`, `remove` and `clear`. Read it with `get(xs, i)`
+(`-1` is the last item), `len`, `list_max`, `list_min` and `list_sum`. A list holds up to 10,000 items.
+
+```via
+keep highs = list()
+if high == highest(high, 20) then push(highs, high)
+if len(highs) > 10 then pop_front(highs)
+```
+
+### Chart objects
+`new_line`, `new_box` and `new_label` draw an object and return its id. Points are a bar number
+(the `bar` series, so `bar - 5` is five bars back and `bar + 10` is in the future) and a price.
+`new_label(bar, price, text, color?, where?, text_color?)` places the label `above`, `below`, `center`, `right` or `left` of its point; a see-through color (`none` or `#rrggbb00`) shows the text alone.
+Keep the id with `keep` to change the object later with `move`, `stretch`, `retext`, `recolor`
+or `erase`; `exists`, `x1_of`, `y1_of`, `x2_of` and `y2_of` read it back. Each script can have up
+to 500 lines, 500 boxes and 500 labels; when it makes more, the oldest one is removed.
+
+```via
+keep zone = none
+if crossup(close, ema(close, 50)) then
+  erase(zone)
+  zone := new_box(bar, high, bar, low, blue, fade(blue, 0.15), "Zone")
+end
+if exists(zone) then stretch(zone, bar)
+```
+
+A statement that only calls a function (`push(xs, 1)`, `erase(id)`) is allowed anywhere. These
+functions change things, so they cannot be used inside `fn`.
+
+Tip: functions that read past bars (`prev`, `ema`, `highest`, …) remember only the bars on which
+they ran. Inside an `if`, read a `let` defined at the top level (`let bodyLow = prev(min(open, close), 5)`)
+instead of calling them there.
+
+### Panel
+`cell(row, col, text, color?, background?)` writes a small table pinned to a corner of the pane
+(`panel("top_left")` moves it). The panel shows the values written on the newest bar.
+
+### Text, time and higher timeframes
+`to_text(x, digits?)` turns a value into text, and `+` joins text: `"RSI " + to_text(r, 1)`.
+`hour(tz)`, `minute`, `weekday` (1 = Monday), `monthday`, `month`, `year` and
+`in_session(start_hhmm, end_hhmm, tz)` read the bar's open time; `tz` is hours from UTC.
+`bar_minutes()` is the chart's timeframe. `htf("high", 240)` is the high of the 4-hour bar
+that is still forming, built from the chart's own bars (never future data); `htf("high", 240, 1)`
+is the last finished one.
