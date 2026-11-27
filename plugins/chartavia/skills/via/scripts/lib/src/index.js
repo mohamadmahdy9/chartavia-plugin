@@ -18,7 +18,7 @@ Object.defineProperty(exports, "POSITION_SERIES", { enumerable: true, get: funct
 Object.defineProperty(exports, "themeColor", { enumerable: true, get: function () { return builtins_1.themeColor; } });
 var lexer_1 = require("./lexer");
 Object.defineProperty(exports, "KEYWORDS", { enumerable: true, get: function () { return lexer_1.KEYWORDS; } });
-exports.VIA_VERSION = "0.1.0";
+exports.VIA_VERSION = "0.2.0";
 /** Parses and checks a script. Never throws on bad input. */
 function compile(source) {
     let program;

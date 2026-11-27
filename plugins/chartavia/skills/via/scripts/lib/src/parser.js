@@ -1,8 +1,26 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.parseDate = parseDate;
 exports.parse = parse;
 const errors_1 = require("./errors");
 const lexer_1 = require("./lexer");
+const GROUP_WORDS = ["group", "قسم"];
+const TIME_WORDS = ["time", "وقت"];
+const DATE_RE = /^\d{4}-\d{2}-\d{2}([ T]\d{2}:\d{2})?$/;
+/** "2026-11-20" or "2026-11-20 14:30", read as UTC; null when the date does not exist. */
+function parseDate(text) {
+    const m = /^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?$/.exec(text);
+    if (!m)
+        return null;
+    const [y, mo, d, h = "0", mi = "0"] = m.slice(1);
+    const t = Date.UTC(+y, +mo - 1, +d, +h, +mi);
+    const back = new Date(t);
+    if (back.getUTCFullYear() !== +y || back.getUTCMonth() !== +mo - 1 || back.getUTCDate() !== +d || +h > 23 || +mi > 59)
+        return null;
+    return t;
+}
+const COLOR_RE = /^#[0-9a-f]{6}([0-9a-f]{2})?$/;
+const OPTION_WORDS = ["options", "اختيارات"];
 const STYLES = ["line", "columns", "dots", "area", "steps"];
 const STYLE_AR = { "خط": "line", "أعمدة": "columns", "اعمدة": "columns", "نقاط": "dots", "مساحة": "area", "درجات": "steps" };
 function parse(src) {
@@ -112,14 +130,57 @@ class Parser {
                     this.next();
                     const name = this.expect("name", undefined, "a name").value;
                     this.op("=");
-                    const def = this.literal();
+                    // A colour default (#rrggbb or #rrggbbaa) makes a colour input, shown with a colour picker.
+                    // `time` (Arabic وقت), optionally followed by a date in quotes, makes a date-and-time input: its value is a
+                    // time in milliseconds like the `time` series, 0 when no date is set.
+                    let def, isTime = false;
+                    if (this.cur.type === "name" && TIME_WORDS.includes(this.cur.value)) {
+                        this.next();
+                        isTime = true;
+                        def = 0;
+                        const dt = this.cur;
+                        if (dt.type === "str" && DATE_RE.test(dt.value.trim())) {
+                            const d = parseDate(dt.value.trim());
+                            if (d === null)
+                                (0, errors_1.fail)("bad_input", this.cur);
+                            def = d;
+                            this.next();
+                        }
+                    }
+                    else
+                        def = this.cur.type === "color" ? this.next().value : this.literal();
+                    if (typeof def === "string" && !COLOR_RE.test(def))
+                        (0, errors_1.fail)("bad_input", tok);
                     const s = { k: "input", name, def, ...pos };
+                    if (isTime)
+                        s.time = true;
                     if (this.cur.type === "str")
                         s.label = this.next().value;
-                    if (this.cur.type === "num" || this.isOp("-")) {
+                    if (!isTime && (this.cur.type === "num" || this.isOp("-"))) {
                         s.min = this.signedNum();
                         this.op("..");
                         s.max = this.signedNum();
+                    }
+                    // Optional, in any order: group "Section" (shown as a section in the settings), options "A|B|C" (a list
+                    // instead of a number box; the value is the chosen item's position, from 0).
+                    for (;;) {
+                        const w = this.cur.type === "name" ? this.cur.value : "";
+                        if (GROUP_WORDS.includes(w)) {
+                            this.next();
+                            s.group = this.expect("str", undefined, "a section name in quotes").value;
+                            continue;
+                        }
+                        if (OPTION_WORDS.includes(w)) {
+                            this.next();
+                            const t = this.expect("str", undefined, "choices in quotes, split by |");
+                            s.options = t.value.split("|").map((x) => x.trim()).filter(Boolean);
+                            if (typeof s.def !== "number" || s.time || s.options.length < 2)
+                                (0, errors_1.fail)("bad_input", t);
+                            s.min ??= 0;
+                            s.max ??= s.options.length - 1;
+                            continue;
+                        }
+                        break;
                     }
                     return s;
                 }

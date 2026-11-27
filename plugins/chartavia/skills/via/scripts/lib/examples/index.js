@@ -142,6 +142,78 @@ draw bar > length ? trail : none name "Trail" as steps color dir == 1 ? blue : r
 `,
     },
     {
+        id: "swing-structure",
+        en: "Swing structure with zones and a panel (Via 0.2)",
+        ar: "هيكل القمم والقيعان مع مناطق ولوحة (ڤيا 0.2)",
+        source: `indicator "Swing structure" overlay
+
+input n = 5 "Swing strength" 2..30
+input maxZones = 5 "Zones to keep" 1..20
+
+# a swing high is the highest high of 2n+1 bars, found n bars after it happened
+let ph = prev(high, n)
+let pl = prev(low, n)
+let bodyLow = prev(min(open, close), n)
+let isHigh = bar >= 2 * n and highest(high, 2 * n + 1) == ph
+let isLow = bar >= 2 * n and lowest(low, 2 * n + 1) == pl
+
+keep lastHigh = none
+keep lastLow = none
+keep highLine = none
+keep lowLine = none
+keep trend = 0
+keep zones = list()
+
+if isHigh then
+  new_label(bar - n, ph, ph > either(lastHigh, ph) ? "HH" : "LH", ph > either(lastHigh, ph) ? white : gray, "above")
+  lastHigh := ph
+  erase(highLine)
+  highLine := new_line(bar - n, ph, bar, ph, gray, 1, "dashed", "right")
+end
+
+if isLow then
+  new_label(bar - n, pl, pl < either(lastLow, pl) ? "LL" : "HL", pl < either(lastLow, pl) ? rose : blue, "below")
+  lastLow := pl
+  erase(lowLine)
+  lowLine := new_line(bar - n, pl, bar, pl, gray, 1, "dashed", "right")
+  # demand zone: from the swing low up to that candle's body
+  push(zones, new_box(bar - n, bodyLow, bar, pl, blue, fade(blue, 0.12)))
+  if len(zones) > maxZones then erase(pop_front(zones))
+end
+
+# keep zones running to the current bar until price closes below them
+if len(zones) > 0 then
+  repeat k from len(zones) - 1 to 0
+    if close < y2_of(get(zones, k)) then
+      erase(remove(zones, k))
+    else
+      stretch(get(zones, k), bar)
+    end
+  end
+end
+
+if close > lastHigh and trend != 1 then
+  trend := 1
+  mark below "▲" color white
+  alert "Broke above the last swing high at {close}"
+end
+if close < lastLow and trend != -1 then
+  trend := -1
+  mark above "▼" color rose
+  alert "Broke below the last swing low at {close}"
+end
+
+cell(0, 0, "Trend", gray)
+cell(0, 1, trend == 1 ? "Up" : trend == -1 ? "Down" : "-", white, trend == 1 ? fade(blue, 0.5) : trend == -1 ? fade(rose, 0.5) : none)
+cell(1, 0, "Last high", gray)
+cell(1, 1, to_text(lastHigh, 2))
+cell(2, 0, "Last low", gray)
+cell(2, 1, to_text(lastLow, 2))
+cell(3, 0, "Zones", gray)
+cell(3, 1, len(zones))
+`,
+    },
+    {
         id: "expert-average-cross",
         en: "Expert: trade the average cross",
         ar: "خبير: تداول تقاطع المتوسطات",

@@ -7,8 +7,9 @@ exports.check = check;
 const builtins_1 = require("./builtins");
 const errors_1 = require("./errors");
 const lexer_1 = require("./lexer");
+const objects_1 = require("./objects");
 exports.OPTIONS = ["capital", "fee", "size", "shorts"];
-exports.INFO_FIELDS = ["version", "author", "description", "license", "homepage", "id"];
+exports.INFO_FIELDS = ["version", "author", "description", "license", "homepage", "id", "credit", "source"];
 const MAX_DRAW = 16, MAX_LEVEL = 8;
 function resolveFn(name) { return builtins_1.FUNC_AR[name] ?? name; }
 function resolveSeries(name) { return builtins_1.SERIES_AR[name] ?? name; }
@@ -21,12 +22,16 @@ function check(p) {
         ...(expert ? builtins_1.POSITION_SERIES : []),
     ]);
     const reserved = new Set([...builtinNames, ...builtins_1.POSITION_SERIES, ...Object.keys(builtins_1.FUNCS), ...Object.keys(builtins_1.FUNC_AR)]);
+    // Functions added in v0.2 (len, get, hour, ...) may still name a variable, so v0.1 scripts that used them keep working.
+    // Calls and names are looked up separately, so `len(xs)` still means the function.
+    const v02 = new Set([...Object.keys(objects_1.OBJECT_FUNCS), ...Object.keys(objects_1.OBJECT_FUNC_AR)]);
+    const reservedVar = (n) => reserved.has(n) && !v02.has(n);
     const globals = new Set();
     const keeps = new Set();
     const userFns = new Map();
     let draws = 0, levels = 0;
     const define = (name, pos, scope) => {
-        if (reserved.has(name) || Object.hasOwn(lexer_1.KEYWORDS, name))
+        if (reservedVar(name) || Object.hasOwn(lexer_1.KEYWORDS, name))
             err("reserved", pos, { name });
         else if (scope.has(name) || globals.has(name) || userFns.has(name))
             err("redefined", pos, { name });
@@ -68,6 +73,8 @@ function check(p) {
                 const fname = resolveFn(e.name);
                 const f = builtins_1.FUNCS[fname];
                 if (f) {
+                    if (f.effect && inFn)
+                        err("not_in_fn", e, { what: e.name });
                     if (e.args.length < f.min || e.args.length > f.max) {
                         err("arity", e, { name: e.name, want: f.min === f.max ? f.min : `${f.min}-${f.max}`, got: e.args.length });
                     }
@@ -196,7 +203,7 @@ function check(p) {
                 expr(s.from, locals, false);
                 expr(s.to, locals, false);
                 const inner = new Set(locals);
-                if (globals.has(s.v) || reserved.has(s.v))
+                if (globals.has(s.v) || reservedVar(s.v))
                     err("redefined", s, { name: s.v });
                 inner.add(s.v);
                 block(s.body, false, inner);
