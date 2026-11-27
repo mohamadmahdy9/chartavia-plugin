@@ -1,0 +1,43 @@
+# en: Fair value gaps (three-candle imbalances) drawn as boxes that disappear once filled
+# ar: فجوات القيمة العادلة (فجوة بين 3 شموع) مرسومة كصناديق بتختفي لما السعر يقفلها
+# shows: new_box(), lists of box ids, stretch(), erase(), walking a list backwards with repeat
+indicator "Fair value gaps" overlay
+
+input minSize = 0.2 "Minimum size (x ATR)" 0..5
+input maxKeep = 10 "Gaps to keep on each side" 1..50
+
+let a = atr(14)
+let h2 = prev(high, 2)
+let l2 = prev(low, 2)
+let bullGap = low > h2 and low - h2 >= a * minSize
+let bearGap = high < l2 and l2 - high >= a * minSize
+
+keep bulls = list()
+keep bears = list()
+
+if bullGap then push(bulls, new_box(bar - 2, low, bar, h2, blue, fade(blue, 0.18), "FVG"))
+if bearGap then push(bears, new_box(bar - 2, l2, bar, high, rose, fade(rose, 0.15), "FVG"))
+if len(bulls) > maxKeep then erase(pop_front(bulls))
+if len(bears) > maxKeep then erase(pop_front(bears))
+
+# extend open gaps to this bar; remove the ones price has filled.
+# Walk backwards so removing an item does not skip the next one, and only when the list has items:
+# "repeat k from 0 to -1" would run twice (it counts down).
+if len(bulls) > 0 then
+  repeat k from len(bulls) - 1 to 0
+    if low <= y2_of(get(bulls, k)) then
+      erase(remove(bulls, k))
+    else
+      stretch(get(bulls, k), bar)
+    end
+  end
+end
+if len(bears) > 0 then
+  repeat k from len(bears) - 1 to 0
+    if high >= y1_of(get(bears, k)) then
+      erase(remove(bears, k))
+    else
+      stretch(get(bears, k), bar)
+    end
+  end
+end

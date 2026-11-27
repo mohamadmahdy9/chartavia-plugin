@@ -1,0 +1,10 @@
+{
+  "name": "chartavia-via-kit",
+  "private": true,
+  "description": "Via, the indicator and expert language of Chartavia: docs, examples, AI files and a checker.",
+  "license": "SEE LICENSE IN LICENSE",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "check": "node tools/check-all.cjs"
+  }
+}

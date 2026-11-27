@@ -1,0 +1,15 @@
+indicator "Donchian Channels" overlay
+info id "library.donchian"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Richard Donchian"
+info source "https://en.wikipedia.org/wiki/Donchian_channel"
+info license "MIT"
+info description "Highest high and lowest low of the last N bars, with the midpoint."
+
+input length = 20 "Length" 1..500
+let up = highest(high, length)
+let dn = lowest(low, length)
+draw up name "Upper" color blue
+draw (up + dn) / 2 name "Middle" color gray
+draw dn name "Lower" color blue

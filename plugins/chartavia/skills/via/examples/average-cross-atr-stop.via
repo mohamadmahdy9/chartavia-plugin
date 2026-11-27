@@ -1,0 +1,31 @@
+# en: Moving-average cross with an ATR stop and a target at a multiple of the risk (longs and shorts)
+# ar: تقاطع متوسطين مع وقف خسارة بالـ ATR وهدف بمضاعف المخاطرة (شراء وبيع)
+# shows: option lines, buy/sell with stop and target placed on the same bar
+expert "Average cross with ATR stop"
+
+option capital = 10000
+option fee = 0.05
+option size = 100
+
+input fast = 20 "Fast average" 2..200
+input slow = 50 "Slow average" 5..400
+input stopAtr = 2 "Stop distance (x ATR)" 0.5..10
+input reward = 2 "Target (x stop distance)" 0.5..10
+
+let a = ema(close, fast)
+let b = ema(close, slow)
+let vol = atr(14)
+
+draw a name "Fast" color blue
+draw b name "Slow" color white width 2
+
+if crossup(a, b) then
+  buy
+  stop close - vol * stopAtr
+  target close + vol * stopAtr * reward
+end
+if crossdown(a, b) then
+  sell
+  stop close + vol * stopAtr
+  target close - vol * stopAtr * reward
+end

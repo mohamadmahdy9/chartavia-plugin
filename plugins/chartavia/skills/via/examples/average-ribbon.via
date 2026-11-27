@@ -1,0 +1,33 @@
+# en: Moving-average ribbon that changes colour with the trend
+# ar: شريط متوسطات متحركة لونه بيتغير مع الاتجاه
+# shows: several draw lines, a colour chosen by a condition, fade(), marks when the trend flips
+indicator "Average ribbon" overlay
+
+input base = 10 "Shortest length" 2..100
+input gap = 10 "Step between lines" 1..50
+
+let m1 = ema(close, base)
+let m2 = ema(close, base + gap)
+let m3 = ema(close, base + gap * 2)
+let m4 = ema(close, base + gap * 3)
+let m5 = ema(close, base + gap * 4)
+let up = m1 > m5
+let tone = up ? blue : gray
+
+draw m1 name "1" color tone width 2
+draw m2 name "2" color fade(tone, 0.85)
+draw m3 name "3" color fade(tone, 0.7)
+draw m4 name "4" color fade(tone, 0.55)
+draw m5 name "5" color fade(tone, 0.4) width 2
+
+let turnedUp = up and not prev(up)
+let turnedDown = m1 < m5 and prev(up)
+
+if turnedUp then
+  mark below "▲" color blue
+  alert "Ribbon turned up at {close}"
+end
+if turnedDown then
+  mark above "▼" color gray
+  alert "Ribbon turned down at {close}"
+end

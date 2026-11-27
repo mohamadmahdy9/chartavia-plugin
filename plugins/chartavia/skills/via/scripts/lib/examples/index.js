@@ -103,19 +103,22 @@ let band = atr(length) * mult
 keep trail = close
 keep dir = 1
 
-if dir == 1 then
-  trail := max(trail, close - band)
-  if close < trail then
-    dir := -1
-    trail := close + band
-    mark above "▼" color rose
-  end
-else
-  trail := min(trail, close + band)
-  if close > trail then
-    dir := 1
-    trail := close - band
-    mark below "▲" color blue
+# band is none until the ATR has enough bars; wait for it, or trail would become none too
+if band > 0 then
+  if dir == 1 then
+    trail := max(trail, close - band)
+    if close < trail then
+      dir := -1
+      trail := close + band
+      mark above "▼" color rose
+    end
+  else
+    trail := min(trail, close + band)
+    if close > trail then
+      dir := 1
+      trail := close - band
+      mark below "▲" color blue
+    end
   end
 end
 

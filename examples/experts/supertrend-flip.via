@@ -1,0 +1,43 @@
+# en: SuperTrend expert: always in the market, flips long and short when the SuperTrend line flips
+# ar: خبير سوبر ترند: دايمًا في السوق، بيقلب شراء وبيع لما خط السوبر ترند يقلب
+# shows: a stateful indicator built with keep, trading on its signals
+expert "SuperTrend flip"
+
+option fee = 0.05
+
+input period = 10 "ATR period" 1..200
+input mult = 3 "ATR multiple" 0.5..20
+
+let a = atr(period)
+let upBasic = median + mult * a
+let dnBasic = median - mult * a
+let pc = prev(close)
+
+keep started = no
+keep upper = 0
+keep lower = 0
+keep trend = 1
+
+if either(a, -1) >= 0 then
+  if not started then
+    upper := upBasic
+    lower := dnBasic
+    started := yes
+  else
+    upper := (upBasic < upper or pc > upper) ? upBasic : upper
+    lower := (dnBasic > lower or pc < lower) ? dnBasic : lower
+    if trend == -1 and close > upper then
+      trend := 1
+    elif trend == 1 and close < lower then
+      trend := -1
+    end
+  end
+end
+
+draw started and trend == 1 ? lower : none name "Up" as steps color blue width 2
+draw started and trend == -1 ? upper : none name "Down" as steps color rose width 2
+
+let flipUp = trend == 1 and prev(trend) == -1
+let flipDown = trend == -1 and prev(trend) == 1
+if flipUp then buy
+if flipDown then sell

@@ -10,7 +10,7 @@
       "name": "chartavia",
       "source": "./plugins/chartavia",
       "description": "Helps you write Via indicators and experts for Chartavia, checks them with the real compiler and test-runs them.",
-      "version": "0.1.0"
+      "version": "0.2.0"
     }
   ]
 }

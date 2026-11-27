@@ -1,0 +1,18 @@
+# en: Heikin Ashi trend: colours the normal candles by the smoothed Heikin Ashi direction
+# ar: اتجاه هايكن آشي: بيلوّن الشموع العادية حسب اتجاه هايكن آشي
+# shows: keep for a value that depends on its own previous value, paint, alerts on colour change
+indicator "Heikin Ashi trend" overlay
+
+let haClose = (open + high + low + close) / 4
+let prevHaClose = prev(haClose)
+
+keep haOpen = (open + close) / 2
+if bar > 0 then haOpen := (haOpen + prevHaClose) / 2
+
+let haUp = haClose > haOpen
+paint haUp ? blue : gray
+
+let flippedUp = haUp and not prev(haUp)
+let flippedDown = not haUp and prev(haUp)
+if flippedUp then alert "Heikin Ashi turned up at {close}"
+if flippedDown then alert "Heikin Ashi turned down at {close}"

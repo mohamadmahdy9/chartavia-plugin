@@ -1,0 +1,17 @@
+indicator "Keltner Channels" overlay
+info id "library.keltner"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Chester Keltner (ATR version popularised by Linda Bradford Raschke)"
+info source "https://chartschool.stockcharts.com/table-of-contents/technical-indicators-and-overlays/technical-overlays/keltner-channels"
+info license "MIT"
+info description "An EMA with bands set a multiple of the average true range away."
+
+input length = 20 "EMA length" 1..500
+input atrLength = 10 "ATR length" 1..500
+input mult = 2 "ATR multiple" 0.1..10
+let mid = ema(close, length)
+let a = atr(atrLength)
+draw mid + mult * a name "Upper" color fade(blue, 0.8)
+draw mid name "Middle" color gray
+draw mid - mult * a name "Lower" color fade(blue, 0.8)

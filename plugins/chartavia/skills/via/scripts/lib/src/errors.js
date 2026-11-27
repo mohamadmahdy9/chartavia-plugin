@@ -1,7 +1,7 @@
 "use strict";
 // Bilingual error messages for the Via language.
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ViaFail = void 0;
+exports.ViaFail = exports.ERROR_CODES = void 0;
 exports.makeError = makeError;
 exports.fail = fail;
 exports.formatError = formatError;
@@ -71,6 +71,8 @@ const M = {
     bad_field: (p) => ({ en: `unknown field "${p.got}" (use "open", "high", "low" or "close")`, ar: `حقل غير معروف "${p.got}" (المتاح: "open", "high", "low", "close")` }),
     limit_marks: () => ({ en: "more than 500 marks; extra marks were dropped", ar: "أكتر من 500 علامة؛ تم تجاهل الزيادة" }),
 };
+/** Every error and warning code, for the generated error reference. */
+exports.ERROR_CODES = Object.keys(M);
 function makeError(code, pos, p = {}) {
     const m = (M[code] ?? (() => ({ en: code, ar: code })))(p);
     return { code, line: pos.line, col: pos.col, en: m.en, ar: m.ar };

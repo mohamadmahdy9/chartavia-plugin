@@ -123,10 +123,21 @@ Colors: `أزرق أبيض رمادي ذهبي وردي سماوي أخضر بن
   covered above (operator precedence, alert placeholders, backtest options, errors).
 - `reference/functions.md` — every built-in series and function with its signature,
   meaning (EN + AR) and an example, plus every keyword spelling.
-- `examples/*.via` — working scripts: `two-averages`, `rsi-zones`, `bands-squeeze`,
-  `macd-columns`, `trailing-trend` (keep-based state machine), `arabic`,
-  `expert-average-cross`, `expert-rsi-reversion` (stop + target, longs only),
-  `expert-breakout` (channel breakout with ATR stop).
+- `reference/common-mistakes.md` — the mistakes the compiler catches most often, and the fix.
+- `reference/pine-to-via.md` — Pine Script ideas mapped to Via, for users who bring a Pine idea.
+- `examples/*.via` — working scripts, all checked against the real engine. Basics: `two-averages`,
+  `rsi-zones`, `bands-squeeze`, `macd-columns`, `trailing-trend` (keep-based state machine), `arabic`,
+  `expert-average-cross`, `expert-rsi-reversion`, `expert-breakout`. Cookbook indicators (each starts
+  with `# en:` / `# ar:` / `# shows:` lines): `fair-value-gaps`, `supply-demand-zones`,
+  `structure-breaks`, `swing-labels`, `support-resistance-lines`, `auto-fibonacci`, `session-ranges`,
+  `previous-day-levels`, `market-dashboard`, `daily-average-any-timeframe`, `anchored-vwap-from-date`,
+  `average-ribbon`, `average-of-your-choice`, `candle-patterns`, `heikin-ashi-trend`, `volume-spikes`,
+  `trend-pullback-alerts`, `arabic-rsi-alerts`. Cookbook experts: `average-cross-atr-stop`,
+  `supertrend-flip`, `bands-reversion`, `session-breakout`, `channel-breakout-trailing`,
+  `breakeven-stop`, `risk-based-size`, `time-filtered-macd`.
+
+The same docs and examples, plus single-file versions for other AI tools, are public at
+https://github.com/mohamadmahdy9/chartavia-plugin.
 
 ## Reviewing or fixing a script
 

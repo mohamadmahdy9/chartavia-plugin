@@ -1,0 +1,13 @@
+indicator "Money Flow Index"
+info id "library.mfi"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Gene Quong and Avrum Soudack"
+info source "https://en.wikipedia.org/wiki/Money_flow_index"
+info license "MIT"
+info description "A volume-weighted RSI built from the typical price."
+
+input length = 14 "Length" 1..500
+draw mfi(length) name "MFI" color blue width 2
+level 80 color gray dashed
+level 20 color gray dashed

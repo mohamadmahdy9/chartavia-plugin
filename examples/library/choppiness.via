@@ -1,0 +1,15 @@
+indicator "Choppiness Index"
+info id "library.choppiness"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "E. W. Dreiss"
+info source "https://www.barchart.com/trader/help/studies/chop.php"
+info license "MIT"
+info description "High values mean sideways chop, low values mean a directional move."
+
+input length = 14 "Length" 2..500
+let range = highest(high, length) - lowest(low, length)
+let chop = range > 0 ? 100 * log(sum(true_range(), length) / range) / log(length) : none
+draw chop name "CHOP" color blue width 2
+level 61.8 color gray dashed
+level 38.2 color gray dashed

@@ -1,0 +1,31 @@
+# en: Position size from risk: each trade risks a fixed percent of equity at its stop
+# ar: حجم الصفقة حسب المخاطرة: كل صفقة بتخاطر بنسبة ثابتة من الرصيد عند الوقف
+# shows: buy <size> with a computed size, equity, a swing-low stop
+expert "Risk-based position size"
+
+option capital = 10000
+option fee = 0.05
+option shorts = no
+
+input riskPct = 1 "Risk per trade (% of equity)" 0.1..10
+input swingLen = 10 "Stop under the lowest low of (bars)" 2..100
+input reward = 2 "Target (x risk)" 0.5..10
+
+let fast = ema(close, 20)
+let slow = ema(close, 50)
+let swingLow = lowest(low, swingLen)
+let entrySignal = crossup(fast, slow)
+
+# how far the stop is, in percent of the price
+let stopPct = (close - swingLow) / close * 100
+# size (in % of equity) so that hitting the stop loses riskPct of equity; never more than 100%
+let sizePct = stopPct > 0 ? min(100, riskPct * 100 / stopPct) : 0
+
+draw fast name "Fast" color blue
+draw slow name "Slow" color white
+
+if position == 0 and entrySignal and sizePct > 0 then
+  buy sizePct
+  stop swingLow
+  target close + (close - swingLow) * reward
+end

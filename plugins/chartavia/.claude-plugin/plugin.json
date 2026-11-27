@@ -1,6 +1,6 @@
 {
   "name": "chartavia",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Write, review and fix Via scripts (indicators and trading experts) for the Chartavia charting platform. Via has English and Arabic keywords.",
   "author": { "name": "Chartavia", "url": "https://chartavia.com" },
   "homepage": "https://chartavia.com/docs/via",

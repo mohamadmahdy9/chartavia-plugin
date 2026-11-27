@@ -1,0 +1,24 @@
+# en: Swing highs and lows labelled HH, LH, HL and LL
+# ar: القمم والقيعان مكتوب عليها HH و LH و HL و LL
+# shows: pivot detection with prev() + highest(), new_label(), keep to remember the last swing
+indicator "Swing labels" overlay
+
+input side = 5 "Bars on each side of a swing" 1..50
+
+# a swing high is confirmed `side` bars later: the bar `side` bars ago is the highest of the window
+let isHigh = prev(high, side) == highest(high, side * 2 + 1)
+let isLow = prev(low, side) == lowest(low, side * 2 + 1)
+let swingHigh = prev(high, side)
+let swingLow = prev(low, side)
+
+keep lastHigh = 0
+keep lastLow = 0
+
+if isHigh then
+  new_label(bar - side, swingHigh, lastHigh == 0 ? "H" : swingHigh > lastHigh ? "HH" : "LH", none, "above", gold)
+  lastHigh := swingHigh
+end
+if isLow then
+  new_label(bar - side, swingLow, lastLow == 0 ? "L" : swingLow > lastLow ? "HL" : "LL", none, "below", sky)
+  lastLow := swingLow
+end

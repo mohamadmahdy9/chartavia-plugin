@@ -1,0 +1,13 @@
+indicator "Historical Volatility"
+info id "library.historical-volatility"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Classic study (public domain)"
+info source "https://en.wikipedia.org/wiki/Volatility_(finance)"
+info license "MIT"
+info description "Annualised standard deviation of log returns, in percent."
+
+input length = 20 "Length" 2..500
+input perYear = 365 "Bars per year" 1..100000
+let r = log(close / prev(close))
+draw 100 * stdev(r, length) * sqrt(perYear) name "HV %" color blue width 2

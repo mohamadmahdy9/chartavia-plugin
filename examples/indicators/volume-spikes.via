@@ -1,0 +1,18 @@
+# en: Volume columns with unusual spikes highlighted
+# ar: أعمدة الحجم مع إبراز الأحجام غير العادية
+# shows: draw as columns with a colour per bar, a separate pane (no overlay), alerts with values
+indicator "Volume spikes"
+
+input length = 20 "Average length" 2..200
+input k = 2 "Spike = volume above (x average)" 1..10
+
+let va = avg(volume, length)
+let spike = volume > va * k
+
+draw volume name "Volume" as columns color spike ? gold : close >= open ? fade(blue, 0.7) : fade(gray, 0.6)
+draw va name "Average" color white
+draw va * k name "Spike line" color fade(gold, 0.5)
+
+if spike then
+  alert "Volume spike: {volume} (average {va})"
+end

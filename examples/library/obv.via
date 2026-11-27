@@ -1,0 +1,13 @@
+indicator "On Balance Volume"
+info id "library.obv"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Joseph Granville"
+info source "https://en.wikipedia.org/wiki/On-balance_volume"
+info license "MIT"
+info description "Running total that adds volume on up closes and subtracts it on down closes."
+
+input signal = 20 "Signal EMA" 1..500
+let o = obv()
+draw o name "OBV" color blue width 2
+draw ema(o, signal) name "Signal" color gold

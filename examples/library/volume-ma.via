@@ -1,0 +1,13 @@
+indicator "Volume with Moving Average"
+info id "library.volume-ma"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Classic study (public domain)"
+info source "https://chartschool.stockcharts.com/table-of-contents/technical-indicators-and-overlays/technical-indicators"
+info license "MIT"
+info description "Volume columns with their simple average; bars above average are highlighted."
+
+input length = 20 "Average length" 1..500
+let va = avg(volume, length)
+draw volume name "Volume" as columns color volume > va ? fade(white, 0.6) : fade(blue, 0.5)
+draw va name "Average" color gold

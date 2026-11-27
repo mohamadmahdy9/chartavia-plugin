@@ -1,0 +1,25 @@
+# en: Support and resistance lines from recent swings, extended to the right
+# ar: خطوط دعم ومقاومة من آخر القمم والقيعان، ممتدة لليمين
+# shows: new_line() with extend "right", capping how many objects you keep, recolor() on the newest bar
+indicator "Support and resistance lines" overlay
+
+input swing = 10 "Swing size (bars on each side)" 2..50
+input count = 6 "Lines to keep" 1..30
+
+let isHigh = prev(high, swing) == highest(high, swing * 2 + 1)
+let isLow = prev(low, swing) == lowest(low, swing * 2 + 1)
+let swingHigh = prev(high, swing)
+let swingLow = prev(low, swing)
+
+keep lines = list()
+
+if isHigh then push(lines, new_line(bar - swing, swingHigh, bar, swingHigh, rose, 1, "solid", "right"))
+if isLow then push(lines, new_line(bar - swing, swingLow, bar, swingLow, blue, 1, "solid", "right"))
+if len(lines) > count then erase(pop_front(lines))
+
+# on the newest bar: blue = below price (support), rose = above price (resistance)
+if last and len(lines) > 0 then
+  repeat k from 0 to len(lines) - 1
+    recolor(get(lines, k), close > y1_of(get(lines, k)) ? blue : rose)
+  end
+end

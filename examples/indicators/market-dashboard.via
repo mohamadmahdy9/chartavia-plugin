@@ -1,0 +1,32 @@
+# en: A small dashboard in the chart corner: trend, RSI, ADX, volatility and today's change
+# ar: لوحة صغيرة في ركن الشارت: الاتجاه وRSI وADX والتذبذب وتغيّر النهارده
+# shows: panel() and cell(), to_text(), joining text with +, unpacking adx()
+indicator "Market dashboard" overlay
+
+input where = 0 "Corner" options "Top right|Top left|Bottom right|Bottom left"
+
+let r = rsi(close, 14)
+let (strength, plusDi, minusDi) = adx(14)
+let fast = ema(close, 20)
+let slow = ema(close, 50)
+let atrPct = atr(14) / close * 100
+let dayOpen = htf("open", 1440)
+let dayChange = (close - dayOpen) / dayOpen * 100
+let trendUp = fast > slow
+
+panel(where == 0 ? "top_right" : where == 1 ? "top_left" : where == 2 ? "bottom_right" : "bottom_left")
+
+if last then
+  cell(0, 0, "Chartavia", white, fade(blue, 0.7))
+  cell(0, 1, "", white, fade(blue, 0.7))
+  cell(1, 0, "Trend", gray)
+  cell(1, 1, trendUp ? "Up" : "Down", white, trendUp ? fade(blue, 0.5) : fade(rose, 0.4))
+  cell(2, 0, "RSI 14", gray)
+  cell(2, 1, to_text(r, 1), r > 70 ? rose : r < 30 ? mint : white)
+  cell(3, 0, "ADX 14", gray)
+  cell(3, 1, to_text(strength, 1) + (strength > 25 ? " strong" : " weak"), white)
+  cell(4, 0, "ATR %", gray)
+  cell(4, 1, to_text(atrPct, 2) + "%", white)
+  cell(5, 0, "Today", gray)
+  cell(5, 1, (dayChange >= 0 ? "+" : "") + to_text(dayChange, 2) + "%", dayChange >= 0 ? blue : rose)
+end

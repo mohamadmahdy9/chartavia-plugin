@@ -1,0 +1,13 @@
+indicator "Williams %R"
+info id "library.williams-r"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Larry Williams"
+info source "https://en.wikipedia.org/wiki/Williams_%25R"
+info license "MIT"
+info description "Close relative to the recent high-low range, from 0 down to -100."
+
+input length = 14 "Length" 1..500
+draw willr(length) name "%R" color blue width 2
+level -20 color gray dashed
+level -80 color gray dashed

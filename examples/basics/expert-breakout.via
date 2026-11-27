@@ -1,0 +1,26 @@
+# en: Expert: channel breakout with ATR stop
+# ar: خبير: اختراق القناة مع وقف بالـ ATR
+
+expert "Channel breakout"
+
+option capital = 10000
+option fee = 0.1
+
+input length = 20 "Channel length" 5..200
+input risk = 2 "ATR stop multiple"
+
+let top = prev(highest(high, length))
+let bottom = prev(lowest(low, length))
+let range = atr(14)
+
+draw top name "Top" color fade(blue, 0.7) as steps
+draw bottom name "Bottom" color fade(rose, 0.7) as steps
+
+if close > top and position <= 0 then
+  buy
+  stop close - range * risk
+end
+if close < bottom and position >= 0 then
+  sell
+  stop close + range * risk
+end

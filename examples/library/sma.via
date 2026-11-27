@@ -1,0 +1,11 @@
+indicator "Simple Moving Average" overlay
+info id "library.sma"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Classic study (public domain)"
+info source "https://chartschool.stockcharts.com/table-of-contents/technical-indicators-and-overlays/technical-overlays/moving-averages-simple-and-exponential"
+info license "MIT"
+info description "Plain average of the last N closes. The most basic trend line."
+
+input length = 20 "Length" 1..500
+draw avg(close, length) name "SMA" color blue width 2

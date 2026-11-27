@@ -1,0 +1,24 @@
+# en: Automatic Fibonacci retracement of the last swing, redrawn on the newest bar
+# ar: فيبوناتشي أوتوماتيك على آخر موجة، بيترسم من جديد على آخر شمعة
+# shows: since_high()/since_low(), a list of levels, repeat over a list, a pure fn, lines + labels
+indicator "Auto Fibonacci" overlay
+
+input lookback = 100 "Bars to look back" 10..2000
+input extendRight = yes "Extend lines to the right"
+
+let hi = highest(high, lookback)
+let lo = lowest(low, lookback)
+let hiAgo = since_high(high, lookback)
+let loAgo = since_low(low, lookback)
+let upMove = loAgo > hiAgo           # the low came first, so the swing is up
+
+fn fibPrice(f, up, top, bottom) = up ? top - (top - bottom) * f : bottom + (top - bottom) * f
+
+keep levels = list(0, 0.236, 0.382, 0.5, 0.618, 0.786, 1)
+
+if last then
+  repeat k from 0 to len(levels) - 1
+    new_line(bar - max(hiAgo, loAgo), fibPrice(get(levels, k), upMove, hi, lo), bar, fibPrice(get(levels, k), upMove, hi, lo), get(levels, k) == 0.618 ? gold : fade(gray, 0.8), 1, "solid", extendRight ? "right" : "none")
+    new_label(bar + 2, fibPrice(get(levels, k), upMove, hi, lo), to_text(get(levels, k) * 100, 1) + "%  " + to_text(fibPrice(get(levels, k), upMove, hi, lo), 2), none, "right", gray)
+  end
+end

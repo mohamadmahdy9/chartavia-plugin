@@ -1,0 +1,25 @@
+# en: Anchored VWAP and range from a date you pick on a calendar
+# ar: VWAP مثبّت ورينج من تاريخ بتختاره من النتيجة
+# shows: time inputs (date pickers), 0 = no date picked, keep sums that grow bar by bar
+indicator "Anchored VWAP from a date" overlay
+
+input start = time "From (empty = first loaded bar)"
+input finish = time "Until (empty = now)"
+
+let inRange = (start == 0 or time >= start) and (finish == 0 or time <= finish)
+
+keep pv = 0
+keep vv = 0
+keep hi = 0
+keep lo = 0
+
+if inRange then
+  pv := pv + typical * volume
+  vv := vv + volume
+  hi := hi == 0 ? high : max(hi, high)
+  lo := lo == 0 ? low : min(lo, low)
+end
+
+draw inRange and vv > 0 ? pv / vv : none name "Anchored VWAP" color blue width 2
+draw inRange ? hi : none name "Range high" color fade(gray, 0.7) as steps
+draw inRange ? lo : none name "Range low" color fade(gray, 0.7) as steps

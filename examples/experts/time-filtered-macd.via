@@ -1,0 +1,24 @@
+# en: MACD crosses traded only on chosen weekdays and hours, flat before the weekend
+# ar: تقاطعات الماكد بتتنفذ في أيام وساعات تختارها بس، ومن غير صفقات مفتوحة في الويك إند
+# shows: hour(), weekday(), unpacking macd(), exit on Friday evening
+expert "MACD with a time filter"
+
+option fee = 0.05
+
+input tz = 2 "Your time zone (hours from UTC)" -12..14
+input fromHour = 9 "Trade from hour" 0..23
+input toHour = 20 "Trade until hour" 0..23
+input fridayClose = 21 "Close everything on Friday at hour" 0..23
+
+let (line, signal, hist) = macd(close, 12, 26, 9)
+let h = hour(tz)
+let day = weekday(tz)              # 1 = Monday ... 7 = Sunday
+let tradingTime = day <= 5 and h >= fromHour and h < toHour
+let upCross = crossup(line, signal)
+let downCross = crossdown(line, signal)
+
+draw hist name "Histogram" as columns color hist >= 0 ? fade(blue, 0.6) : fade(rose, 0.5)
+
+if tradingTime and upCross then buy
+if tradingTime and downCross then sell
+if day == 5 and h >= fridayClose and position != 0 then exit

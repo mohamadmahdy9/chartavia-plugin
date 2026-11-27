@@ -1,0 +1,21 @@
+# en: A moving average of daily closes that you can see on any intraday chart
+# ar: متوسط متحرك لإغلاقات الأيام تشوفه على أي فريم أقل من يوم
+# shows: detecting a new day, keeping a list of values, list_sum() / len()
+indicator "Daily average on any timeframe" overlay
+
+input days = 20 "Days" 1..200
+
+let md = monthday()
+let newDay = md != prev(md)
+let yesterdayClose = htf("close", 1440, 1)
+
+keep closes = list()
+keep dailyAvg = none
+
+if newDay and yesterdayClose > 0 then
+  push(closes, yesterdayClose)
+  if len(closes) > days then pop_front(closes)
+  if len(closes) == days then dailyAvg := list_sum(closes) / len(closes)
+end
+
+draw dailyAvg name "Daily average" color gold width 2 as steps

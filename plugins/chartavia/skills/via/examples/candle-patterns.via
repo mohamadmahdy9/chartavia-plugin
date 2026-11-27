@@ -1,0 +1,38 @@
+# en: Classic candle patterns: engulfing, hammer, shooting star and inside bar
+# ar: أنماط شموع كلاسيكية: الابتلاعية والمطرقة والشهاب والشمعة الداخلية
+# shows: candle anatomy with let, yes/no inputs, new_label for frequent signals (keeps the newest 500), paint
+indicator "Candle patterns" overlay
+
+input useEngulf = yes "Engulfing"
+input useHammer = yes "Hammer and shooting star"
+input useInside = no "Inside bar"
+
+let body = abs(close - open)
+let size = high - low
+let upperWick = high - max(open, close)
+let lowerWick = min(open, close) - low
+let po = prev(open)
+let pc = prev(close)
+let ph = prev(high)
+let pl = prev(low)
+# Patterns can be frequent. mark keeps only the first 500 marks of the chart, so the newest bars would
+# lose theirs; new_label keeps the newest 500 instead.
+let bigEnough = size > atr(14) * 0.8   # ignore tiny candles
+
+let bullEngulf = bigEnough and close > open and pc < po and close >= po and open <= pc
+let bearEngulf = bigEnough and close < open and pc > po and close <= po and open >= pc
+let hammer = bigEnough and body > 0 and lowerWick >= body * 2 and upperWick <= body * 0.3
+let star = bigEnough and body > 0 and upperWick >= body * 2 and lowerWick <= body * 0.3
+let inside = high < ph and low > pl
+
+if useEngulf and bullEngulf then
+  new_label(bar, low, "Engulf", none, "below", blue)
+  alert "Bullish engulfing at {close}"
+end
+if useEngulf and bearEngulf then
+  new_label(bar, high, "Engulf", none, "above", rose)
+  alert "Bearish engulfing at {close}"
+end
+if useHammer and hammer then new_label(bar, low, "Hammer", none, "below", sky)
+if useHammer and star then new_label(bar, high, "Star", none, "above", gold)
+if useInside and inside then paint fade(violet, 0.6)

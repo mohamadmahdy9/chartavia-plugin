@@ -1,0 +1,48 @@
+# en: Opening-range breakout: trade the break of the first hour of the London session, close by session end
+# ar: كسر رينج الافتتاح: ادخل مع كسر أول ساعة من جلسة لندن، واقفل قبل نهاية الجلسة
+# shows: in_session(), building a range with keep, one trade per day, exit at a time
+expert "Session opening range breakout"
+
+option fee = 0.05
+
+input tz = 0 "Time zone of the hours below (hours from UTC)" -12..14
+input rangeStart = 700 "Range start (hhmm)" 0..2359
+input rangeEnd = 800 "Range end (hhmm)" 0..2359
+input tradeEnd = 1600 "Close trades at (hhmm)" 0..2359
+input reward = 1.5 "Target (x range height)" 0.5..10
+
+let inRange = in_session(rangeStart, rangeEnd, tz)
+let inTrade = in_session(rangeEnd, tradeEnd, tz)
+let rangeStarted = inRange and not prev(inRange)
+
+keep hi = 0
+keep lo = 0
+keep tradedToday = no
+
+if rangeStarted then
+  hi := high
+  lo := low
+  tradedToday := no
+elif inRange then
+  hi := max(hi, high)
+  lo := min(lo, low)
+end
+
+draw hi > 0 ? hi : none name "Range high" color fade(blue, 0.8) as steps
+draw lo > 0 ? lo : none name "Range low" color fade(blue, 0.8) as steps
+
+if inTrade and not tradedToday and position == 0 and hi > 0 then
+  if close > hi then
+    buy
+    stop lo
+    target close + (hi - lo) * reward
+    tradedToday := yes
+  elif close < lo then
+    sell
+    stop hi
+    target close - (hi - lo) * reward
+    tradedToday := yes
+  end
+end
+
+if not inTrade and not inRange and position != 0 then exit

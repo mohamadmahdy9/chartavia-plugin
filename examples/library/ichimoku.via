@@ -1,0 +1,27 @@
+indicator "Ichimoku Cloud" overlay
+info id "library.ichimoku"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Goichi Hosoda"
+info source "https://en.wikipedia.org/wiki/Ichimoku_Kink%C5%8D_Hy%C5%8D"
+info license "MIT"
+info description "Conversion and base lines plus the cloud, drawn where it lands after the forward shift."
+
+input convLength = 9 "Conversion length" 1..200
+input baseLength = 26 "Base length" 1..200
+input spanBLength = 52 "Leading span B length" 1..400
+input shift = 26 "Displacement" 1..200
+
+fn mid(n) = (highest(high, n) + lowest(low, n)) / 2
+let conv = mid(convLength)
+let base = mid(baseLength)
+let spanA = (conv + base) / 2
+let spanB = mid(spanBLength)
+# The cloud is projected forward: the value on this bar was computed shift - 1 bars ago.
+let cloudA = prev(spanA, shift - 1)
+let cloudB = prev(spanB, shift - 1)
+
+draw conv name "Conversion" color sky
+draw base name "Base" color gold
+draw cloudA name "Leading span A" color fade(white, 0.6)
+draw cloudB name "Leading span B" color fade(blue, 0.8)

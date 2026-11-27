@@ -1,0 +1,29 @@
+# en: Channel breakout with a trailing ATR stop that only moves in the trade's favour (longs only)
+# ar: كسر قناة مع وقف متحرك بالـ ATR بيتحرك في صالح الصفقة بس (شراء بس)
+# shows: option shorts = no, updating stop every bar, keep for the trailing level
+expert "Breakout with trailing stop"
+
+option fee = 0.05
+option shorts = no
+
+input entryLen = 55 "Breakout of the last (bars)" 5..400
+input trailAtr = 3 "Trailing stop (x ATR)" 0.5..10
+
+# the channel of the bars BEFORE this one, so this bar's own high can break it
+let channelHigh = prev(highest(high, entryLen))
+let vol = atr(14)
+
+keep trail = 0
+
+draw channelHigh name "Channel high" color fade(gray, 0.7) as steps
+draw position == 1 ? trail : none name "Trailing stop" color gold as steps
+
+if position == 0 and close > channelHigh then
+  buy
+  trail := close - vol * trailAtr
+  stop trail
+end
+if position == 1 then
+  trail := max(trail, close - vol * trailAtr)
+  stop trail
+end

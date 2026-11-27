@@ -1,0 +1,19 @@
+indicator "MACD"
+info id "library.macd"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Gerald Appel"
+info source "https://en.wikipedia.org/wiki/MACD"
+info license "MIT"
+info description "Difference of two EMAs, its signal line and the histogram between them."
+
+input fast = 12 "Fast length" 1..200
+input slow = 26 "Slow length" 1..400
+input signal = 9 "Signal length" 1..100
+let (line, sig, hist) = macd(close, fast, slow, signal)
+draw hist name "Histogram" as columns color hist >= 0 ? fade(white, 0.6) : fade(blue, 0.7)
+draw line name "MACD" color blue width 2
+draw sig name "Signal" color gold
+level 0 color fade(gray, 0.5)
+if crossup(line, sig) then alert "MACD crossed above signal"
+if crossdown(line, sig) then alert "MACD crossed below signal"

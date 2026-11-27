@@ -1,0 +1,46 @@
+indicator "Classic Pivot Points (daily)" overlay
+info id "library.pivots-classic"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Classic floor-trader pivots (public domain)"
+info source "https://en.wikipedia.org/wiki/Pivot_point_(technical_analysis)"
+info license "MIT"
+info description "Floor-trader pivot, three resistances and three supports from the previous day (UTC)."
+
+let day = floor(time / 86400000)
+keep curDay = -1
+keep dh = none
+keep dl = none
+keep pp = none
+keep r1 = none
+keep r2 = none
+keep r3 = none
+keep s1 = none
+keep s2 = none
+keep s3 = none
+
+if day != curDay then
+  if curDay >= 0 then
+    pp := (dh + dl + prev(close)) / 3
+    r1 := 2 * pp - dl
+    s1 := 2 * pp - dh
+    r2 := pp + (dh - dl)
+    s2 := pp - (dh - dl)
+    r3 := dh + 2 * (pp - dl)
+    s3 := dl - 2 * (dh - pp)
+  end
+  curDay := day
+  dh := high
+  dl := low
+else
+  dh := max(dh, high)
+  dl := min(dl, low)
+end
+
+draw r3 name "R3" as steps color fade(gray, 0.6)
+draw r2 name "R2" as steps color fade(gray, 0.8)
+draw r1 name "R1" as steps color gray
+draw pp name "Pivot" as steps color gold width 2
+draw s1 name "S1" as steps color blue
+draw s2 name "S2" as steps color fade(blue, 0.8)
+draw s3 name "S3" as steps color fade(blue, 0.6)

@@ -1,0 +1,46 @@
+# en: Market structure: break of structure (BOS) and change of character (CHoCH) from swing points
+# ar: هيكل السوق: كسر الهيكل (BOS) وتغيّر الاتجاه (CHoCH) من القمم والقيعان
+# shows: keep state machine, new_line() from the swing to the break, labels, alerts
+indicator "Structure breaks" overlay
+
+input side = 5 "Swing size (bars on each side)" 1..30
+
+let isHigh = prev(high, side) == highest(high, side * 2 + 1)
+let isLow = prev(low, side) == lowest(low, side * 2 + 1)
+let swingHigh = prev(high, side)
+let swingLow = prev(low, side)
+
+keep hiPrice = 0
+keep hiBar = 0
+keep hiOpen = no      # yes while the last swing high has not been broken
+keep loPrice = 0
+keep loBar = 0
+keep loOpen = no
+keep trend = 0        # 1 up, -1 down, 0 not known yet
+
+if isHigh then
+  hiPrice := swingHigh
+  hiBar := bar - side
+  hiOpen := yes
+end
+if isLow then
+  loPrice := swingLow
+  loBar := bar - side
+  loOpen := yes
+end
+
+if hiOpen and close > hiPrice then
+  new_line(hiBar, hiPrice, bar, hiPrice, blue, 1, "dashed")
+  new_label(round((hiBar + bar) / 2), hiPrice, trend == -1 ? "CHoCH" : "BOS", none, "above", blue)
+  alert "Structure broken up at {close}"
+  hiOpen := no
+  trend := 1
+end
+if loOpen and close < loPrice then
+  new_line(loBar, loPrice, bar, loPrice, rose, 1, "dashed")
+  new_label(round((loBar + bar) / 2), loPrice, trend == 1 ? "CHoCH" : "BOS", none, "below", rose)
+  alert "Structure broken down at {close}"
+  loOpen := no
+  trend := -1
+end
+

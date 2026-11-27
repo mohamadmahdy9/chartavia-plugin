@@ -1,0 +1,51 @@
+indicator "SuperTrend" overlay
+info id "library.supertrend"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Olivier Seban"
+info source "https://www.barchart.com/education/technical-indicators/supertrend"
+info license "MIT"
+info description "ATR bands around the bar midpoint; the line flips sides when price closes through it."
+
+input period = 10 "ATR period" 1..200
+input mult = 3 "ATR multiple" 0.1..20
+
+let a = atr(period)
+let upBasic = median + mult * a
+let dnBasic = median - mult * a
+
+keep started = no
+keep fu = none
+keep fl = none
+keep pfu = none
+keep pfl = none
+keep trend = 1
+
+if either(a, -1) >= 0 then
+  if not started then
+    fu := upBasic
+    fl := dnBasic
+    started := yes
+  else
+    pfu := fu
+    pfl := fl
+    fu := (upBasic < pfu or prev(close) > pfu) ? upBasic : pfu
+    fl := (dnBasic > pfl or prev(close) < pfl) ? dnBasic : pfl
+    if trend == -1 and close > pfu then
+      trend := 1
+    elif trend == 1 and close < pfl then
+      trend := -1
+    end
+  end
+end
+
+draw started and trend == 1 ? fl : none name "Up trend" as steps color white width 2
+draw started and trend == -1 ? fu : none name "Down trend" as steps color blue width 2
+if trend == 1 and prev(trend) == -1 then
+  mark below "▲" color white
+  alert "SuperTrend turned up at {close}"
+end
+if trend == -1 and prev(trend) == 1 then
+  mark above "▼" color blue
+  alert "SuperTrend turned down at {close}"
+end
