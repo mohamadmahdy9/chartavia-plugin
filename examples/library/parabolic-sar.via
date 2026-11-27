@@ -1,0 +1,55 @@
+indicator "Parabolic SAR" overlay
+info id "library.parabolic-sar"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "J. Welles Wilder Jr."
+info source "https://en.wikipedia.org/wiki/Parabolic_SAR"
+info license "MIT"
+info description "Stop-and-reverse dots that trail price and speed up as the trend extends."
+
+input start = 0.02 "Start" 0.001..1
+input step = 0.02 "Increment" 0.001..1
+input maxAf = 0.2 "Maximum" 0.01..1
+
+keep up = yes
+keep sar = none
+keep ep = none
+keep af = 0
+keep next = none
+
+if bar == 1 then
+  up := close >= prev(close)
+  sar := up ? min(low, prev(low)) : max(high, prev(high))
+  ep := up ? high : low
+  af := start
+elif bar > 1 then
+  next := sar + af * (ep - sar)
+  if up then
+    next := min(next, prev(low), prev(low, 2))
+    if low < next then
+      up := no
+      next := ep
+      ep := low
+      af := start
+    elif high > ep then
+      ep := high
+      af := min(af + step, maxAf)
+    end
+  else
+    next := max(next, prev(high), prev(high, 2))
+    if high > next then
+      up := yes
+      next := ep
+      ep := high
+      af := start
+    elif low < ep then
+      ep := low
+      af := min(af + step, maxAf)
+    end
+  end
+  sar := next
+end
+
+draw sar name "SAR" as dots color up ? white : blue width 2
+if bar > 2 and up and not prev(up) then alert "Parabolic SAR flipped up at {close}"
+if bar > 2 and not up and prev(up) then alert "Parabolic SAR flipped down at {close}"

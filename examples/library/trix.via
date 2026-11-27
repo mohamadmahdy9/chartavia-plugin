@@ -1,0 +1,16 @@
+indicator "TRIX"
+info id "library.trix"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Jack Hutson"
+info source "https://en.wikipedia.org/wiki/Trix_(technical_analysis)"
+info license "MIT"
+info description "One-bar percent change of a triple-smoothed EMA, with a signal line."
+
+input length = 15 "Length" 1..200
+input signal = 9 "Signal" 1..100
+let e3 = ema(ema(ema(close, length), length), length)
+let t = pct(e3)
+draw t name "TRIX %" color blue width 2
+draw ema(t, signal) name "Signal" color gold
+level 0 color fade(gray, 0.5)

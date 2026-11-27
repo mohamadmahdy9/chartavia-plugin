@@ -1,0 +1,23 @@
+indicator "Stochastic RSI"
+info id "library.stoch-rsi"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Tushar Chande and Stanley Kroll"
+info source "https://chartschool.stockcharts.com/table-of-contents/technical-indicators-and-overlays/technical-indicators"
+info license "MIT"
+info description "The stochastic formula applied to RSI instead of price, for a faster oscillator."
+
+input rsiLength = 14 "RSI length" 2..200
+input stochLength = 14 "Stochastic length" 1..200
+input kSmooth = 3 "%K smoothing" 1..50
+input dSmooth = 3 "%D length" 1..50
+let r = rsi(close, rsiLength)
+let lo = lowest(r, stochLength)
+let hi = highest(r, stochLength)
+let raw = hi > lo ? 100 * (r - lo) / (hi - lo) : 50
+let k = avg(raw, kSmooth)
+let d = avg(k, dSmooth)
+draw k name "%K" color blue width 2
+draw d name "%D" color gold
+level 80 color gray dashed
+level 20 color gray dashed

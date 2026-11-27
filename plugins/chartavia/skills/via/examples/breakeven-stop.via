@@ -1,0 +1,37 @@
+# en: Trend entries that move the stop to breakeven after one unit of risk, with a time exit
+# ar: دخول مع الاتجاه، ونقل الوقف لنقطة الدخول بعد ما السعر يمشي مسافة المخاطرة، وخروج بالوقت
+# shows: entry_price, bars_in_trade, changing the stop of an open trade
+expert "Breakeven stop"
+
+option fee = 0.05
+option shorts = no
+
+input trendLen = 100 "Trend average" 10..500
+input stopAtr = 2 "Stop (x ATR)" 0.5..10
+input maxBars = 48 "Close after (bars)" 1..1000
+
+let trendLine = ema(close, trendLen)
+let r = rsi(close, 14)
+let vol = atr(14)
+let entrySignal = close > trendLine and crossup(r, 50)
+
+keep risk = 0
+keep atBreakeven = no
+
+draw trendLine name "Trend" color white width 2
+
+if position == 0 and entrySignal then
+  buy
+  risk := vol * stopAtr
+  atBreakeven := no
+  stop close - risk
+  target close + risk * 3
+end
+
+if position == 1 and not atBreakeven and high >= entry_price + risk then
+  stop entry_price
+  atBreakeven := yes
+  mark above "BE" color gold
+end
+
+if position == 1 and bars_in_trade >= maxBars then exit

@@ -1,0 +1,13 @@
+indicator "Accumulation / Distribution"
+info id "library.accumulation-distribution"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Marc Chaikin"
+info source "https://en.wikipedia.org/wiki/Accumulation/distribution_index"
+info license "MIT"
+info description "Running total of money flow volume: where in the bar's range the close lands, times volume."
+
+let mfm = high > low ? ((close - low) - (high - close)) / (high - low) : 0
+keep ad = 0
+ad := ad + mfm * volume
+draw ad name "A/D" color blue width 2

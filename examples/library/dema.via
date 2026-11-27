@@ -1,0 +1,13 @@
+indicator "Double Exponential Moving Average" overlay
+info id "library.dema"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Patrick Mulloy"
+info source "https://en.wikipedia.org/wiki/Double_exponential_moving_average"
+info license "MIT"
+info description "2 x EMA minus the EMA of the EMA: less lag than a plain EMA of the same length."
+
+input length = 20 "Length" 1..500
+let e1 = ema(close, length)
+let e2 = ema(e1, length)
+draw 2 * e1 - e2 name "DEMA" color blue width 2

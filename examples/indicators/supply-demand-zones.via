@@ -1,0 +1,45 @@
+# en: Supply and demand zones: the candle before a strong move, kept until price closes through it
+# ar: مناطق العرض والطلب: الشمعة اللي قبل حركة قوية، وبتفضل لحد ما السعر يقفل عدّاها
+# shows: impulse detection with ATR, boxes with text, removing broken zones, alerts on touch
+indicator "Supply and demand zones" overlay
+
+input k = 1.5 "Strong move = body bigger than (x ATR)" 0.5..5
+input maxKeep = 8 "Zones to keep on each side" 1..30
+
+let a = atr(14)
+let body = abs(close - open)
+let strongUp = close > open and body > a * k
+let strongDown = close < open and body > a * k
+let ph = prev(high)
+let pl = prev(low)
+
+keep demand = list()
+keep supply = list()
+
+if strongUp then push(demand, new_box(bar - 1, ph, bar, pl, blue, fade(blue, 0.15), "Demand"))
+if strongDown then push(supply, new_box(bar - 1, ph, bar, pl, rose, fade(rose, 0.12), "Supply"))
+if len(demand) > maxKeep then erase(pop_front(demand))
+if len(supply) > maxKeep then erase(pop_front(supply))
+
+if len(demand) > 0 then
+  repeat i from len(demand) - 1 to 0
+    if close < y2_of(get(demand, i)) then
+      erase(remove(demand, i))
+    else
+      stretch(get(demand, i), bar)
+    end
+  end
+end
+if len(supply) > 0 then
+  repeat i from len(supply) - 1 to 0
+    if close > y1_of(get(supply, i)) then
+      erase(remove(supply, i))
+    else
+      stretch(get(supply, i), bar)
+    end
+  end
+end
+
+# alert when price dips into the newest demand zone
+let inDemand = len(demand) > 0 and low <= y1_of(get(demand, -1)) and close >= y2_of(get(demand, -1))
+if inDemand and not prev(inDemand) then alert "Price is back in a demand zone at {close}"

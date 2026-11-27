@@ -1,0 +1,18 @@
+# en: One moving average, with its type picked from a list in the settings
+# ar: متوسط متحرك واحد، ونوعه بتختاره من قايمة في الإعدادات
+# shows: input with options (a drop-down), yes/no input, input groups
+indicator "Average of your choice" overlay
+
+input length = 50 "Length" 1..500 group "Average"
+input kind = 1 "Type" options "Simple|Exponential|Weighted|Wilder|Hull" group "Average"
+input showCross = yes "Mark price crosses" group "Signals"
+
+# kind is the position of the chosen item, from 0
+let ma = kind == 0 ? avg(close, length) : kind == 1 ? ema(close, length) : kind == 2 ? wma(close, length) : kind == 3 ? smooth(close, length) : hull(close, length)
+
+draw ma name "Average" color blue width 2
+
+let upCross = crossup(close, ma)
+let downCross = crossdown(close, ma)
+if showCross and upCross then mark below "▲" color blue
+if showCross and downCross then mark above "▼" color gray

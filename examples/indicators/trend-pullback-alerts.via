@@ -1,0 +1,29 @@
+# en: Alerts for pullbacks inside a trend: RSI dips and recovers while the 50 average is above the 200
+# ar: تنبيهات للتصحيح جوه الاتجاه: RSI بينزل ويرجع والمتوسط 50 فوق الـ 200
+# shows: combining conditions, alert messages with {placeholders}, marks
+indicator "Trend pullback alerts" overlay
+
+input rsiLen = 14 "RSI length" 2..100
+input dip = 40 "Pullback RSI level (uptrend)" 10..50
+input pop = 60 "Pullback RSI level (downtrend)" 50..90
+
+let fast = ema(close, 50)
+let slow = ema(close, 200)
+let r = rsi(close, rsiLen)
+let upTrend = fast > slow
+let downTrend = fast < slow
+
+let longSetup = upTrend and crossup(r, dip)
+let shortSetup = downTrend and crossdown(r, pop)
+
+draw fast name "EMA 50" color blue
+draw slow name "EMA 200" color white width 2
+
+if longSetup then
+  mark below "Buy dip" color blue
+  alert "Uptrend pullback finished: close {close}, RSI {r}"
+end
+if shortSetup then
+  mark above "Sell rally" color rose
+  alert "Downtrend rally finished: close {close}, RSI {r}"
+end

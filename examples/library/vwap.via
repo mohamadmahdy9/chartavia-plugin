@@ -1,0 +1,10 @@
+indicator "VWAP" overlay
+info id "library.vwap"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Classic study (public domain)"
+info source "https://en.wikipedia.org/wiki/Volume-weighted_average_price"
+info license "MIT"
+info description "Average price weighted by volume, restarting every day (UTC)."
+
+draw vwap() name "VWAP" color gold width 2

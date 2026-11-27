@@ -1,0 +1,12 @@
+indicator "Hull Moving Average" overlay
+info id "library.hma"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Alan Hull"
+info source "https://chartschool.stockcharts.com/table-of-contents/technical-indicators-and-overlays/technical-overlays/hull-moving-average-hma"
+info license "MIT"
+info description "Fast, smooth average built from weighted averages to cut most of the lag."
+
+input length = 21 "Length" 2..500
+let h = hull(close, length)
+draw h name "HMA" color h > prev(h) ? white : blue width 2

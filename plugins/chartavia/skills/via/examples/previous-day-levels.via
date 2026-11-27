@@ -1,0 +1,32 @@
+# en: Yesterday's high, low and close, today's open and last week's range on any intraday chart
+# ar: أعلى وأدنى وإغلاق امبارح، وافتتاح النهارده، ورينج الأسبوع اللي فات على أي فريم أقل من يوم
+# shows: htf() for higher-timeframe values without look-ahead, draw as steps, crossing alerts
+indicator "Previous day levels" overlay
+
+input showWeek = yes "Show last week's high and low"
+
+let pdh = htf("high", 1440, 1)       # 1 = the last finished day
+let pdl = htf("low", 1440, 1)
+let pdc = htf("close", 1440, 1)
+let todayOpen = htf("open", 1440)    # 0 = the day still forming
+let pwh = htf("high", 10080, 1)
+let pwl = htf("low", 10080, 1)
+let intraday = bar_minutes() < 1440
+
+draw intraday ? pdh : none name "Yesterday high" color gold as steps
+draw intraday ? pdl : none name "Yesterday low" color gold as steps
+draw intraday ? pdc : none name "Yesterday close" color fade(gray, 0.7) as steps
+draw intraday ? todayOpen : none name "Today open" color fade(white, 0.5) as steps
+draw intraday and showWeek ? pwh : none name "Last week high" color violet as steps width 2
+draw intraday and showWeek ? pwl : none name "Last week low" color violet as steps width 2
+
+let breakUp = crossup(close, pdh)
+let breakDown = crossdown(close, pdl)
+if intraday and breakUp then
+  mark below "PDH" color gold
+  alert "Closed above yesterday's high: {close}"
+end
+if intraday and breakDown then
+  mark above "PDL" color gold
+  alert "Closed below yesterday's low: {close}"
+end

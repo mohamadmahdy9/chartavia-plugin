@@ -1,0 +1,20 @@
+indicator "Ultimate Oscillator"
+info id "library.ultimate"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Larry Williams"
+info source "https://en.wikipedia.org/wiki/Ultimate_oscillator"
+info license "MIT"
+info description "Buying pressure averaged over three windows (7, 14 and 28 bars) and weighted 4:2:1."
+
+input short = 7 "Short" 1..100
+input medium = 14 "Medium" 1..200
+input long = 28 "Long" 1..400
+let pc = prev(close)
+let bp = close - min(low, pc)
+let tr = max(high, pc) - min(low, pc)
+fn ratio(n) = sum(bp, n) / sum(tr, n)
+let uo = 100 * (4 * ratio(short) + 2 * ratio(medium) + ratio(long)) / 7
+draw uo name "UO" color blue width 2
+level 70 color gray dashed
+level 30 color gray dashed

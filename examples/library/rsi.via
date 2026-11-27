@@ -1,0 +1,19 @@
+indicator "Relative Strength Index"
+info id "library.rsi"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "J. Welles Wilder Jr."
+info source "https://en.wikipedia.org/wiki/Relative_strength_index"
+info license "MIT"
+info description "Wilder's 0 to 100 momentum oscillator with overbought and oversold zones."
+
+input length = 14 "Length" 2..200
+input upper = 70 "Overbought" 50..100
+input lower = 30 "Oversold" 0..50
+let r = rsi(close, length)
+draw r name "RSI" color blue width 2
+level upper name "Overbought" color gray dashed
+level 50 color fade(gray, 0.4)
+level lower name "Oversold" color gray dashed
+if crossdown(r, upper) then alert "RSI left overbought: {r}"
+if crossup(r, lower) then alert "RSI left oversold: {r}"

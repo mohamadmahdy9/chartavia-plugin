@@ -1,0 +1,14 @@
+indicator "Commodity Channel Index"
+info id "library.cci"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Donald Lambert"
+info source "https://en.wikipedia.org/wiki/Commodity_channel_index"
+info license "MIT"
+info description "Distance of the typical price from its average, scaled by mean deviation."
+
+input length = 20 "Length" 2..500
+draw cci(length) name "CCI" color blue width 2
+level 100 color gray dashed
+level 0 color fade(gray, 0.4)
+level -100 color gray dashed

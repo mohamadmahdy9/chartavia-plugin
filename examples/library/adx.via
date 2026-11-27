@@ -1,0 +1,16 @@
+indicator "ADX and DMI"
+info id "library.adx"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "J. Welles Wilder Jr."
+info source "https://en.wikipedia.org/wiki/Average_directional_movement_index"
+info license "MIT"
+info description "Trend strength (ADX) with the plus and minus directional lines."
+
+input length = 14 "Length" 1..200
+input threshold = 25 "Trend threshold" 0..100
+let (a, plus, minus) = adx(length)
+draw a name "ADX" color gold width 2
+draw plus name "+DI" color white
+draw minus name "-DI" color blue
+level threshold name "Trend" color gray dashed

@@ -1,0 +1,32 @@
+# en: ATR trailing trend line (uses keep)
+# ar: خط اتجاه متحرك بالـ ATR (باستخدام keep)
+
+indicator "Trailing trend" overlay
+
+input length = 10 "ATR length" 1..100
+input mult = 3 "Multiplier"
+
+let band = atr(length) * mult
+keep trail = close
+keep dir = 1
+
+# band is none until the ATR has enough bars; wait for it, or trail would become none too
+if band > 0 then
+  if dir == 1 then
+    trail := max(trail, close - band)
+    if close < trail then
+      dir := -1
+      trail := close + band
+      mark above "▼" color rose
+    end
+  else
+    trail := min(trail, close + band)
+    if close > trail then
+      dir := 1
+      trail := close - band
+      mark below "▲" color blue
+    end
+  end
+end
+
+draw bar > length ? trail : none name "Trail" as steps color dir == 1 ? blue : rose width 2

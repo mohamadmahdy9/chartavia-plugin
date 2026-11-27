@@ -1,0 +1,27 @@
+indicator "Kaufman Adaptive Moving Average" overlay
+info id "library.kama"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Perry Kaufman"
+info source "https://chartschool.stockcharts.com/table-of-contents/technical-indicators-and-overlays/technical-overlays/kaufmans-adaptive-moving-average-kama"
+info license "MIT"
+info description "Speeds up when price trends cleanly and slows down in noise, using the efficiency ratio."
+
+input length = 10 "Efficiency length" 2..200
+input fast = 2 "Fast period" 1..50
+input slow = 30 "Slow period" 2..200
+
+let direction = abs(change(close, length))
+let noise = sum(abs(change(close)), length)
+let er = noise > 0 ? direction / noise : 0
+let fastSc = 2 / (fast + 1)
+let slowSc = 2 / (slow + 1)
+let sc = pow(er * (fastSc - slowSc) + slowSc, 2)
+
+keep k = none
+if bar == length then
+  k := close
+elif bar > length then
+  k := k + sc * (close - k)
+end
+draw k name "KAMA" color blue width 2

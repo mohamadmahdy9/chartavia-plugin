@@ -1,0 +1,15 @@
+indicator "Coppock Curve"
+info id "library.coppock"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Edwin Coppock"
+info source "https://en.wikipedia.org/wiki/Coppock_curve"
+info license "MIT"
+info description "Weighted average of two rates of change; designed for long-term bottoms on monthly charts."
+
+input longRoc = 14 "Long ROC" 1..200
+input shortRoc = 11 "Short ROC" 1..200
+input wmaLength = 10 "WMA length" 1..200
+let c = wma(pct(close, longRoc) + pct(close, shortRoc), wmaLength)
+draw c name "Coppock" color blue width 2
+level 0 color fade(gray, 0.5)

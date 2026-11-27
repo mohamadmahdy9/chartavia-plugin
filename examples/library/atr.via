@@ -1,0 +1,11 @@
+indicator "Average True Range"
+info id "library.atr"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "J. Welles Wilder Jr."
+info source "https://en.wikipedia.org/wiki/Average_true_range"
+info license "MIT"
+info description "Wilder-smoothed average of the true range: how much price usually moves per bar."
+
+input length = 14 "Length" 1..500
+draw atr(length) name "ATR" color blue width 2

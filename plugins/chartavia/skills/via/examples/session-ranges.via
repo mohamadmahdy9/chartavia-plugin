@@ -1,0 +1,55 @@
+# en: Asia, London and New York session ranges as boxes
+# ar: رينج جلسات آسيا ولندن ونيويورك كصناديق
+# shows: in_session() with a time zone, keep + move() to grow a box while the session runs
+indicator "Session ranges" overlay
+
+input tz = 0 "Time zone of the hours below (hours from UTC)" -12..14 group "Sessions"
+input asiaStart = 0 "Asia start (hhmm)" 0..2359 group "Sessions"
+input asiaEnd = 800 "Asia end (hhmm)" 0..2359 group "Sessions"
+input londonStart = 700 "London start (hhmm)" 0..2359 group "Sessions"
+input londonEnd = 1600 "London end (hhmm)" 0..2359 group "Sessions"
+input nyStart = 1300 "New York start (hhmm)" 0..2359 group "Sessions"
+input nyEnd = 2200 "New York end (hhmm)" 0..2359 group "Sessions"
+
+let inAsia = in_session(asiaStart, asiaEnd, tz)
+let inLondon = in_session(londonStart, londonEnd, tz)
+let inNy = in_session(nyStart, nyEnd, tz)
+
+keep asiaBox = none
+keep asiaHi = 0
+keep asiaLo = 0
+if inAsia and not prev(inAsia) then
+  asiaHi := high
+  asiaLo := low
+  asiaBox := new_box(bar, high, bar, low, sky, fade(sky, 0.08), "Asia")
+elif inAsia then
+  asiaHi := max(asiaHi, high)
+  asiaLo := min(asiaLo, low)
+  move(asiaBox, x1_of(asiaBox), asiaHi, bar, asiaLo)
+end
+
+keep londonBox = none
+keep londonHi = 0
+keep londonLo = 0
+if inLondon and not prev(inLondon) then
+  londonHi := high
+  londonLo := low
+  londonBox := new_box(bar, high, bar, low, blue, fade(blue, 0.08), "London")
+elif inLondon then
+  londonHi := max(londonHi, high)
+  londonLo := min(londonLo, low)
+  move(londonBox, x1_of(londonBox), londonHi, bar, londonLo)
+end
+
+keep nyBox = none
+keep nyHi = 0
+keep nyLo = 0
+if inNy and not prev(inNy) then
+  nyHi := high
+  nyLo := low
+  nyBox := new_box(bar, high, bar, low, gold, fade(gold, 0.08), "New York")
+elif inNy then
+  nyHi := max(nyHi, high)
+  nyLo := min(nyLo, low)
+  move(nyBox, x1_of(nyBox), nyHi, bar, nyLo)
+end

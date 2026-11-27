@@ -1,0 +1,15 @@
+indicator "Bollinger Bands" overlay
+info id "library.bollinger"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "John Bollinger"
+info source "https://en.wikipedia.org/wiki/Bollinger_Bands"
+info license "MIT"
+info description "A moving average with bands K standard deviations above and below it."
+
+input length = 20 "Length" 2..500
+input mult = 2 "Deviations" 0.1..10
+let (upper, middle, lower) = bands(close, length, mult)
+draw upper name "Upper" color fade(blue, 0.8)
+draw middle name "Basis" color gray
+draw lower name "Lower" color fade(blue, 0.8)

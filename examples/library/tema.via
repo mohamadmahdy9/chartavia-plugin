@@ -1,0 +1,14 @@
+indicator "Triple Exponential Moving Average" overlay
+info id "library.tema"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Patrick Mulloy"
+info source "https://en.wikipedia.org/wiki/Triple_exponential_moving_average"
+info license "MIT"
+info description "Three stacked EMAs combined to follow price closely with little lag."
+
+input length = 20 "Length" 1..500
+let e1 = ema(close, length)
+let e2 = ema(e1, length)
+let e3 = ema(e2, length)
+draw 3 * e1 - 3 * e2 + e3 name "TEMA" color blue width 2

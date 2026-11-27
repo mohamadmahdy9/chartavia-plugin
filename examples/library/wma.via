@@ -1,0 +1,11 @@
+indicator "Weighted Moving Average" overlay
+info id "library.wma"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Classic study (public domain)"
+info source "https://en.wikipedia.org/wiki/Moving_average#Weighted_moving_average"
+info license "MIT"
+info description "Linearly weighted average: the newest close counts N times, the oldest once."
+
+input length = 20 "Length" 1..500
+draw wma(close, length) name "WMA" color blue width 2

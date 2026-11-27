@@ -1,0 +1,17 @@
+indicator "Stochastic Oscillator"
+info id "library.stochastic"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "George Lane"
+info source "https://en.wikipedia.org/wiki/Stochastic_oscillator"
+info license "MIT"
+info description "Where the close sits inside the recent high-low range, with a signal line."
+
+input length = 14 "%K length" 1..200
+input kSmooth = 1 "%K smoothing" 1..50
+input dSmooth = 3 "%D length" 1..50
+let (k, d) = stoch(length, kSmooth, dSmooth)
+draw k name "%K" color blue width 2
+draw d name "%D" color gold
+level 80 color gray dashed
+level 20 color gray dashed

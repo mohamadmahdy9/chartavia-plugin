@@ -1,0 +1,12 @@
+indicator "Rate of Change"
+info id "library.roc"
+info version "1.0.0"
+info author "Chartavia Library"
+info credit "Classic study (public domain)"
+info source "https://en.wikipedia.org/wiki/Momentum_(technical_analysis)"
+info license "MIT"
+info description "Percent change of the close over N bars."
+
+input length = 9 "Length" 1..500
+draw pct(close, length) name "ROC %" color blue width 2
+level 0 color fade(gray, 0.5)

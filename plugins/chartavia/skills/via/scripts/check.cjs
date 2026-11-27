@@ -75,6 +75,8 @@ const summary = {
   marks: r.marks.length,
   paints: r.paints.length,
   alerts: r.alerts.length,
+  objects: { lines: r.drawings.filter((d) => d.type === "line").length, boxes: r.drawings.filter((d) => d.type === "box").length, labels: r.drawings.filter((d) => d.type === "label").length },
+  panelCells: r.panel ? r.panel.cells.length : 0,
   lastAlerts: r.alerts.slice(-3).map((a) => a.message),
   ops: r.ops,
 };
@@ -94,6 +96,8 @@ else {
   for (const p of summary.plots) console.log(`  draw "${p.name}" (${p.style}): ${p.empty ? "NO VALUES (check the formula)" : `starts at bar ${p.firstValueAtBar}, last = ${p.last}`}`);
   for (const l of r.levels) console.log(`  level ${l.value}${l.name ? ` "${l.name}"` : ""}`);
   console.log(`  marks: ${summary.marks}, painted bars: ${summary.paints}, alerts: ${summary.alerts}, operations: ${r.ops}`);
+  const o = summary.objects;
+  if (o.lines + o.boxes + o.labels + summary.panelCells) console.log(`  on the chart now: ${o.lines} line(s), ${o.boxes} box(es), ${o.labels} label(s), ${summary.panelCells} panel cell(s)`);
   if (summary.report) {
     const p = summary.report;
     console.log(`  backtest: net ${p.netProfit} (${p.netPct}%), ${p.trades} trades, win ${p.winRate}%, PF ${p.profitFactor}, max DD ${p.maxDrawdownPct}%, open: ${p.openPosition}`);
