@@ -47,46 +47,46 @@
 
 | Function | Meaning | Example |
 |---|---|---|
-| `prev(x, k = 1)` | Value of x k bars ago. <br>قيمة x من k شمعة فاتت. | `prev(close, 3)` |
-| `change(x, k = 1)` | x minus its value k bars ago. <br>الفرق بين x وقيمتها من k شمعة. |  |
+| `prev(x, k = 1)` | Value of x k bars ago. <br>قيمة x قبل k شمعة. | `prev(close, 3)` |
+| `change(x, k = 1)` | x minus its value k bars ago. <br>الفرق بين x وقيمتها قبل k شمعة. |  |
 | `pct(x, k = 1)` | Percent change over k bars. <br>نسبة التغير خلال k شمعة. |  |
-| `crossup(a, b)` | yes on the bar where a goes from ≤ b to > b. <br>نعم في الشمعة اللي a فيها عدّت فوق b. | `crossup(ema(close, 9), ema(close, 21))` |
-| `crossdown(a, b)` | yes on the bar where a goes from ≥ b to < b. <br>نعم في الشمعة اللي a فيها نزلت تحت b. |  |
-| `rising(x, n)` | x grew on each of the last n bars. <br>x زادت في كل شمعة من آخر n. |  |
-| `falling(x, n)` | x dropped on each of the last n bars. <br>x قلّت في كل شمعة من آخر n. |  |
-| `bars_since(cond)` | Bars since cond was last yes (none if never). <br>عدد الشموع من آخر مرة الشرط كان نعم. |  |
-| `either(x, fallback)` | x, or fallback when x is none. <br>x، أو البديل لو x لاشيء. | `either(prev(close), open)` |
+| `crossup(a, b)` | yes on the bar where a goes from ≤ b to > b. <br>نعم في الشمعة التي تجاوزت فيها a صعودًا فوق b. | `crossup(ema(close, 9), ema(close, 21))` |
+| `crossdown(a, b)` | yes on the bar where a goes from ≥ b to < b. <br>نعم في الشمعة التي هبطت فيها a تحت b. |  |
+| `rising(x, n)` | x grew on each of the last n bars. <br>ارتفعت x في كل شمعة من آخر n. |  |
+| `falling(x, n)` | x dropped on each of the last n bars. <br>انخفضت x في كل شمعة من آخر n. |  |
+| `bars_since(cond)` | Bars since cond was last yes (none if never). <br>عدد الشموع منذ آخر مرة كان فيها الشرط نعم. |  |
+| `either(x, fallback)` | x, or fallback when x is none. <br>x، أو البديل إن كانت x لاشيء. | `either(prev(close), open)` |
 
 ## Ready-made studies · مؤشرات جاهزة
 
 | Function | Meaning | Example |
 |---|---|---|
-| `rsi(x, n)` | Relative strength index, 0 to 100. <br>مؤشر القوة النسبية من 0 لـ 100. | `rsi(close, 14)` |
+| `rsi(x, n)` | Relative strength index, 0 to 100. <br>مؤشر القوة النسبية من 0 إلى 100. | `rsi(close, 14)` |
 | `atr(n)` | Average true range (Wilder). <br>متوسط المدى الحقيقي. | `atr(14)` |
 | `true_range()` | True range of this bar. <br>المدى الحقيقي للشمعة الحالية. |  |
-| `macd(x, fast, slow, signal)` | Returns (line, signal, hist). <br>تُرجع (الخط، الإشارة، الهيستوجرام). | `let (l, s, h) = macd(close, 12, 26, 9)` |
+| `macd(x, fast, slow, signal)` | Returns (line, signal, hist). <br>تُرجع (الخط، الإشارة، المدرّج التكراري). | `let (l, s, h) = macd(close, 12, 26, 9)` |
 | `bands(x, n, k)` | Standard deviation bands. Returns (upper, middle, lower). <br>نطاقات الانحراف المعياري. تُرجع (العلوي، الأوسط، السفلي). | `let (u, m, d) = bands(close, 20, 2)` |
 | `stoch(n, k_smooth, d_smooth)` | Stochastic oscillator. Returns (k, d). <br>مذبذب الاستوكاستيك. يُرجع (k, d). | `let (k, d) = stoch(14, 3, 3)` |
 | `adx(n)` | Trend strength. Returns (adx, plus, minus). <br>قوة الاتجاه. تُرجع (adx، الموجب، السالب). | `let (a, p, m) = adx(14)` |
 | `cci(n)` | Commodity channel index. <br>مؤشر قناة السلع. |  |
-| `mfi(n)` | Money flow index, 0 to 100. <br>مؤشر تدفق الأموال من 0 لـ 100. |  |
+| `mfi(n)` | Money flow index, 0 to 100. <br>مؤشر تدفق الأموال من 0 إلى 100. |  |
 | `obv()` | On-balance volume. <br>حجم التوازن. |  |
-| `willr(n)` | Williams range, -100 to 0. <br>مؤشر ويليامز من -100 لـ 0. |  |
-| `momentum(x, n)` | x minus x n bars ago. <br>x ناقص قيمتها من n شمعة. |  |
+| `willr(n)` | Williams range, -100 to 0. <br>مؤشر ويليامز من -100 إلى 0. |  |
+| `momentum(x, n)` | x minus x n bars ago. <br>x ناقص قيمتها قبل n شمعة. |  |
 
 ## Lists (Via 0.2) · القوائم (ڤيا 0.2)
 
 | Function | Meaning | Example |
 |---|---|---|
-| `list(a, b, ...)` | A new list, empty or with the given items. Keep it with `keep` so it lasts across bars. <br>قائمة جديدة فاضية أو فيها العناصر دي. احفظها بـ keep عشان تفضل من شمعة للتانية. | `keep highs = list()` |
-| `push(xs, v)` | Add v at the end; returns the new length. <br>يضيف v في الآخر ويرجّع الطول الجديد. | `push(highs, high)` |
-| `push_front(xs, v)` | Add v at the start. <br>يضيف v في الأول. |  |
-| `pop(xs)` | Remove and return the last item. <br>يشيل آخر عنصر ويرجّعه. |  |
-| `pop_front(xs)` | Remove and return the first item. <br>يشيل أول عنصر ويرجّعه. |  |
+| `list(a, b, ...)` | A new list, empty or with the given items. Keep it with `keep` so it lasts across bars. <br>قائمة جديدة فارغة أو تحتوي هذه العناصر. احفظها بـ keep لتبقى من شمعة إلى أخرى. | `keep highs = list()` |
+| `push(xs, v)` | Add v at the end; returns the new length. <br>يضيف v في النهاية ويُرجع الطول الجديد. | `push(highs, high)` |
+| `push_front(xs, v)` | Add v at the start. <br>يضيف v في البداية. |  |
+| `pop(xs)` | Remove and return the last item. <br>يزيل آخر عنصر ويُرجعه. |  |
+| `pop_front(xs)` | Remove and return the first item. <br>يزيل أول عنصر ويُرجعه. |  |
 | `get(xs, i)` | Item i (0 is the first, -1 the last), or none. <br>العنصر رقم i (0 الأول و-1 الأخير)، أو لاشيء. | `get(highs, -1)` |
 | `put(xs, i, v)` | Replace item i. <br>يغيّر العنصر رقم i. |  |
-| `remove(xs, i)` | Remove item i and return it. <br>يشيل العنصر رقم i ويرجّعه. |  |
-| `clear(xs)` | Empty the list. <br>يفضّي القائمة. |  |
+| `remove(xs, i)` | Remove item i and return it. <br>يزيل العنصر رقم i ويُرجعه. |  |
+| `clear(xs)` | Empty the list. <br>يفرّغ القائمة. |  |
 | `len(xs)` | Number of items. <br>عدد العناصر. |  |
 | `list_max(xs)` | Largest number in the list. <br>أكبر رقم في القائمة. |  |
 | `list_min(xs)` | Smallest number in the list. <br>أصغر رقم في القائمة. |  |
@@ -96,36 +96,36 @@
 
 | Function | Meaning | Example |
 |---|---|---|
-| `new_line(bar1, price1, bar2, price2, color?, width?, style?, extend?)` | Draw a line between two points and return its id. style: "solid", "dashed", "dotted"; extend: "none", "right", "left", "both". At most 500 lines; the oldest goes first. <br>يرسم خط بين نقطتين ويرجّع رقمه. الشكل: solid أو dashed أو dotted، والامتداد: none أو right أو left أو both. 500 خط بالكتير، والأقدم بيتشال. | `new_line(bar - 10, low, bar, high, blue, 2, "dashed")` |
-| `new_box(bar1, top, bar2, bottom, color?, fill?, text?)` | Draw a filled rectangle and return its id (zones, order blocks, gaps). <br>يرسم مستطيل ملوّن ويرجّع رقمه (مناطق، أوردر بلوك، فجوات). | `new_box(bar - 3, high, bar, low, blue, fade(blue, 0.15))` |
-| `new_label(bar, price, text, color?, where?, text_color?)` | Write text at a point; where is "above", "below", "center", "right" or "left". A see-through color shows the text alone. <br>يكتب نص عند نقطة؛ المكان above أو below أو center أو right أو left. لو اللون شفاف بيظهر النص لوحده. | `new_label(bar, high, "HH", gold, "above")` |
-| `move(id, bar1, price1, bar2?, price2?)` | Move an object's points. <br>يحرّك نقط الرسمة. |  |
-| `stretch(id, bar2)` | Move only the right end, e.g. keep a box running to the current bar. <br>يحرّك الطرف اليمين بس، زي إنك تمد صندوق لحد الشمعة الحالية. | `stretch(zone, bar)` |
+| `new_line(bar1, price1, bar2, price2, color?, width?, style?, extend?)` | Draw a line between two points and return its id. style: "solid", "dashed", "dotted"; extend: "none", "right", "left", "both". At most 500 lines; the oldest goes first. <br>يرسم خطًا بين نقطتين ويُرجع رقمه. الشكل: solid أو dashed أو dotted، والامتداد: none أو right أو left أو both. 500 خط على الأكثر، ويُزال الأقدم. | `new_line(bar - 10, low, bar, high, blue, 2, "dashed")` |
+| `new_box(bar1, top, bar2, bottom, color?, fill?, text?)` | Draw a filled rectangle and return its id (zones, order blocks, gaps). <br>يرسم مستطيلًا ملوّنًا ويُرجع رقمه (مناطق، أوردر بلوك، فجوات). | `new_box(bar - 3, high, bar, low, blue, fade(blue, 0.15))` |
+| `new_label(bar, price, text, color?, where?, text_color?)` | Write text at a point; where is "above", "below", "center", "right" or "left". A see-through color shows the text alone. <br>يكتب نصًا عند نقطة؛ الموضع above أو below أو center أو right أو left. إن كان اللون شفافًا يظهر النص وحده. | `new_label(bar, high, "HH", gold, "above")` |
+| `move(id, bar1, price1, bar2?, price2?)` | Move an object's points. <br>يحرّك نقاط الرسمة. |  |
+| `stretch(id, bar2)` | Move only the right end, e.g. keep a box running to the current bar. <br>يحرّك الطرف الأيمن فقط، كأنك تمدّ صندوقًا حتى الشمعة الحالية. | `stretch(zone, bar)` |
 | `retext(id, text)` | Change a label's or box's text. <br>يغيّر نص اللافتة أو الصندوق. |  |
 | `recolor(id, color, fill?)` | Change an object's colors. <br>يغيّر ألوان الرسمة. |  |
-| `erase(id)` | Delete an object. <br>يمسح الرسمة. |  |
-| `exists(id)` | yes while the object is on the chart. <br>نعم طول ما الرسمة موجودة. |  |
+| `erase(id)` | Delete an object. <br>يحذف الرسمة. |  |
+| `exists(id)` | yes while the object is on the chart. <br>نعم ما دامت الرسمة موجودة. |  |
 | `x1_of(id)` | Bar of an object's first point. <br>شمعة أول نقطة في الرسمة. |  |
 | `y1_of(id)` | Price of an object's first point. <br>سعر أول نقطة في الرسمة. |  |
-| `x2_of(id)` | Bar of an object's second point. <br>شمعة تاني نقطة في الرسمة. |  |
-| `y2_of(id)` | Price of an object's second point. <br>سعر تاني نقطة في الرسمة. |  |
-| `cell(row, col, text, color?, background?)` | Write one cell of the dashboard panel (rows 0-29, columns 0-11). The panel shows the values from the newest bar. <br>يكتب خلية في لوحة البيانات (صفوف 0-29، أعمدة 0-11). اللوحة بتعرض قيم آخر شمعة. | `cell(0, 0, "Trend"); cell(0, 1, up ? "Up" : "Down", white, blue)` |
-| `panel(where)` | Where the panel sits: "top_right" (default), "top_left", "bottom_right", "bottom_left". <br>مكان اللوحة: top_right (الافتراضي) أو top_left أو bottom_right أو bottom_left. |  |
+| `x2_of(id)` | Bar of an object's second point. <br>شمعة النقطة الثانية في الرسمة. |  |
+| `y2_of(id)` | Price of an object's second point. <br>سعر النقطة الثانية في الرسمة. |  |
+| `cell(row, col, text, color?, background?)` | Write one cell of the dashboard panel (rows 0-29, columns 0-11). The panel shows the values from the newest bar. <br>يكتب خلية في لوحة البيانات (صفوف 0-29، أعمدة 0-11). تعرض اللوحة قيم آخر شمعة. | `cell(0, 0, "Trend"); cell(0, 1, up ? "Up" : "Down", white, blue)` |
+| `panel(where)` | Where the panel sits: "top_right" (default), "top_left", "bottom_right", "bottom_left". <br>موضع اللوحة: top_right (الافتراضي) أو top_left أو bottom_right أو bottom_left. |  |
 
-## Text, time and higher timeframes (Via 0.2) · النصوص والوقت والفريمات الأعلى (ڤيا 0.2)
+## Text, time and higher timeframes (Via 0.2) · النصوص والوقت والأطر الزمنية الأعلى (ڤيا 0.2)
 
 | Function | Meaning | Example |
 |---|---|---|
-| `to_text(x, digits?)` | A number as text. "+" also joins text: "RSI " + to_text(r, 1). <br>يحوّل الرقم لنص. وعلامة + بتلزق النصوص: "RSI " + to_text(r, 1). | `to_text(close, 2)` |
-| `hour(tz?)` | Hour the bar opened; tz is hours from UTC (2 for Cairo winter). <br>ساعة فتح الشمعة؛ tz فرق الساعات عن UTC (2 للقاهرة في الشتا). | `hour(2)` |
-| `minute(tz?)` | Minute the bar opened. <br>دقيقة فتح الشمعة. |  |
-| `weekday(tz?)` | Day of the week, 1 = Monday ... 7 = Sunday. <br>يوم الأسبوع، 1 = الاتنين لحد 7 = الحد. |  |
+| `to_text(x, digits?)` | A number as text. "+" also joins text: "RSI " + to_text(r, 1). <br>يحوّل الرقم إلى نص. وعلامة + تصل النصوص: "RSI " + to_text(r, 1). | `to_text(close, 2)` |
+| `hour(tz?)` | Hour the bar opened; tz is hours from UTC (2 for Cairo winter). <br>ساعة افتتاح الشمعة؛ tz فرق الساعات عن UTC (2 للقاهرة في الشتاء). | `hour(2)` |
+| `minute(tz?)` | Minute the bar opened. <br>دقيقة افتتاح الشمعة. |  |
+| `weekday(tz?)` | Day of the week, 1 = Monday ... 7 = Sunday. <br>يوم الأسبوع، من 1 = الاثنين حتى 7 = الأحد. |  |
 | `monthday(tz?)` | Day of the month. <br>يوم الشهر. |  |
-| `month(tz?)` | Month, 1 to 12. <br>الشهر من 1 لـ 12. |  |
+| `month(tz?)` | Month, 1 to 12. <br>الشهر من 1 إلى 12. |  |
 | `year(tz?)` | Year. <br>السنة. |  |
-| `in_session(start, end, tz?)` | yes when the bar opens inside a daily window given as hhmm; windows may cross midnight. <br>نعم لو الشمعة فتحت جوه فترة يومية مكتوبة hhmm؛ الفترة ممكن تعدّي نص الليل. | `in_session(1500, 1800, 2)` |
-| `bar_minutes()` | The chart's timeframe in minutes. <br>فريم الشارت بالدقايق. |  |
-| `htf(field, minutes, back = 0)` | Open, high, low or close of a higher-timeframe bar built from the chart's bars. back 0 is the bar still forming (never future data), 1 the last finished one. <br>افتتاح أو أعلى أو أدنى أو إغلاق شمعة فريم أعلى مبنية من شموع الشارت. back = 0 الشمعة اللي لسه بتتكوّن (من غير بيانات مستقبلية)، و1 آخر شمعة خلصت. | `htf("high", 1440, 1)` |
+| `in_session(start, end, tz?)` | yes when the bar opens inside a daily window given as hhmm; windows may cross midnight. <br>نعم إن افتُتحت الشمعة داخل فترة يومية مكتوبة hhmm؛ ويمكن أن تتجاوز الفترة منتصف الليل. | `in_session(1500, 1800, 2)` |
+| `bar_minutes()` | The chart's timeframe in minutes. <br>الإطار الزمني للشارت بالدقائق. |  |
+| `htf(field, minutes, back = 0)` | Open, high, low or close of a higher-timeframe bar built from the chart's bars. back 0 is the bar still forming (never future data), 1 the last finished one. <br>افتتاح أو أعلى أو أدنى أو إغلاق شمعة من إطار زمني أعلى مبنية من شموع الشارت. back = 0 الشمعة التي ما زالت تتكوّن (دون بيانات مستقبلية)، و1 آخر شمعة اكتملت. | `htf("high", 1440, 1)` |
 
 ## Math · الرياضيات
 
@@ -140,10 +140,10 @@
 | `sqrt(x)` | Square root. <br>الجذر التربيعي. |  |
 | `log(x)` | Natural logarithm. <br>اللوغاريتم الطبيعي. |  |
 | `exp(x)` | e to the power x. <br>e أُس x. |  |
-| `pow(a, b)` | a to the power b (same as a ^ b). <br>a أُس b (زي a ^ b). |  |
+| `pow(a, b)` | a to the power b (same as a ^ b). <br>a أُس b (مثل a ^ b). |  |
 | `clamp(x, lo, hi)` | Keep x between lo and hi. <br>حصر x بين lo و hi. |  |
 | `sign(x)` | -1, 0 or 1. <br>-1 أو 0 أو 1. |  |
-| `fade(color, alpha)` | Same color with opacity 0..1. <br>نفس اللون بشفافية من 0 لـ 1. | `fade(blue, 0.4)` |
+| `fade(color, alpha)` | Same color with opacity 0..1. <br>اللون نفسه بشفافية من 0 إلى 1. | `fade(blue, 0.4)` |
 
 ## Arabic function names
 

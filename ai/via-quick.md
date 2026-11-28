@@ -2,7 +2,7 @@
 
 > For people: give this whole file to ChatGPT, Gemini, Claude or any AI, then ask for the indicator or expert you want.
 > Paste the result into https://chartavia.com/chart/script and press Run. Source: https://github.com/mohamadmahdy9/chartavia-plugin
-> للناس: ادّي الملف ده كله لأي ذكاء اصطناعي واطلب المؤشر أو الإكسبرت اللي عايزه، والصق النتيجة في محرر شارتاڤيا.
+> للمستخدمين: أعطِ هذا الملف كاملًا لأي ذكاء اصطناعي واطلب المؤشر أو الخبير الآلي الذي تريده، ثم الصق النتيجة في محرر شارتاڤيا.
 
 ## Part 1. Instructions for the assistant
 
@@ -481,11 +481,11 @@ Arabic keywords and names exist for everything; see the complete kit (ai/via-for
 
 Two moving averages with cross marks
 
-متوسطين متحركين مع علامات التقاطع
+متوسطان متحركان مع علامات التقاطع
 
 ```via
 # en: Two moving averages with cross marks
-# ar: متوسطين متحركين مع علامات التقاطع
+# ar: متوسطان متحركان مع علامات التقاطع
 
 indicator "Two averages" overlay
 
@@ -580,11 +580,11 @@ draw bar > length ? trail : none name "Trail" as steps color dir == 1 ? blue : r
 
 Fair value gaps (three-candle imbalances) drawn as boxes that disappear once filled
 
-فجوات القيمة العادلة (فجوة بين 3 شموع) مرسومة كصناديق بتختفي لما السعر يقفلها
+فجوات القيمة العادلة (فجوة بين 3 شموع) مرسومة كصناديق تختفي عندما يغلقها السعر
 
 ```via
 # en: Fair value gaps (three-candle imbalances) drawn as boxes that disappear once filled
-# ar: فجوات القيمة العادلة (فجوة بين 3 شموع) مرسومة كصناديق بتختفي لما السعر يقفلها
+# ar: فجوات القيمة العادلة (فجوة بين 3 شموع) مرسومة كصناديق تختفي عندما يغلقها السعر
 # shows: new_box(), lists of box ids, stretch(), erase(), walking a list backwards with repeat
 indicator "Fair value gaps" overlay
 
@@ -686,11 +686,11 @@ end
 
 A small dashboard in the chart corner: trend, RSI, ADX, volatility and today's change
 
-لوحة صغيرة في ركن الشارت: الاتجاه وRSI وADX والتذبذب وتغيّر النهارده
+لوحة صغيرة في زاوية الشارت: الاتجاه وRSI وADX والتذبذب وتغيّر اليوم
 
 ```via
 # en: A small dashboard in the chart corner: trend, RSI, ADX, volatility and today's change
-# ar: لوحة صغيرة في ركن الشارت: الاتجاه وRSI وADX والتذبذب وتغيّر النهارده
+# ar: لوحة صغيرة في زاوية الشارت: الاتجاه وRSI وADX والتذبذب وتغيّر اليوم
 # shows: panel() and cell(), to_text(), joining text with +, unpacking adx()
 indicator "Market dashboard" overlay
 
@@ -767,11 +767,11 @@ end
 
 Channel breakout with a trailing ATR stop that only moves in the trade's favour (longs only)
 
-كسر قناة مع وقف متحرك بالـ ATR بيتحرك في صالح الصفقة بس (شراء بس)
+كسر قناة مع وقف متحرك بالـ ATR يتحرك في صالح الصفقة فقط (شراء فقط)
 
 ```via
 # en: Channel breakout with a trailing ATR stop that only moves in the trade's favour (longs only)
-# ar: كسر قناة مع وقف متحرك بالـ ATR بيتحرك في صالح الصفقة بس (شراء بس)
+# ar: كسر قناة مع وقف متحرك بالـ ATR يتحرك في صالح الصفقة فقط (شراء فقط)
 # shows: option shorts = no, updating stop every bar, keep for the trailing level
 expert "Breakout with trailing stop"
 

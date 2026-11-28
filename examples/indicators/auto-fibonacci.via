@@ -1,5 +1,5 @@
 # en: Automatic Fibonacci retracement of the last swing, redrawn on the newest bar
-# ar: فيبوناتشي أوتوماتيك على آخر موجة، بيترسم من جديد على آخر شمعة
+# ar: فيبوناتشي تلقائي على آخر موجة، يُعاد رسمه على آخر شمعة
 # shows: since_high()/since_low(), a list of levels, repeat over a list, a pure fn, lines + labels
 indicator "Auto Fibonacci" overlay
 

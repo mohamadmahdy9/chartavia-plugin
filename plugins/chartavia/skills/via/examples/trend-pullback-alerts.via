@@ -1,5 +1,5 @@
 # en: Alerts for pullbacks inside a trend: RSI dips and recovers while the 50 average is above the 200
-# ar: تنبيهات للتصحيح جوه الاتجاه: RSI بينزل ويرجع والمتوسط 50 فوق الـ 200
+# ar: تنبيهات للتصحيح داخل الاتجاه: RSI ينخفض ثم يعود والمتوسط 50 فوق الـ 200
 # shows: combining conditions, alert messages with {placeholders}, marks
 indicator "Trend pullback alerts" overlay
 

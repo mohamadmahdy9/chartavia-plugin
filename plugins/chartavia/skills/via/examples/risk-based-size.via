@@ -1,5 +1,5 @@
 # en: Position size from risk: each trade risks a fixed percent of equity at its stop
-# ar: حجم الصفقة حسب المخاطرة: كل صفقة بتخاطر بنسبة ثابتة من الرصيد عند الوقف
+# ar: حجم الصفقة حسب المخاطرة: تخاطر كل صفقة بنسبة ثابتة من الرصيد عند الوقف
 # shows: buy <size> with a computed size, equity, a swing-low stop
 expert "Risk-based position size"
 

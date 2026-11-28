@@ -2,7 +2,7 @@
 
 > For people: give this whole file to ChatGPT, Gemini, Claude or any AI, then ask for the indicator or expert you want.
 > Paste the result into https://chartavia.com/chart/script and press Run. Source: https://github.com/mohamadmahdy9/chartavia-plugin
-> للناس: ادّي الملف ده كله لأي ذكاء اصطناعي واطلب المؤشر أو الإكسبرت اللي عايزه، والصق النتيجة في محرر شارتاڤيا.
+> للمستخدمين: أعطِ هذا الملف كاملًا لأي ذكاء اصطناعي واطلب المؤشر أو الخبير الآلي الذي تريده، ثم الصق النتيجة في محرر شارتاڤيا.
 
 ## Part 1. Instructions for the assistant
 
@@ -476,46 +476,46 @@ is the last finished one.
 
 | Function | Meaning | Example |
 |---|---|---|
-| `prev(x, k = 1)` | Value of x k bars ago. <br>قيمة x من k شمعة فاتت. | `prev(close, 3)` |
-| `change(x, k = 1)` | x minus its value k bars ago. <br>الفرق بين x وقيمتها من k شمعة. |  |
+| `prev(x, k = 1)` | Value of x k bars ago. <br>قيمة x قبل k شمعة. | `prev(close, 3)` |
+| `change(x, k = 1)` | x minus its value k bars ago. <br>الفرق بين x وقيمتها قبل k شمعة. |  |
 | `pct(x, k = 1)` | Percent change over k bars. <br>نسبة التغير خلال k شمعة. |  |
-| `crossup(a, b)` | yes on the bar where a goes from ≤ b to > b. <br>نعم في الشمعة اللي a فيها عدّت فوق b. | `crossup(ema(close, 9), ema(close, 21))` |
-| `crossdown(a, b)` | yes on the bar where a goes from ≥ b to < b. <br>نعم في الشمعة اللي a فيها نزلت تحت b. |  |
-| `rising(x, n)` | x grew on each of the last n bars. <br>x زادت في كل شمعة من آخر n. |  |
-| `falling(x, n)` | x dropped on each of the last n bars. <br>x قلّت في كل شمعة من آخر n. |  |
-| `bars_since(cond)` | Bars since cond was last yes (none if never). <br>عدد الشموع من آخر مرة الشرط كان نعم. |  |
-| `either(x, fallback)` | x, or fallback when x is none. <br>x، أو البديل لو x لاشيء. | `either(prev(close), open)` |
+| `crossup(a, b)` | yes on the bar where a goes from ≤ b to > b. <br>نعم في الشمعة التي تجاوزت فيها a صعودًا فوق b. | `crossup(ema(close, 9), ema(close, 21))` |
+| `crossdown(a, b)` | yes on the bar where a goes from ≥ b to < b. <br>نعم في الشمعة التي هبطت فيها a تحت b. |  |
+| `rising(x, n)` | x grew on each of the last n bars. <br>ارتفعت x في كل شمعة من آخر n. |  |
+| `falling(x, n)` | x dropped on each of the last n bars. <br>انخفضت x في كل شمعة من آخر n. |  |
+| `bars_since(cond)` | Bars since cond was last yes (none if never). <br>عدد الشموع منذ آخر مرة كان فيها الشرط نعم. |  |
+| `either(x, fallback)` | x, or fallback when x is none. <br>x، أو البديل إن كانت x لاشيء. | `either(prev(close), open)` |
 
 #### Ready-made studies · مؤشرات جاهزة
 
 | Function | Meaning | Example |
 |---|---|---|
-| `rsi(x, n)` | Relative strength index, 0 to 100. <br>مؤشر القوة النسبية من 0 لـ 100. | `rsi(close, 14)` |
+| `rsi(x, n)` | Relative strength index, 0 to 100. <br>مؤشر القوة النسبية من 0 إلى 100. | `rsi(close, 14)` |
 | `atr(n)` | Average true range (Wilder). <br>متوسط المدى الحقيقي. | `atr(14)` |
 | `true_range()` | True range of this bar. <br>المدى الحقيقي للشمعة الحالية. |  |
-| `macd(x, fast, slow, signal)` | Returns (line, signal, hist). <br>تُرجع (الخط، الإشارة، الهيستوجرام). | `let (l, s, h) = macd(close, 12, 26, 9)` |
+| `macd(x, fast, slow, signal)` | Returns (line, signal, hist). <br>تُرجع (الخط، الإشارة، المدرّج التكراري). | `let (l, s, h) = macd(close, 12, 26, 9)` |
 | `bands(x, n, k)` | Standard deviation bands. Returns (upper, middle, lower). <br>نطاقات الانحراف المعياري. تُرجع (العلوي، الأوسط، السفلي). | `let (u, m, d) = bands(close, 20, 2)` |
 | `stoch(n, k_smooth, d_smooth)` | Stochastic oscillator. Returns (k, d). <br>مذبذب الاستوكاستيك. يُرجع (k, d). | `let (k, d) = stoch(14, 3, 3)` |
 | `adx(n)` | Trend strength. Returns (adx, plus, minus). <br>قوة الاتجاه. تُرجع (adx، الموجب، السالب). | `let (a, p, m) = adx(14)` |
 | `cci(n)` | Commodity channel index. <br>مؤشر قناة السلع. |  |
-| `mfi(n)` | Money flow index, 0 to 100. <br>مؤشر تدفق الأموال من 0 لـ 100. |  |
+| `mfi(n)` | Money flow index, 0 to 100. <br>مؤشر تدفق الأموال من 0 إلى 100. |  |
 | `obv()` | On-balance volume. <br>حجم التوازن. |  |
-| `willr(n)` | Williams range, -100 to 0. <br>مؤشر ويليامز من -100 لـ 0. |  |
-| `momentum(x, n)` | x minus x n bars ago. <br>x ناقص قيمتها من n شمعة. |  |
+| `willr(n)` | Williams range, -100 to 0. <br>مؤشر ويليامز من -100 إلى 0. |  |
+| `momentum(x, n)` | x minus x n bars ago. <br>x ناقص قيمتها قبل n شمعة. |  |
 
 #### Lists (Via 0.2) · القوائم (ڤيا 0.2)
 
 | Function | Meaning | Example |
 |---|---|---|
-| `list(a, b, ...)` | A new list, empty or with the given items. Keep it with `keep` so it lasts across bars. <br>قائمة جديدة فاضية أو فيها العناصر دي. احفظها بـ keep عشان تفضل من شمعة للتانية. | `keep highs = list()` |
-| `push(xs, v)` | Add v at the end; returns the new length. <br>يضيف v في الآخر ويرجّع الطول الجديد. | `push(highs, high)` |
-| `push_front(xs, v)` | Add v at the start. <br>يضيف v في الأول. |  |
-| `pop(xs)` | Remove and return the last item. <br>يشيل آخر عنصر ويرجّعه. |  |
-| `pop_front(xs)` | Remove and return the first item. <br>يشيل أول عنصر ويرجّعه. |  |
+| `list(a, b, ...)` | A new list, empty or with the given items. Keep it with `keep` so it lasts across bars. <br>قائمة جديدة فارغة أو تحتوي هذه العناصر. احفظها بـ keep لتبقى من شمعة إلى أخرى. | `keep highs = list()` |
+| `push(xs, v)` | Add v at the end; returns the new length. <br>يضيف v في النهاية ويُرجع الطول الجديد. | `push(highs, high)` |
+| `push_front(xs, v)` | Add v at the start. <br>يضيف v في البداية. |  |
+| `pop(xs)` | Remove and return the last item. <br>يزيل آخر عنصر ويُرجعه. |  |
+| `pop_front(xs)` | Remove and return the first item. <br>يزيل أول عنصر ويُرجعه. |  |
 | `get(xs, i)` | Item i (0 is the first, -1 the last), or none. <br>العنصر رقم i (0 الأول و-1 الأخير)، أو لاشيء. | `get(highs, -1)` |
 | `put(xs, i, v)` | Replace item i. <br>يغيّر العنصر رقم i. |  |
-| `remove(xs, i)` | Remove item i and return it. <br>يشيل العنصر رقم i ويرجّعه. |  |
-| `clear(xs)` | Empty the list. <br>يفضّي القائمة. |  |
+| `remove(xs, i)` | Remove item i and return it. <br>يزيل العنصر رقم i ويُرجعه. |  |
+| `clear(xs)` | Empty the list. <br>يفرّغ القائمة. |  |
 | `len(xs)` | Number of items. <br>عدد العناصر. |  |
 | `list_max(xs)` | Largest number in the list. <br>أكبر رقم في القائمة. |  |
 | `list_min(xs)` | Smallest number in the list. <br>أصغر رقم في القائمة. |  |
@@ -525,36 +525,36 @@ is the last finished one.
 
 | Function | Meaning | Example |
 |---|---|---|
-| `new_line(bar1, price1, bar2, price2, color?, width?, style?, extend?)` | Draw a line between two points and return its id. style: "solid", "dashed", "dotted"; extend: "none", "right", "left", "both". At most 500 lines; the oldest goes first. <br>يرسم خط بين نقطتين ويرجّع رقمه. الشكل: solid أو dashed أو dotted، والامتداد: none أو right أو left أو both. 500 خط بالكتير، والأقدم بيتشال. | `new_line(bar - 10, low, bar, high, blue, 2, "dashed")` |
-| `new_box(bar1, top, bar2, bottom, color?, fill?, text?)` | Draw a filled rectangle and return its id (zones, order blocks, gaps). <br>يرسم مستطيل ملوّن ويرجّع رقمه (مناطق، أوردر بلوك، فجوات). | `new_box(bar - 3, high, bar, low, blue, fade(blue, 0.15))` |
-| `new_label(bar, price, text, color?, where?, text_color?)` | Write text at a point; where is "above", "below", "center", "right" or "left". A see-through color shows the text alone. <br>يكتب نص عند نقطة؛ المكان above أو below أو center أو right أو left. لو اللون شفاف بيظهر النص لوحده. | `new_label(bar, high, "HH", gold, "above")` |
-| `move(id, bar1, price1, bar2?, price2?)` | Move an object's points. <br>يحرّك نقط الرسمة. |  |
-| `stretch(id, bar2)` | Move only the right end, e.g. keep a box running to the current bar. <br>يحرّك الطرف اليمين بس، زي إنك تمد صندوق لحد الشمعة الحالية. | `stretch(zone, bar)` |
+| `new_line(bar1, price1, bar2, price2, color?, width?, style?, extend?)` | Draw a line between two points and return its id. style: "solid", "dashed", "dotted"; extend: "none", "right", "left", "both". At most 500 lines; the oldest goes first. <br>يرسم خطًا بين نقطتين ويُرجع رقمه. الشكل: solid أو dashed أو dotted، والامتداد: none أو right أو left أو both. 500 خط على الأكثر، ويُزال الأقدم. | `new_line(bar - 10, low, bar, high, blue, 2, "dashed")` |
+| `new_box(bar1, top, bar2, bottom, color?, fill?, text?)` | Draw a filled rectangle and return its id (zones, order blocks, gaps). <br>يرسم مستطيلًا ملوّنًا ويُرجع رقمه (مناطق، أوردر بلوك، فجوات). | `new_box(bar - 3, high, bar, low, blue, fade(blue, 0.15))` |
+| `new_label(bar, price, text, color?, where?, text_color?)` | Write text at a point; where is "above", "below", "center", "right" or "left". A see-through color shows the text alone. <br>يكتب نصًا عند نقطة؛ الموضع above أو below أو center أو right أو left. إن كان اللون شفافًا يظهر النص وحده. | `new_label(bar, high, "HH", gold, "above")` |
+| `move(id, bar1, price1, bar2?, price2?)` | Move an object's points. <br>يحرّك نقاط الرسمة. |  |
+| `stretch(id, bar2)` | Move only the right end, e.g. keep a box running to the current bar. <br>يحرّك الطرف الأيمن فقط، كأنك تمدّ صندوقًا حتى الشمعة الحالية. | `stretch(zone, bar)` |
 | `retext(id, text)` | Change a label's or box's text. <br>يغيّر نص اللافتة أو الصندوق. |  |
 | `recolor(id, color, fill?)` | Change an object's colors. <br>يغيّر ألوان الرسمة. |  |
-| `erase(id)` | Delete an object. <br>يمسح الرسمة. |  |
-| `exists(id)` | yes while the object is on the chart. <br>نعم طول ما الرسمة موجودة. |  |
+| `erase(id)` | Delete an object. <br>يحذف الرسمة. |  |
+| `exists(id)` | yes while the object is on the chart. <br>نعم ما دامت الرسمة موجودة. |  |
 | `x1_of(id)` | Bar of an object's first point. <br>شمعة أول نقطة في الرسمة. |  |
 | `y1_of(id)` | Price of an object's first point. <br>سعر أول نقطة في الرسمة. |  |
-| `x2_of(id)` | Bar of an object's second point. <br>شمعة تاني نقطة في الرسمة. |  |
-| `y2_of(id)` | Price of an object's second point. <br>سعر تاني نقطة في الرسمة. |  |
-| `cell(row, col, text, color?, background?)` | Write one cell of the dashboard panel (rows 0-29, columns 0-11). The panel shows the values from the newest bar. <br>يكتب خلية في لوحة البيانات (صفوف 0-29، أعمدة 0-11). اللوحة بتعرض قيم آخر شمعة. | `cell(0, 0, "Trend"); cell(0, 1, up ? "Up" : "Down", white, blue)` |
-| `panel(where)` | Where the panel sits: "top_right" (default), "top_left", "bottom_right", "bottom_left". <br>مكان اللوحة: top_right (الافتراضي) أو top_left أو bottom_right أو bottom_left. |  |
+| `x2_of(id)` | Bar of an object's second point. <br>شمعة النقطة الثانية في الرسمة. |  |
+| `y2_of(id)` | Price of an object's second point. <br>سعر النقطة الثانية في الرسمة. |  |
+| `cell(row, col, text, color?, background?)` | Write one cell of the dashboard panel (rows 0-29, columns 0-11). The panel shows the values from the newest bar. <br>يكتب خلية في لوحة البيانات (صفوف 0-29، أعمدة 0-11). تعرض اللوحة قيم آخر شمعة. | `cell(0, 0, "Trend"); cell(0, 1, up ? "Up" : "Down", white, blue)` |
+| `panel(where)` | Where the panel sits: "top_right" (default), "top_left", "bottom_right", "bottom_left". <br>موضع اللوحة: top_right (الافتراضي) أو top_left أو bottom_right أو bottom_left. |  |
 
-#### Text, time and higher timeframes (Via 0.2) · النصوص والوقت والفريمات الأعلى (ڤيا 0.2)
+#### Text, time and higher timeframes (Via 0.2) · النصوص والوقت والأطر الزمنية الأعلى (ڤيا 0.2)
 
 | Function | Meaning | Example |
 |---|---|---|
-| `to_text(x, digits?)` | A number as text. "+" also joins text: "RSI " + to_text(r, 1). <br>يحوّل الرقم لنص. وعلامة + بتلزق النصوص: "RSI " + to_text(r, 1). | `to_text(close, 2)` |
-| `hour(tz?)` | Hour the bar opened; tz is hours from UTC (2 for Cairo winter). <br>ساعة فتح الشمعة؛ tz فرق الساعات عن UTC (2 للقاهرة في الشتا). | `hour(2)` |
-| `minute(tz?)` | Minute the bar opened. <br>دقيقة فتح الشمعة. |  |
-| `weekday(tz?)` | Day of the week, 1 = Monday ... 7 = Sunday. <br>يوم الأسبوع، 1 = الاتنين لحد 7 = الحد. |  |
+| `to_text(x, digits?)` | A number as text. "+" also joins text: "RSI " + to_text(r, 1). <br>يحوّل الرقم إلى نص. وعلامة + تصل النصوص: "RSI " + to_text(r, 1). | `to_text(close, 2)` |
+| `hour(tz?)` | Hour the bar opened; tz is hours from UTC (2 for Cairo winter). <br>ساعة افتتاح الشمعة؛ tz فرق الساعات عن UTC (2 للقاهرة في الشتاء). | `hour(2)` |
+| `minute(tz?)` | Minute the bar opened. <br>دقيقة افتتاح الشمعة. |  |
+| `weekday(tz?)` | Day of the week, 1 = Monday ... 7 = Sunday. <br>يوم الأسبوع، من 1 = الاثنين حتى 7 = الأحد. |  |
 | `monthday(tz?)` | Day of the month. <br>يوم الشهر. |  |
-| `month(tz?)` | Month, 1 to 12. <br>الشهر من 1 لـ 12. |  |
+| `month(tz?)` | Month, 1 to 12. <br>الشهر من 1 إلى 12. |  |
 | `year(tz?)` | Year. <br>السنة. |  |
-| `in_session(start, end, tz?)` | yes when the bar opens inside a daily window given as hhmm; windows may cross midnight. <br>نعم لو الشمعة فتحت جوه فترة يومية مكتوبة hhmm؛ الفترة ممكن تعدّي نص الليل. | `in_session(1500, 1800, 2)` |
-| `bar_minutes()` | The chart's timeframe in minutes. <br>فريم الشارت بالدقايق. |  |
-| `htf(field, minutes, back = 0)` | Open, high, low or close of a higher-timeframe bar built from the chart's bars. back 0 is the bar still forming (never future data), 1 the last finished one. <br>افتتاح أو أعلى أو أدنى أو إغلاق شمعة فريم أعلى مبنية من شموع الشارت. back = 0 الشمعة اللي لسه بتتكوّن (من غير بيانات مستقبلية)، و1 آخر شمعة خلصت. | `htf("high", 1440, 1)` |
+| `in_session(start, end, tz?)` | yes when the bar opens inside a daily window given as hhmm; windows may cross midnight. <br>نعم إن افتُتحت الشمعة داخل فترة يومية مكتوبة hhmm؛ ويمكن أن تتجاوز الفترة منتصف الليل. | `in_session(1500, 1800, 2)` |
+| `bar_minutes()` | The chart's timeframe in minutes. <br>الإطار الزمني للشارت بالدقائق. |  |
+| `htf(field, minutes, back = 0)` | Open, high, low or close of a higher-timeframe bar built from the chart's bars. back 0 is the bar still forming (never future data), 1 the last finished one. <br>افتتاح أو أعلى أو أدنى أو إغلاق شمعة من إطار زمني أعلى مبنية من شموع الشارت. back = 0 الشمعة التي ما زالت تتكوّن (دون بيانات مستقبلية)، و1 آخر شمعة اكتملت. | `htf("high", 1440, 1)` |
 
 #### Math · الرياضيات
 
@@ -569,10 +569,10 @@ is the last finished one.
 | `sqrt(x)` | Square root. <br>الجذر التربيعي. |  |
 | `log(x)` | Natural logarithm. <br>اللوغاريتم الطبيعي. |  |
 | `exp(x)` | e to the power x. <br>e أُس x. |  |
-| `pow(a, b)` | a to the power b (same as a ^ b). <br>a أُس b (زي a ^ b). |  |
+| `pow(a, b)` | a to the power b (same as a ^ b). <br>a أُس b (مثل a ^ b). |  |
 | `clamp(x, lo, hi)` | Keep x between lo and hi. <br>حصر x بين lo و hi. |  |
 | `sign(x)` | -1, 0 or 1. <br>-1 أو 0 أو 1. |  |
-| `fade(color, alpha)` | Same color with opacity 0..1. <br>نفس اللون بشفافية من 0 لـ 1. | `fade(blue, 0.4)` |
+| `fade(color, alpha)` | Same color with opacity 0..1. <br>اللون نفسه بشفافية من 0 إلى 1. | `fade(blue, 0.4)` |
 
 #### Arabic function names
 
@@ -926,11 +926,11 @@ Write around them or keep the idea simpler.
 
 Two moving averages with cross marks
 
-متوسطين متحركين مع علامات التقاطع
+متوسطان متحركان مع علامات التقاطع
 
 ```via
 # en: Two moving averages with cross marks
-# ar: متوسطين متحركين مع علامات التقاطع
+# ar: متوسطان متحركان مع علامات التقاطع
 
 indicator "Two averages" overlay
 
@@ -1011,11 +1011,11 @@ if tight and not prev(tight) then mark above "squeeze" color gold
 
 MACD with colored histogram
 
-ماكد مع هيستوجرام ملوّن
+ماكد مع مدرّج تكراري ملوّن
 
 ```via
 # en: MACD with colored histogram
-# ar: ماكد مع هيستوجرام ملوّن
+# ar: ماكد مع مدرّج تكراري ملوّن
 
 indicator "MACD columns"
 
@@ -1077,11 +1077,11 @@ draw bar > length ? trail : none name "Trail" as steps color dir == 1 ? blue : r
 
 A full script written in Arabic
 
-سكريبت كامل مكتوب بالعربي
+سكربت كامل مكتوب بالعربية
 
 ```via
 # en: A full script written in Arabic
-# ar: سكريبت كامل مكتوب بالعربي
+# ar: سكربت كامل مكتوب بالعربية
 
 مؤشر "اتجاه السعر" على_السعر
 
@@ -1094,7 +1094,7 @@ A full script written in Arabic
 
 إذا تقاطع_صاعد(إغلاق, المتوسط) إذن
   علامة تحت "صعود" بلون أزرق
-  نبّه "السعر عدّى فوق المتوسط عند {إغلاق}"
+  نبّه "تجاوز السعر المتوسط صعودًا عند {إغلاق}"
 نهاية
 ```
 
@@ -1278,11 +1278,11 @@ end
 
 Anchored VWAP and range from a date you pick on a calendar
 
-VWAP مثبّت ورينج من تاريخ بتختاره من النتيجة
+VWAP مثبّت ونطاق من تاريخ تختاره من التقويم
 
 ```via
 # en: Anchored VWAP and range from a date you pick on a calendar
-# ar: VWAP مثبّت ورينج من تاريخ بتختاره من النتيجة
+# ar: VWAP مثبّت ونطاق من تاريخ تختاره من التقويم
 # shows: time inputs (date pickers), 0 = no date picked, keep sums that grow bar by bar
 indicator "Anchored VWAP from a date" overlay
 
@@ -1312,11 +1312,11 @@ draw inRange ? lo : none name "Range low" color fade(gray, 0.7) as steps
 
 An indicator written fully in Arabic keywords: RSI with zones, marks and alerts
 
-مؤشر مكتوب كله بالكلمات العربي: القوة النسبية بمناطقها وعلاماتها وتنبيهاتها
+مؤشر مكتوب كله بالكلمات العربية: القوة النسبية بمناطقها وعلاماتها وتنبيهاتها
 
 ```via
 # en: An indicator written fully in Arabic keywords: RSI with zones, marks and alerts
-# ar: مؤشر مكتوب كله بالكلمات العربي: القوة النسبية بمناطقها وعلاماتها وتنبيهاتها
+# ar: مؤشر مكتوب كله بالكلمات العربية: القوة النسبية بمناطقها وعلاماتها وتنبيهاتها
 # shows: Arabic keywords, Arabic series and function names, Arabic variable names
 مؤشر "القوة النسبية بالعربي"
 
@@ -1337,11 +1337,11 @@ An indicator written fully in Arabic keywords: RSI with zones, marks and alerts
 
 إذا خروج_من_التشبع إذن
   علامة تحت "▲" بلون أزرق
-  نبّه "القوة النسبية طلعت من التشبع البيعي: {ق}"
+  نبّه "خرجت القوة النسبية من التشبع البيعي: {ق}"
 نهاية
 إذا خروج_من_الشراء إذن
   علامة فوق "▼" بلون وردي
-  نبّه "القوة النسبية نزلت من التشبع الشرائي: {ق}"
+  نبّه "خرجت القوة النسبية من التشبع الشرائي: {ق}"
 نهاية
 ```
 
@@ -1349,11 +1349,11 @@ An indicator written fully in Arabic keywords: RSI with zones, marks and alerts
 
 Automatic Fibonacci retracement of the last swing, redrawn on the newest bar
 
-فيبوناتشي أوتوماتيك على آخر موجة، بيترسم من جديد على آخر شمعة
+فيبوناتشي تلقائي على آخر موجة، يُعاد رسمه على آخر شمعة
 
 ```via
 # en: Automatic Fibonacci retracement of the last swing, redrawn on the newest bar
-# ar: فيبوناتشي أوتوماتيك على آخر موجة، بيترسم من جديد على آخر شمعة
+# ar: فيبوناتشي تلقائي على آخر موجة، يُعاد رسمه على آخر شمعة
 # shows: since_high()/since_low(), a list of levels, repeat over a list, a pure fn, lines + labels
 indicator "Auto Fibonacci" overlay
 
@@ -1382,11 +1382,11 @@ end
 
 One moving average, with its type picked from a list in the settings
 
-متوسط متحرك واحد، ونوعه بتختاره من قايمة في الإعدادات
+متوسط متحرك واحد، تختار نوعه من قائمة في الإعدادات
 
 ```via
 # en: One moving average, with its type picked from a list in the settings
-# ar: متوسط متحرك واحد، ونوعه بتختاره من قايمة في الإعدادات
+# ar: متوسط متحرك واحد، تختار نوعه من قائمة في الإعدادات
 # shows: input with options (a drop-down), yes/no input, input groups
 indicator "Average of your choice" overlay
 
@@ -1409,11 +1409,11 @@ if showCross and downCross then mark above "▼" color gray
 
 Moving-average ribbon that changes colour with the trend
 
-شريط متوسطات متحركة لونه بيتغير مع الاتجاه
+شريط متوسطات متحركة يتغير لونه مع الاتجاه
 
 ```via
 # en: Moving-average ribbon that changes colour with the trend
-# ar: شريط متوسطات متحركة لونه بيتغير مع الاتجاه
+# ar: شريط متوسطات متحركة يتغير لونه مع الاتجاه
 # shows: several draw lines, a colour chosen by a condition, fade(), marks when the trend flips
 indicator "Average ribbon" overlay
 
@@ -1498,11 +1498,11 @@ if useInside and inside then paint fade(violet, 0.6)
 
 A moving average of daily closes that you can see on any intraday chart
 
-متوسط متحرك لإغلاقات الأيام تشوفه على أي فريم أقل من يوم
+متوسط متحرك لإغلاقات الأيام تراه على أي إطار زمني أقل من يوم
 
 ```via
 # en: A moving average of daily closes that you can see on any intraday chart
-# ar: متوسط متحرك لإغلاقات الأيام تشوفه على أي فريم أقل من يوم
+# ar: متوسط متحرك لإغلاقات الأيام تراه على أي إطار زمني أقل من يوم
 # shows: detecting a new day, keeping a list of values, list_sum() / len()
 indicator "Daily average on any timeframe" overlay
 
@@ -1528,11 +1528,11 @@ draw dailyAvg name "Daily average" color gold width 2 as steps
 
 Fair value gaps (three-candle imbalances) drawn as boxes that disappear once filled
 
-فجوات القيمة العادلة (فجوة بين 3 شموع) مرسومة كصناديق بتختفي لما السعر يقفلها
+فجوات القيمة العادلة (فجوة بين 3 شموع) مرسومة كصناديق تختفي عندما يغلقها السعر
 
 ```via
 # en: Fair value gaps (three-candle imbalances) drawn as boxes that disappear once filled
-# ar: فجوات القيمة العادلة (فجوة بين 3 شموع) مرسومة كصناديق بتختفي لما السعر يقفلها
+# ar: فجوات القيمة العادلة (فجوة بين 3 شموع) مرسومة كصناديق تختفي عندما يغلقها السعر
 # shows: new_box(), lists of box ids, stretch(), erase(), walking a list backwards with repeat
 indicator "Fair value gaps" overlay
 
@@ -1580,11 +1580,11 @@ end
 
 Heikin Ashi trend: colours the normal candles by the smoothed Heikin Ashi direction
 
-اتجاه هايكن آشي: بيلوّن الشموع العادية حسب اتجاه هايكن آشي
+اتجاه هايكن آشي: يلوّن الشموع العادية حسب اتجاه هايكن آشي
 
 ```via
 # en: Heikin Ashi trend: colours the normal candles by the smoothed Heikin Ashi direction
-# ar: اتجاه هايكن آشي: بيلوّن الشموع العادية حسب اتجاه هايكن آشي
+# ar: اتجاه هايكن آشي: يلوّن الشموع العادية حسب اتجاه هايكن آشي
 # shows: keep for a value that depends on its own previous value, paint, alerts on colour change
 indicator "Heikin Ashi trend" overlay
 
@@ -1607,11 +1607,11 @@ if flippedDown then alert "Heikin Ashi turned down at {close}"
 
 A small dashboard in the chart corner: trend, RSI, ADX, volatility and today's change
 
-لوحة صغيرة في ركن الشارت: الاتجاه وRSI وADX والتذبذب وتغيّر النهارده
+لوحة صغيرة في زاوية الشارت: الاتجاه وRSI وADX والتذبذب وتغيّر اليوم
 
 ```via
 # en: A small dashboard in the chart corner: trend, RSI, ADX, volatility and today's change
-# ar: لوحة صغيرة في ركن الشارت: الاتجاه وRSI وADX والتذبذب وتغيّر النهارده
+# ar: لوحة صغيرة في زاوية الشارت: الاتجاه وRSI وADX والتذبذب وتغيّر اليوم
 # shows: panel() and cell(), to_text(), joining text with +, unpacking adx()
 indicator "Market dashboard" overlay
 
@@ -1648,11 +1648,11 @@ end
 
 Yesterday's high, low and close, today's open and last week's range on any intraday chart
 
-أعلى وأدنى وإغلاق امبارح، وافتتاح النهارده، ورينج الأسبوع اللي فات على أي فريم أقل من يوم
+أعلى وأدنى وإغلاق الأمس، وافتتاح اليوم، ونطاق الأسبوع الماضي على أي إطار زمني أقل من يوم
 
 ```via
 # en: Yesterday's high, low and close, today's open and last week's range on any intraday chart
-# ar: أعلى وأدنى وإغلاق امبارح، وافتتاح النهارده، ورينج الأسبوع اللي فات على أي فريم أقل من يوم
+# ar: أعلى وأدنى وإغلاق الأمس، وافتتاح اليوم، ونطاق الأسبوع الماضي على أي إطار زمني أقل من يوم
 # shows: htf() for higher-timeframe values without look-ahead, draw as steps, crossing alerts
 indicator "Previous day levels" overlay
 
@@ -1689,11 +1689,11 @@ end
 
 Asia, London and New York session ranges as boxes
 
-رينج جلسات آسيا ولندن ونيويورك كصناديق
+نطاقات جلسات آسيا ولندن ونيويورك كصناديق
 
 ```via
 # en: Asia, London and New York session ranges as boxes
-# ar: رينج جلسات آسيا ولندن ونيويورك كصناديق
+# ar: نطاقات جلسات آسيا ولندن ونيويورك كصناديق
 # shows: in_session() with a time zone, keep + move() to grow a box while the session runs
 indicator "Session ranges" overlay
 
@@ -1807,11 +1807,11 @@ end
 
 Supply and demand zones: the candle before a strong move, kept until price closes through it
 
-مناطق العرض والطلب: الشمعة اللي قبل حركة قوية، وبتفضل لحد ما السعر يقفل عدّاها
+مناطق العرض والطلب: الشمعة التي تسبق حركة قوية، وتبقى حتى يُغلق السعر متجاوزًا إياها
 
 ```via
 # en: Supply and demand zones: the candle before a strong move, kept until price closes through it
-# ar: مناطق العرض والطلب: الشمعة اللي قبل حركة قوية، وبتفضل لحد ما السعر يقفل عدّاها
+# ar: مناطق العرض والطلب: الشمعة التي تسبق حركة قوية، وتبقى حتى يُغلق السعر متجاوزًا إياها
 # shows: impulse detection with ATR, boxes with text, removing broken zones, alerts on touch
 indicator "Supply and demand zones" overlay
 
@@ -1928,11 +1928,11 @@ end
 
 Alerts for pullbacks inside a trend: RSI dips and recovers while the 50 average is above the 200
 
-تنبيهات للتصحيح جوه الاتجاه: RSI بينزل ويرجع والمتوسط 50 فوق الـ 200
+تنبيهات للتصحيح داخل الاتجاه: RSI ينخفض ثم يعود والمتوسط 50 فوق الـ 200
 
 ```via
 # en: Alerts for pullbacks inside a trend: RSI dips and recovers while the 50 average is above the 200
-# ar: تنبيهات للتصحيح جوه الاتجاه: RSI بينزل ويرجع والمتوسط 50 فوق الـ 200
+# ar: تنبيهات للتصحيح داخل الاتجاه: RSI ينخفض ثم يعود والمتوسط 50 فوق الـ 200
 # shows: combining conditions, alert messages with {placeholders}, marks
 indicator "Trend pullback alerts" overlay
 
@@ -2035,11 +2035,11 @@ end
 
 Mean reversion on volatility bands: buy back inside the lower band, sell back inside the upper, exit at the middle
 
-ارتداد للمتوسط على نطاقات التذبذب: شراء لما يرجع جوه النطاق السفلي، بيع لما يرجع جوه العلوي، خروج عند النص
+ارتداد إلى المتوسط على نطاقات التذبذب: شراء عند العودة داخل النطاق السفلي، وبيع عند العودة داخل العلوي، وخروج عند المنتصف
 
 ```via
 # en: Mean reversion on volatility bands: buy back inside the lower band, sell back inside the upper, exit at the middle
-# ar: ارتداد للمتوسط على نطاقات التذبذب: شراء لما يرجع جوه النطاق السفلي، بيع لما يرجع جوه العلوي، خروج عند النص
+# ar: ارتداد إلى المتوسط على نطاقات التذبذب: شراء عند العودة داخل النطاق السفلي، وبيع عند العودة داخل العلوي، وخروج عند المنتصف
 # shows: unpacking bands(), exit on a condition, position to know which side you are on
 expert "Bands mean reversion"
 
@@ -2077,11 +2077,11 @@ if position == -1 and reachedMiddleDown then exit
 
 Trend entries that move the stop to breakeven after one unit of risk, with a time exit
 
-دخول مع الاتجاه، ونقل الوقف لنقطة الدخول بعد ما السعر يمشي مسافة المخاطرة، وخروج بالوقت
+دخول مع الاتجاه، ونقل الوقف إلى نقطة الدخول بعد أن يقطع السعر مسافة المخاطرة، وخروج بالوقت
 
 ```via
 # en: Trend entries that move the stop to breakeven after one unit of risk, with a time exit
-# ar: دخول مع الاتجاه، ونقل الوقف لنقطة الدخول بعد ما السعر يمشي مسافة المخاطرة، وخروج بالوقت
+# ar: دخول مع الاتجاه، ونقل الوقف إلى نقطة الدخول بعد أن يقطع السعر مسافة المخاطرة، وخروج بالوقت
 # shows: entry_price, bars_in_trade, changing the stop of an open trade
 expert "Breakeven stop"
 
@@ -2123,11 +2123,11 @@ if position == 1 and bars_in_trade >= maxBars then exit
 
 Channel breakout with a trailing ATR stop that only moves in the trade's favour (longs only)
 
-كسر قناة مع وقف متحرك بالـ ATR بيتحرك في صالح الصفقة بس (شراء بس)
+كسر قناة مع وقف متحرك بالـ ATR يتحرك في صالح الصفقة فقط (شراء فقط)
 
 ```via
 # en: Channel breakout with a trailing ATR stop that only moves in the trade's favour (longs only)
-# ar: كسر قناة مع وقف متحرك بالـ ATR بيتحرك في صالح الصفقة بس (شراء بس)
+# ar: كسر قناة مع وقف متحرك بالـ ATR يتحرك في صالح الصفقة فقط (شراء فقط)
 # shows: option shorts = no, updating stop every bar, keep for the trailing level
 expert "Breakout with trailing stop"
 
@@ -2161,11 +2161,11 @@ end
 
 Position size from risk: each trade risks a fixed percent of equity at its stop
 
-حجم الصفقة حسب المخاطرة: كل صفقة بتخاطر بنسبة ثابتة من الرصيد عند الوقف
+حجم الصفقة حسب المخاطرة: تخاطر كل صفقة بنسبة ثابتة من الرصيد عند الوقف
 
 ```via
 # en: Position size from risk: each trade risks a fixed percent of equity at its stop
-# ar: حجم الصفقة حسب المخاطرة: كل صفقة بتخاطر بنسبة ثابتة من الرصيد عند الوقف
+# ar: حجم الصفقة حسب المخاطرة: تخاطر كل صفقة بنسبة ثابتة من الرصيد عند الوقف
 # shows: buy <size> with a computed size, equity, a swing-low stop
 expert "Risk-based position size"
 
@@ -2201,11 +2201,11 @@ end
 
 Opening-range breakout: trade the break of the first hour of the London session, close by session end
 
-كسر رينج الافتتاح: ادخل مع كسر أول ساعة من جلسة لندن، واقفل قبل نهاية الجلسة
+كسر نطاق الافتتاح: ادخل مع كسر الساعة الأولى من جلسة لندن، وأغلق قبل نهاية الجلسة
 
 ```via
 # en: Opening-range breakout: trade the break of the first hour of the London session, close by session end
-# ar: كسر رينج الافتتاح: ادخل مع كسر أول ساعة من جلسة لندن، واقفل قبل نهاية الجلسة
+# ar: كسر نطاق الافتتاح: ادخل مع كسر الساعة الأولى من جلسة لندن، وأغلق قبل نهاية الجلسة
 # shows: in_session(), building a range with keep, one trade per day, exit at a time
 expert "Session opening range breakout"
 
@@ -2258,11 +2258,11 @@ if not inTrade and not inRange and position != 0 then exit
 
 SuperTrend expert: always in the market, flips long and short when the SuperTrend line flips
 
-خبير سوبر ترند: دايمًا في السوق، بيقلب شراء وبيع لما خط السوبر ترند يقلب
+خبير سوبر ترند: في السوق دائمًا، يقلب بين الشراء والبيع عندما ينقلب خط السوبر ترند
 
 ```via
 # en: SuperTrend expert: always in the market, flips long and short when the SuperTrend line flips
-# ar: خبير سوبر ترند: دايمًا في السوق، بيقلب شراء وبيع لما خط السوبر ترند يقلب
+# ar: خبير سوبر ترند: في السوق دائمًا، يقلب بين الشراء والبيع عندما ينقلب خط السوبر ترند
 # shows: a stateful indicator built with keep, trading on its signals
 expert "SuperTrend flip"
 
@@ -2310,11 +2310,11 @@ if flipDown then sell
 
 MACD crosses traded only on chosen weekdays and hours, flat before the weekend
 
-تقاطعات الماكد بتتنفذ في أيام وساعات تختارها بس، ومن غير صفقات مفتوحة في الويك إند
+تقاطعات الماكد تُنفَّذ في أيام وساعات تختارها فقط، ودون صفقات مفتوحة في عطلة نهاية الأسبوع
 
 ```via
 # en: MACD crosses traded only on chosen weekdays and hours, flat before the weekend
-# ar: تقاطعات الماكد بتتنفذ في أيام وساعات تختارها بس، ومن غير صفقات مفتوحة في الويك إند
+# ar: تقاطعات الماكد تُنفَّذ في أيام وساعات تختارها فقط، ودون صفقات مفتوحة في عطلة نهاية الأسبوع
 # shows: hour(), weekday(), unpacking macd(), exit on Friday evening
 expert "MACD with a time filter"
 
@@ -2365,7 +2365,7 @@ draw avg(close, length) name "SMA" color blue width 2
 
 Exponential Moving Average: Average that gives more weight to recent closes, so it reacts faster than the simple one.
 
-المتوسط المتحرك الأسي: متوسط بيدي وزن أكبر للشموع الأخيرة، فبيتحرك أسرع من البسيط.
+المتوسط المتحرك الأسي: متوسط يعطي وزنًا أكبر للشموع الأخيرة، فيتحرك أسرع من البسيط.
 
 ```via
 indicator "Exponential Moving Average" overlay
@@ -2385,7 +2385,7 @@ draw ema(close, length) name "EMA" color blue width 2
 
 Weighted Moving Average: Linearly weighted average: the newest close counts N times, the oldest once.
 
-المتوسط المتحرك الموزون: متوسط موزون خطياً: آخر إغلاق بيتحسب N مرة وأقدم واحد مرة.
+المتوسط المتحرك الموزون: متوسط موزون خطيًا: يُحسب آخر إغلاق N مرة وأقدمها مرة واحدة.
 
 ```via
 indicator "Weighted Moving Average" overlay
@@ -2405,7 +2405,7 @@ draw wma(close, length) name "WMA" color blue width 2
 
 Hull Moving Average: Fast, smooth average built from weighted averages to cut most of the lag.
 
-متوسط هَل المتحرك: متوسط سريع وناعم مبني من متوسطات موزونة عشان يقلل التأخير.
+متوسط هَل المتحرك: متوسط سريع وناعم مبني من متوسطات موزونة لتقليل التأخير.
 
 ```via
 indicator "Hull Moving Average" overlay
@@ -2426,7 +2426,7 @@ draw h name "HMA" color h > prev(h) ? white : blue width 2
 
 Double Exponential Moving Average: 2 x EMA minus the EMA of the EMA: less lag than a plain EMA of the same length.
 
-المتوسط الأسي المزدوج (DEMA): ضعف الـ EMA ناقص الـ EMA بتاعه: تأخير أقل من EMA بنفس الطول.
+المتوسط الأسي المزدوج (DEMA): ضعف الـ EMA ناقص الـ EMA الخاص به: تأخير أقل من EMA بالطول نفسه.
 
 ```via
 indicator "Double Exponential Moving Average" overlay
@@ -2448,7 +2448,7 @@ draw 2 * e1 - e2 name "DEMA" color blue width 2
 
 Triple Exponential Moving Average: Three stacked EMAs combined to follow price closely with little lag.
 
-المتوسط الأسي الثلاثي (TEMA): تلات متوسطات أسية متركبة بتمشي ورا السعر بتأخير قليل.
+المتوسط الأسي الثلاثي (TEMA): ثلاثة متوسطات أسية مركّبة تتبع السعر بتأخير قليل.
 
 ```via
 indicator "Triple Exponential Moving Average" overlay
@@ -2471,7 +2471,7 @@ draw 3 * e1 - 3 * e2 + e3 name "TEMA" color blue width 2
 
 Kaufman Adaptive Moving Average: Speeds up when price trends cleanly and slows down in noise, using the efficiency ratio.
 
-متوسط كوفمان التكيفي (KAMA): بيسرع لما السعر ماشي في اتجاه واضح وبيهدى وقت التذبذب، باستخدام نسبة الكفاءة.
+متوسط كوفمان التكيفي (KAMA): يتسارع عندما يتحرك السعر في اتجاه واضح ويهدأ وقت التذبذب، باستخدام نسبة الكفاءة.
 
 ```via
 indicator "Kaufman Adaptive Moving Average" overlay
@@ -2507,7 +2507,7 @@ draw k name "KAMA" color blue width 2
 
 VWAP: Average price weighted by volume, restarting every day (UTC).
 
-متوسط السعر المرجح بالحجم (VWAP): متوسط السعر مرجح بالحجم، وبيبدأ من جديد كل يوم (بتوقيت UTC).
+متوسط السعر المرجح بالحجم (VWAP): متوسط السعر مرجّحًا بالحجم، ويبدأ من جديد كل يوم (بتوقيت UTC).
 
 ```via
 indicator "VWAP" overlay
@@ -2526,7 +2526,7 @@ draw vwap() name "VWAP" color gold width 2
 
 Bollinger Bands: A moving average with bands K standard deviations above and below it.
 
-بولنجر باندز: متوسط متحرك وحواليه نطاقين على بعد K انحراف معياري.
+نطاقات بولينجر: متوسط متحرك وحوله نطاقان على بُعد K انحراف معياري.
 
 ```via
 indicator "Bollinger Bands" overlay
@@ -2550,7 +2550,7 @@ draw lower name "Lower" color fade(blue, 0.8)
 
 Keltner Channels: An EMA with bands set a multiple of the average true range away.
 
-قنوات كيلتنر: متوسط أسي وحواليه نطاقين على بعد مضاعف من متوسط المدى الحقيقي.
+قنوات كيلتنر: متوسط أسي وحوله نطاقان على بُعد مضاعف من متوسط المدى الحقيقي.
 
 ```via
 indicator "Keltner Channels" overlay
@@ -2576,7 +2576,7 @@ draw mid - mult * a name "Lower" color fade(blue, 0.8)
 
 Donchian Channels: Highest high and lowest low of the last N bars, with the midpoint.
 
-قنوات دونشيان: أعلى قمة وأقل قاع في آخر N شمعة، والنص بينهم.
+قنوات دونشيان: أعلى قمة وأدنى قاع في آخر N شمعة، والمنتصف بينهما.
 
 ```via
 indicator "Donchian Channels" overlay
@@ -2600,7 +2600,7 @@ draw dn name "Lower" color blue
 
 Moving Average Envelopes: A moving average with lines a fixed percentage above and below it.
 
-أغلفة المتوسط المتحرك: متوسط متحرك وخطين فوقه وتحته بنسبة مئوية ثابتة.
+أغلفة المتوسط المتحرك: متوسط متحرك وخطان فوقه وتحته بنسبة مئوية ثابتة.
 
 ```via
 indicator "Moving Average Envelopes" overlay
@@ -2625,7 +2625,7 @@ draw mid * (1 - percent / 100) name "Lower" color fade(blue, 0.8)
 
 Parabolic SAR: Stop-and-reverse dots that trail price and speed up as the trend extends.
 
-البارابوليك سار: نقط وقف وانعكاس بتمشي ورا السعر وبتسرع كل ما الترند يطول.
+البارابوليك سار: نقاط وقف وانعكاس تتبع السعر وتتسارع كلما طال الاتجاه.
 
 ```via
 indicator "Parabolic SAR" overlay
@@ -2689,7 +2689,7 @@ if bar > 2 and not up and prev(up) then alert "Parabolic SAR flipped down at {cl
 
 SuperTrend: ATR bands around the bar midpoint; the line flips sides when price closes through it.
 
-سوبر ترند: نطاقات ATR حوالين نص الشمعة؛ الخط بيقلب ناحيته لما السعر يقفل عدّاه.
+سوبر ترند: نطاقات ATR حول منتصف الشمعة؛ ينقلب الخط إلى الجهة الأخرى عندما يُغلق السعر متجاوزًا إياه.
 
 ```via
 indicator "SuperTrend" overlay
@@ -2785,7 +2785,7 @@ draw cloudB name "Leading span B" color fade(blue, 0.8)
 
 ADX and DMI: Trend strength (ADX) with the plus and minus directional lines.
 
-مؤشر ADX وخطوط الاتجاه DMI: قوة الترند (ADX) مع خطي الاتجاه الموجب والسالب.
+مؤشر ADX وخطوط الاتجاه DMI: قوة الاتجاه (ADX) مع خطي الاتجاه الموجب والسالب.
 
 ```via
 indicator "ADX and DMI"
@@ -2810,7 +2810,7 @@ level threshold name "Trend" color gray dashed
 
 Aroon: How recently the highest high and lowest low happened, as 0 to 100.
 
-أرون: من قد إيه حصلت أعلى قمة وأقل قاع، من 0 لـ 100.
+أرون: منذ متى حدثت أعلى قمة وأدنى قاع، من 0 إلى 100.
 
 ```via
 indicator "Aroon"
@@ -2835,7 +2835,7 @@ level 30 color fade(gray, 0.5) dashed
 
 Classic Pivot Points (daily): Floor-trader pivot, three resistances and three supports from the previous day (UTC).
 
-نقاط الارتكاز الكلاسيكية (يومي): نقطة الارتكاز وتلات مقاومات وتلات دعوم من اليوم اللي فات (بتوقيت UTC).
+نقاط الارتكاز الكلاسيكية (يومي): نقطة الارتكاز وثلاث مقاومات وثلاثة دعوم من اليوم السابق (بتوقيت UTC).
 
 ```via
 indicator "Classic Pivot Points (daily)" overlay
@@ -2890,7 +2890,7 @@ draw s3 name "S3" as steps color fade(blue, 0.6)
 
 Relative Strength Index: Wilder's 0 to 100 momentum oscillator with overbought and oversold zones.
 
-مؤشر القوة النسبية (RSI): مذبذب زخم من 0 لـ 100 بتاع وايلدر، مع منطقتي تشبع شراء وبيع.
+مؤشر القوة النسبية (RSI): مذبذب الزخم لوايلدر من 0 إلى 100، مع منطقتي تشبّع شرائي وبيعي.
 
 ```via
 indicator "Relative Strength Index"
@@ -2918,7 +2918,7 @@ if crossup(r, lower) then alert "RSI left oversold: {r}"
 
 Stochastic Oscillator: Where the close sits inside the recent high-low range, with a signal line.
 
-الاستوكاستيك: مكان الإغلاق جوه مدى القمة والقاع الأخير، مع خط إشارة.
+الاستوكاستيك: موضع الإغلاق داخل مدى القمة والقاع الأخير، مع خط إشارة.
 
 ```via
 indicator "Stochastic Oscillator"
@@ -2944,7 +2944,7 @@ level 20 color gray dashed
 
 Stochastic RSI: The stochastic formula applied to RSI instead of price, for a faster oscillator.
 
-ستوكاستيك RSI: معادلة الاستوكاستيك متطبقة على الـ RSI بدل السعر، فبيطلع مذبذب أسرع.
+ستوكاستيك RSI: معادلة الاستوكاستيك مطبقة على الـ RSI بدلًا من السعر، فينتج مذبذب أسرع.
 
 ```via
 indicator "Stochastic RSI"
@@ -2976,7 +2976,7 @@ level 20 color gray dashed
 
 MACD: Difference of two EMAs, its signal line and the histogram between them.
 
-الماكد (MACD): الفرق بين متوسطين أسيين، وخط الإشارة، والهيستوجرام بينهم.
+الماكد (MACD): الفرق بين متوسطين أسيين، وخط الإشارة، والمدرّج التكراري بينهما.
 
 ```via
 indicator "MACD"
@@ -3004,7 +3004,7 @@ if crossdown(line, sig) then alert "MACD crossed below signal"
 
 Commodity Channel Index: Distance of the typical price from its average, scaled by mean deviation.
 
-مؤشر قناة السلع (CCI): بعد السعر النموذجي عن متوسطه، مقسوم على متوسط الانحراف.
+مؤشر قناة السلع (CCI): بُعد السعر النموذجي عن متوسطه، مقسومًا على متوسط الانحراف.
 
 ```via
 indicator "Commodity Channel Index"
@@ -3027,7 +3027,7 @@ level -100 color gray dashed
 
 Williams %R: Close relative to the recent high-low range, from 0 down to -100.
 
-وليامز %R: الإغلاق بالنسبة لمدى القمة والقاع الأخير، من 0 لحد -100.
+وليامز %R: الإغلاق بالنسبة إلى مدى القمة والقاع الأخير، من 0 إلى -100.
 
 ```via
 indicator "Williams %R"
@@ -3070,7 +3070,7 @@ level 0 color fade(gray, 0.5)
 
 Awesome Oscillator: 5-bar minus 34-bar simple average of the bar midpoint, as columns.
 
-المذبذب الرائع (AO): متوسط 5 شمعات ناقص متوسط 34 شمعة لنص الشمعة، على شكل أعمدة.
+المذبذب الرائع (AO): متوسط 5 شموع ناقص متوسط 34 شمعة لمنتصف الشمعة، على شكل أعمدة.
 
 ```via
 indicator "Awesome Oscillator"
@@ -3093,7 +3093,7 @@ level 0 color fade(gray, 0.5)
 
 Ultimate Oscillator: Buying pressure averaged over three windows (7, 14 and 28 bars) and weighted 4:2:1.
 
-المذبذب النهائي: ضغط الشراء متوسط على تلات فترات (7 و14 و28) وموزون 4:2:1.
+المذبذب النهائي: متوسط ضغط الشراء على ثلاث فترات (7 و14 و28) موزونًا 4:2:1.
 
 ```via
 indicator "Ultimate Oscillator"
@@ -3122,7 +3122,7 @@ level 30 color gray dashed
 
 TRIX: One-bar percent change of a triple-smoothed EMA, with a signal line.
 
-تريكس (TRIX): نسبة التغير لشمعة واحدة لمتوسط أسي متنعم تلات مرات، مع خط إشارة.
+تريكس (TRIX): نسبة التغير لشمعة واحدة لمتوسط أسي منعّم ثلاث مرات، مع خط إشارة.
 
 ```via
 indicator "TRIX"
@@ -3147,7 +3147,7 @@ level 0 color fade(gray, 0.5)
 
 Chande Momentum Oscillator: Sum of up moves minus sum of down moves over their total, from -100 to 100.
 
-مذبذب تشاندي للزخم: مجموع الطلوع ناقص مجموع النزول على إجماليهم، من -100 لـ 100.
+مذبذب تشاندي للزخم: مجموع الصعود ناقص مجموع الهبوط مقسومًا على إجماليهما، من -100 إلى 100.
 
 ```via
 indicator "Chande Momentum Oscillator"
@@ -3197,7 +3197,7 @@ level 0 color fade(gray, 0.5)
 
 Coppock Curve: Weighted average of two rates of change; designed for long-term bottoms on monthly charts.
 
-منحنى كوبوك: متوسط موزون لمعدلين تغير؛ معمول للقيعان الطويلة على الشارت الشهري.
+منحنى كوبوك: متوسط موزون لمعدلَي تغيّر؛ صُمّم للقيعان الطويلة على الشارت الشهري.
 
 ```via
 indicator "Coppock Curve"
@@ -3221,7 +3221,7 @@ level 0 color fade(gray, 0.5)
 
 Average True Range: Wilder-smoothed average of the true range: how much price usually moves per bar.
 
-متوسط المدى الحقيقي (ATR): متوسط المدى الحقيقي بتنعيم وايلدر: السعر بيتحرك قد إيه عادة في الشمعة.
+متوسط المدى الحقيقي (ATR): متوسط المدى الحقيقي بتنعيم وايلدر: مقدار تحرك السعر المعتاد في الشمعة.
 
 ```via
 indicator "Average True Range"
@@ -3241,7 +3241,7 @@ draw atr(length) name "ATR" color blue width 2
 
 Choppiness Index: High values mean sideways chop, low values mean a directional move.
 
-مؤشر التذبذب العرضي (Choppiness): القيم العالية معناها سوق عرضي، والواطية معناها حركة في اتجاه.
+مؤشر التذبذب العرضي (Choppiness): القيم المرتفعة تعني سوقًا عرضيًا، والمنخفضة تعني حركة في اتجاه.
 
 ```via
 indicator "Choppiness Index"
@@ -3287,7 +3287,7 @@ draw 100 * stdev(r, length) * sqrt(perYear) name "HV %" color blue width 2
 
 On Balance Volume: Running total that adds volume on up closes and subtracts it on down closes.
 
-حجم التوازن (OBV): مجموع تراكمي بيزود الحجم لما الإغلاق يطلع وبيطرحه لما ينزل.
+حجم التوازن (OBV): مجموع تراكمي يضيف الحجم عندما يرتفع الإغلاق ويطرحه عندما ينخفض.
 
 ```via
 indicator "On Balance Volume"
@@ -3309,7 +3309,7 @@ draw ema(o, signal) name "Signal" color gold
 
 Money Flow Index: A volume-weighted RSI built from the typical price.
 
-مؤشر تدفق الأموال (MFI): RSI مرجح بالحجم ومبني على السعر النموذجي.
+مؤشر تدفق الأموال (MFI): RSI مرجّح بالحجم ومبني على السعر النموذجي.
 
 ```via
 indicator "Money Flow Index"
@@ -3355,7 +3355,7 @@ level 0 color fade(gray, 0.5)
 
 Accumulation / Distribution: Running total of money flow volume: where in the bar's range the close lands, times volume.
 
-التجميع والتوزيع (A/D): مجموع تراكمي لحجم تدفق الأموال: مكان الإغلاق في مدى الشمعة مضروب في الحجم.
+التجميع والتوزيع (A/D): مجموع تراكمي لحجم تدفق الأموال: موضع الإغلاق في مدى الشمعة مضروبًا في الحجم.
 
 ```via
 indicator "Accumulation / Distribution"
@@ -3403,7 +3403,7 @@ level 0 color fade(gray, 0.5)
 
 Elder Force Index: Price change times volume, smoothed with an EMA.
 
-مؤشر القوة لإلدر: تغير السعر مضروب في الحجم، ومتنعم بمتوسط أسي.
+مؤشر القوة لإلدر: تغيّر السعر مضروبًا في الحجم، ومنعّمًا بمتوسط أسي.
 
 ```via
 indicator "Elder Force Index"
@@ -3425,7 +3425,7 @@ level 0 color fade(gray, 0.5)
 
 Volume with Moving Average: Volume columns with their simple average; bars above average are highlighted.
 
-الحجم مع متوسطه: أعمدة الحجم مع متوسطها البسيط؛ اللي فوق المتوسط بتظهر أوضح.
+الحجم مع متوسطه: أعمدة الحجم مع متوسطها البسيط؛ وتظهر الأعمدة التي فوق المتوسط أوضح.
 
 ```via
 indicator "Volume with Moving Average"
@@ -3456,8 +3456,8 @@ Values in quotes below are examples.
 | `bad_string` | text is missing its closing quote | النص ينقصه علامة التنصيص في آخره |
 | `bad_number` | "1x" is not a valid number | "1x" ليس رقمًا صحيحًا |
 | `expected` | expected a value, found "then" | كان المتوقع a value، لكن وُجد "then" |
-| `no_header` | a script must start with `indicator "title"` or `expert "title"` | السكريبت لازم يبدأ بـ `indicator "العنوان"` أو `expert "العنوان"` |
-| `header_twice` | the header can appear only once, on the first line | سطر العنوان يُكتب مرة واحدة فقط في أول السكريبت |
+| `no_header` | a script must start with `indicator "title"` or `expert "title"` | يجب أن يبدأ السكربت بـ `indicator "العنوان"` أو `expert "العنوان"` |
+| `header_twice` | the header can appear only once, on the first line | سطر العنوان يُكتب مرة واحدة فقط في أول السكربت |
 | `unknown_name` | unknown name "clse". Did you mean "close"? | اسم غير معروف "clse". هل تقصد "close"؟ |
 | `unknown_fn` | unknown function "clse". Did you mean "close"? | دالة غير معروفة "clse". هل تقصد "close"؟ |
 | `not_fn` | "clse" is not a function | "clse" ليست دالة |
@@ -3471,22 +3471,22 @@ Values in quotes below are examples.
 | `tuple_count` | "clse" returns 2 values, but 3 names were given | "clse" تُرجع 2 قيم، لكن تم كتابة 3 أسماء |
 | `tuple_needed` | "clse" returns several values; unpack them with let (a, b, ...) = clse(...) | "clse" تُرجع عدة قيم؛ استخدم let (a, b, ...) = clse(...) |
 | `not_tuple` | "clse" returns a single value | "clse" تُرجع قيمة واحدة |
-| `bad_input` | an input's default must be a number, yes/no or a colour like #7480ff | القيمة الافتراضية للمدخل لازم تكون رقم أو نعم/لا أو لون زي #7480ff |
+| `bad_input` | an input's default must be a number, yes/no or a colour like #7480ff | القيمة الافتراضية للمدخل يجب أن تكون رقمًا أو نعم/لا أو لونًا مثل #7480ff |
 | `bad_option` | unknown option "clse" (use capital, fee, size or shorts) | خيار غير معروف "clse" (المتاح: capital, fee, size, shorts) |
 | `bad_info` | unknown info field "clse" (use version, author, description, license, homepage, id, credit or source) | حقل معلومات غير معروف "clse" (المتاح: version, author, description, license, homepage, id, credit, source) |
 | `bad_style` | unknown style "clse" (use line, columns, dots, area or steps) | شكل غير معروف "clse" (المتاح: line, columns, dots, area, steps) |
-| `bad_width` | width must be a whole number from 1 to 4 | السُمك لازم يكون رقم صحيح من 1 إلى 4 |
+| `bad_width` | width must be a whole number from 1 to 4 | يجب أن يكون السُمك عددًا صحيحًا من 1 إلى 4 |
 | `too_many` | too many a value (max 16) | عدد كبير جدًا من a value (الحد 16) |
-| `fn_order` | function "clse" must be defined before it is used | الدالة "clse" لازم تتعرّف قبل استخدامها |
-| `type_num` | "+" needs numbers, got 3 | "+" تحتاج أرقام، لكن وُجد 3 |
-| `bad_length` | length for "clse" must be a whole number ≥ 1, got 3 | الطول في "clse" لازم يكون رقم صحيح ≥ 1، لكن وُجد 3 |
-| `loop_limit` | a loop ran more than 5,000 times on one bar | تكرار اشتغل أكتر من 5,000 مرة على شمعة واحدة |
-| `op_limit` | the script did too much work (operation limit reached) | السكريبت عمل حسابات كتير جدًا (تم الوصول لحد العمليات) |
-| `time_limit` | the script took too long to run | السكريبت أخد وقت طويل جدًا |
-| `type_list` | "push" needs a list made with list() | "push" محتاجة قائمة معمولة بـ list() |
-| `list_limit` | a list can hold at most 16 items | القائمة تشيل 16 عنصر بالكتير |
-| `bad_point` | "a value" needs a bar number and a price for each point | "a value" محتاجة رقم شمعة وسعر لكل نقطة |
-| `bad_cell` | cell row must be 0-29 and column 0-11 | صف الخلية لازم من 0 لـ 29 والعمود من 0 لـ 11 |
+| `fn_order` | function "clse" must be defined before it is used | الدالة "clse" يجب تعريفها قبل استخدامها |
+| `type_num` | "+" needs numbers, got 3 | "+" تحتاج إلى أرقام، لكن وُجد 3 |
+| `bad_length` | length for "clse" must be a whole number ≥ 1, got 3 | الطول في "clse" يجب أن يكون عددًا صحيحًا ≥ 1، لكن وُجد 3 |
+| `loop_limit` | a loop ran more than 5,000 times on one bar | تكرار عمل أكثر من 5,000 مرة على شمعة واحدة |
+| `op_limit` | the script did too much work (operation limit reached) | أجرى السكربت حسابات كثيرة جدًا (بلغ حد العمليات) |
+| `time_limit` | the script took too long to run | استغرق تشغيل السكربت وقتًا طويلًا جدًا |
+| `type_list` | "push" needs a list made with list() | "push" تحتاج إلى قائمة منشأة بـ list() |
+| `list_limit` | a list can hold at most 16 items | تتسع القائمة لـ 16 عنصر على الأكثر |
+| `bad_point` | "a value" needs a bar number and a price for each point | "a value" تحتاج إلى رقم شمعة وسعر لكل نقطة |
+| `bad_cell` | cell row must be 0-29 and column 0-11 | يجب أن يكون صف الخلية من 0 إلى 29 والعمود من 0 إلى 11 |
 | `bad_panel` | unknown panel place "3" (use "top_right", "top_left", "bottom_right" or "bottom_left") | مكان لوحة غير معروف "3" (المتاح: "top_right", "top_left", "bottom_right", "bottom_left") |
 | `bad_field` | unknown field "3" (use "open", "high", "low" or "close") | حقل غير معروف "3" (المتاح: "open", "high", "low", "close") |
-| `limit_marks` | more than 500 marks; extra marks were dropped | أكتر من 500 علامة؛ تم تجاهل الزيادة |
+| `limit_marks` | more than 500 marks; extra marks were dropped | أكثر من 500 علامة؛ تم تجاهل الزائد |

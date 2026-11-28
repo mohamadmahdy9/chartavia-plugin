@@ -1,5 +1,5 @@
 # en: Opening-range breakout: trade the break of the first hour of the London session, close by session end
-# ar: كسر رينج الافتتاح: ادخل مع كسر أول ساعة من جلسة لندن، واقفل قبل نهاية الجلسة
+# ar: كسر نطاق الافتتاح: ادخل مع كسر الساعة الأولى من جلسة لندن، وأغلق قبل نهاية الجلسة
 # shows: in_session(), building a range with keep, one trade per day, exit at a time
 expert "Session opening range breakout"
 

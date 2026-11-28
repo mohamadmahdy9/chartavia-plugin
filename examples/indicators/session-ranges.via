@@ -1,5 +1,5 @@
 # en: Asia, London and New York session ranges as boxes
-# ar: رينج جلسات آسيا ولندن ونيويورك كصناديق
+# ar: نطاقات جلسات آسيا ولندن ونيويورك كصناديق
 # shows: in_session() with a time zone, keep + move() to grow a box while the session runs
 indicator "Session ranges" overlay
 

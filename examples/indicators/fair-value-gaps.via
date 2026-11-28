@@ -1,5 +1,5 @@
 # en: Fair value gaps (three-candle imbalances) drawn as boxes that disappear once filled
-# ar: فجوات القيمة العادلة (فجوة بين 3 شموع) مرسومة كصناديق بتختفي لما السعر يقفلها
+# ar: فجوات القيمة العادلة (فجوة بين 3 شموع) مرسومة كصناديق تختفي عندما يغلقها السعر
 # shows: new_box(), lists of box ids, stretch(), erase(), walking a list backwards with repeat
 indicator "Fair value gaps" overlay
 

@@ -1,5 +1,5 @@
 # Two moving averages with cross marks
-# متوسطين متحركين مع علامات التقاطع
+# متوسطان متحركان مع علامات التقاطع
 
 indicator "Two averages" overlay
 

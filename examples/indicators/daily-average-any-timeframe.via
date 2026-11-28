@@ -1,5 +1,5 @@
 # en: A moving average of daily closes that you can see on any intraday chart
-# ar: متوسط متحرك لإغلاقات الأيام تشوفه على أي فريم أقل من يوم
+# ar: متوسط متحرك لإغلاقات الأيام تراه على أي إطار زمني أقل من يوم
 # shows: detecting a new day, keeping a list of values, list_sum() / len()
 indicator "Daily average on any timeframe" overlay
 

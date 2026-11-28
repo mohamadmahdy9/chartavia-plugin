@@ -1,5 +1,5 @@
 # en: Trend entries that move the stop to breakeven after one unit of risk, with a time exit
-# ar: دخول مع الاتجاه، ونقل الوقف لنقطة الدخول بعد ما السعر يمشي مسافة المخاطرة، وخروج بالوقت
+# ar: دخول مع الاتجاه، ونقل الوقف إلى نقطة الدخول بعد أن يقطع السعر مسافة المخاطرة، وخروج بالوقت
 # shows: entry_price, bars_in_trade, changing the stop of an open trade
 expert "Breakeven stop"
 

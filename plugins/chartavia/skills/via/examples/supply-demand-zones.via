@@ -1,5 +1,5 @@
 # en: Supply and demand zones: the candle before a strong move, kept until price closes through it
-# ar: مناطق العرض والطلب: الشمعة اللي قبل حركة قوية، وبتفضل لحد ما السعر يقفل عدّاها
+# ar: مناطق العرض والطلب: الشمعة التي تسبق حركة قوية، وتبقى حتى يُغلق السعر متجاوزًا إياها
 # shows: impulse detection with ATR, boxes with text, removing broken zones, alerts on touch
 indicator "Supply and demand zones" overlay
 
