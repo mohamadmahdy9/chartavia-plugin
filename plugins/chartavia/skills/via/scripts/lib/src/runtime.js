@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.inputsOf = inputsOf;
+exports.barOfPoint = barOfPoint;
 exports.run = run;
 const builtins_1 = require("./builtins");
 const check_1 = require("./check");
@@ -9,10 +10,41 @@ const objects_1 = require("./objects");
 const LOOP_LIMIT = 5000, MAX_MARKS = 500;
 const DEFAULT_COLORS = ["#7480ff", "#f3efe7", "#ffb547", "#6fa8ff", "#ff6a8c", "#5fc9a8", "#a08cff", "#c9b48a"];
 function inputsOf(p) {
-    return p.body.filter((s) => s.k === "input").map((s) => ({
-        name: s.name, label: s.label, def: s.def, min: s.min, max: s.max, type: s.time ? "time" : typeof s.def === "boolean" ? "bool" : typeof s.def === "string" ? "color" : "number",
-        ...(s.group ? { group: s.group } : {}), ...(s.options ? { options: s.options } : {}),
-    }));
+    return p.body.filter((s) => s.k === "input").flatMap((s) => {
+        const g = s.group ? { group: s.group } : {};
+        if (s.point)
+            return [
+                { name: s.name, label: s.label, def: s.def, type: "point", ...g },
+                { name: `${s.name}_price`, label: s.label, def: s.point.price, type: "price", point: s.name, ...g },
+            ];
+        return [{
+                name: s.name, label: s.label, def: s.def, min: s.min, max: s.max, type: s.time ? "time" : typeof s.def === "boolean" ? "bool" : typeof s.def === "string" ? "color" : "number",
+                ...g, ...(s.options ? { options: s.options } : {}),
+            }];
+    });
+}
+/**
+ * The bar number of a chart point's time: the newest bar that opened at or before it (so a weekend or a gap
+ * lands on the bar before), counted on past the newest bar one bar period at a time. None when not picked
+ * or older than the first loaded bar.
+ */
+function barOfPoint(times, t) {
+    const n = times.length;
+    if (!t || !n || t < times[0])
+        return null;
+    if (t >= times[n - 1]) {
+        const step = n > 1 ? times[n - 1] - times[n - 2] : 0;
+        return step > 0 ? n - 1 + Math.floor((t - times[n - 1]) / step) : n - 1;
+    }
+    let lo = 0, hi = n - 1;
+    while (lo < hi) {
+        const m = (lo + hi + 1) >> 1;
+        if (times[m] <= t)
+            lo = m;
+        else
+            hi = m - 1;
+    }
+    return lo;
 }
 const isNum = (v) => typeof v === "number" && Number.isFinite(v);
 const truthy = (v) => v === true || (isNum(v) && v !== 0);
@@ -51,6 +83,15 @@ function run(p, input, opts = {}) {
                     v = Math.min(s.max, v);
             }
             env.set(s.name, v);
+            if (s.point) {
+                const gp = opts.inputs?.[`${s.name}_price`];
+                const t = typeof v === "number" ? v : 0;
+                const b = barOfPoint(bars.time, t);
+                const price = typeof gp === "number" && Number.isFinite(gp) ? gp : s.point.price;
+                // No price given (0): the close of the point's bar.
+                env.set(`${s.name}_price`, !t ? null : price !== 0 ? price : b !== null && b < n ? bars.close[b] : null);
+                env.set(`${s.name}_bar`, b);
+            }
         }
         else if (s.k === "option")
             options[s.name] = s.v;

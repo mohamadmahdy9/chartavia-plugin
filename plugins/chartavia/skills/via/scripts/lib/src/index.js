@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.VIA_VERSION = exports.KEYWORDS = exports.themeColor = exports.POSITION_SERIES = exports.BAR_SERIES = exports.COLORS = exports.FUNCS = exports.ERROR_CODES = exports.makeError = exports.formatError = void 0;
+exports.VIA_VERSION = exports.KEYWORDS = exports.themeColor = exports.POSITION_SERIES = exports.BAR_SERIES = exports.COLORS = exports.FUNCS = exports.barOfPoint = exports.ERROR_CODES = exports.makeError = exports.formatError = void 0;
 exports.compile = compile;
 exports.execute = execute;
 exports.runSource = runSource;
@@ -12,6 +12,8 @@ var errors_2 = require("./errors");
 Object.defineProperty(exports, "formatError", { enumerable: true, get: function () { return errors_2.formatError; } });
 Object.defineProperty(exports, "makeError", { enumerable: true, get: function () { return errors_2.makeError; } });
 Object.defineProperty(exports, "ERROR_CODES", { enumerable: true, get: function () { return errors_2.ERROR_CODES; } });
+var runtime_2 = require("./runtime");
+Object.defineProperty(exports, "barOfPoint", { enumerable: true, get: function () { return runtime_2.barOfPoint; } });
 var builtins_1 = require("./builtins");
 Object.defineProperty(exports, "FUNCS", { enumerable: true, get: function () { return builtins_1.FUNCS; } });
 Object.defineProperty(exports, "COLORS", { enumerable: true, get: function () { return builtins_1.COLORS; } });

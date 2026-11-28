@@ -117,6 +117,10 @@ function check(p) {
             case "input":
                 topOnly("input");
                 define(s.name, s, globals);
+                if (s.point) {
+                    define(`${s.name}_price`, s, globals);
+                    define(`${s.name}_bar`, s, globals);
+                }
                 return;
             case "option":
                 topOnly("option");

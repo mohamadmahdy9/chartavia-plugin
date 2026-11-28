@@ -17,6 +17,7 @@ copy lines. Only port code you wrote yourself or code whose licence allows it.
 | `input.color(color.blue, "Colour")` | `input lineColor = #7480ff "Colour"` |
 | `input.string("EMA", "Type", options=["SMA","EMA"])` | `input kind = 1 "Type" options "SMA\|EMA"` (the value is the position: 0, 1...) |
 | `input.time(timestamp("2024-01-01"), "Start")` | `input start = time "2024-01-01" "Start"` (0 when empty) |
+| `input.time(..., "T1", confirm=true)` + `input.price(..., "P1", confirm=true)` (picked on the chart) | `input t1 = point "T1"`: picked with the mouse and draggable; gives `t1` (time), `t1_price` and `t1_bar` (bar number) |
 | `input.source(close, "Source")` | `input src = 3 "Source" options "Open\|High\|Low\|Close"` then pick with `?:` |
 | `group="Section"` | `group "Section"` |
 

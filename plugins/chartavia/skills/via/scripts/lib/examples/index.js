@@ -217,6 +217,54 @@ cell(3, 1, len(zones))
 `,
     },
     {
+        id: "gann-two-points",
+        en: "Gann angles from two points you pick on the chart",
+        ar: "زوايا جان من نقطتين تختارهما على الشارت",
+        source: `indicator "Gann angles from two points" overlay
+
+input t1 = point "T1" group "Points"
+input t2 = point "T2" group "Points"
+input star = yes "Gann star (angles both ways)" group "Drawing"
+input showBox = yes "Price box between the points" group "Drawing"
+input bars = 0 "Line length in bars (0 = to the right edge)" 0..5000 group "Drawing"
+input fanColor = #7480ff "Angles colour" group "Colours"
+input mainColor = #f3efe7 "1x1 colour" group "Colours"
+
+# 1x1 = the move from T1 to T2, in price per bar. Other angles are multiples of it.
+keep ratios = list(0.125, 0.25, 0.333333, 0.5, 1, 2, 3, 4, 8)
+keep names = list("1x8", "1x4", "1x3", "1x2", "1x1", "2x1", "3x1", "4x1", "8x1")
+
+if last and t1 > 0 and t2 > 0 and t2_bar != t1_bar then
+  let dx = t2_bar - t1_bar
+  let unit = (t2_price - t1_price) / dx
+  let len = bars > 0 ? bars : max(abs(dx), bar - t1_bar)
+  let dir = dx > 0 ? 1 : -1
+  let ways = star ? 2 : 1
+  repeat w from 1 to ways
+    let side = w == 1 ? 1 : -1
+    repeat k from 0 to len(ratios) - 1
+      let r = get(ratios, k)
+      let endBar = t1_bar + dir * len
+      let endPrice = t1_price + side * unit * r * dir * len
+      new_line(t1_bar, t1_price, endBar, endPrice, r == 1 ? mainColor : fade(fanColor, 0.35), r == 1 ? 2 : 1, w == 1 ? "solid" : "dashed", bars > 0 ? "none" : "right")
+      new_label(endBar, endPrice, get(names, k), none, "right", r == 1 ? mainColor : fanColor)
+    end
+  end
+  if showBox then
+    new_box(t1_bar, t1_price, t2_bar, t2_price, fanColor, fade(fanColor, 0.08))
+  end
+  new_label(t1_bar, t1_price, "T1 " + to_text(t1_price, 2), none, "left", mainColor)
+  new_label(t2_bar, t2_price, "T2 " + to_text(t2_price, 2), none, "left", mainColor)
+  new_label(t2_bar, t2_price, to_text(abs(dx), 0) + " bars", none, "below", fanColor)
+end
+
+# Until both points are picked, say so on the newest candle.
+if last and (t1 == 0 or t2 == 0) then
+  new_label(bar, high, "Pick T1 and T2 on the chart · اختر T1 وT2 على الشارت", none, "above", gray)
+end
+`,
+    },
+    {
         id: "expert-average-cross",
         en: "Expert: trade the average cross",
         ar: "خبير: تداول تقاطع المتوسطات",
