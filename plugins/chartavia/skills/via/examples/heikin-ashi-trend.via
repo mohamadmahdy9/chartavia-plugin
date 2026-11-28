@@ -1,5 +1,5 @@
 # en: Heikin Ashi trend: colours the normal candles by the smoothed Heikin Ashi direction
-# ar: اتجاه هايكن آشي: بيلوّن الشموع العادية حسب اتجاه هايكن آشي
+# ar: اتجاه هايكن آشي: يلوّن الشموع العادية حسب اتجاه هايكن آشي
 # shows: keep for a value that depends on its own previous value, paint, alerts on colour change
 indicator "Heikin Ashi trend" overlay
 

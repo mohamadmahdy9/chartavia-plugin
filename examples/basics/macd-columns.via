@@ -1,5 +1,5 @@
 # en: MACD with colored histogram
-# ar: ماكد مع هيستوجرام ملوّن
+# ar: ماكد مع مدرّج تكراري ملوّن
 
 indicator "MACD columns"
 

@@ -7,7 +7,7 @@ exports.EXAMPLES = [
     {
         id: "two-averages",
         en: "Two moving averages with cross marks",
-        ar: "متوسطين متحركين مع علامات التقاطع",
+        ar: "متوسطان متحركان مع علامات التقاطع",
         source: `indicator "Two averages" overlay
 
 input fast = 9  "Fast period"  1..200
@@ -74,7 +74,7 @@ if tight and not prev(tight) then mark above "squeeze" color gold
     {
         id: "macd-columns",
         en: "MACD with colored histogram",
-        ar: "ماكد مع هيستوجرام ملوّن",
+        ar: "ماكد مع مدرّج تكراري ملوّن",
         source: `indicator "MACD columns"
 
 input fast = 12
@@ -128,7 +128,7 @@ draw bar > length ? trail : none name "Trail" as steps color dir == 1 ? blue : r
     {
         id: "arabic",
         en: "A full script written in Arabic",
-        ar: "سكريبت كامل مكتوب بالعربي",
+        ar: "سكربت كامل مكتوب بالعربية",
         source: `مؤشر "اتجاه السعر" على_السعر
 
 مدخل الفترة = 50 "فترة المتوسط" 5..400
@@ -140,7 +140,7 @@ draw bar > length ? trail : none name "Trail" as steps color dir == 1 ? blue : r
 
 إذا تقاطع_صاعد(إغلاق, المتوسط) إذن
   علامة تحت "صعود" بلون أزرق
-  نبّه "السعر عدّى فوق المتوسط عند {إغلاق}"
+  نبّه "تجاوز السعر المتوسط صعودًا عند {إغلاق}"
 نهاية
 `,
     },

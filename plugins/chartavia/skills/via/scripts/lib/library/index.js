@@ -47,7 +47,7 @@ draw avg(close, length) name "SMA" color blue width 2
     { id: "ema", category: "averages", overlay: true, ...v1,
         titleEn: "Exponential Moving Average", titleAr: "المتوسط المتحرك الأسي",
         summaryEn: "Average that gives more weight to recent closes, so it reacts faster than the simple one.",
-        summaryAr: "متوسط بيدي وزن أكبر للشموع الأخيرة، فبيتحرك أسرع من البسيط.",
+        summaryAr: "متوسط يعطي وزنًا أكبر للشموع الأخيرة، فيتحرك أسرع من البسيط.",
         credit: "Classic study (public domain)", source: `${CS}/technical-overlays/moving-averages-simple-and-exponential`,
         body: `
 input length = 20 "Length" 1..500
@@ -56,7 +56,7 @@ draw ema(close, length) name "EMA" color blue width 2
     { id: "wma", category: "averages", overlay: true, ...v1,
         titleEn: "Weighted Moving Average", titleAr: "المتوسط المتحرك الموزون",
         summaryEn: "Linearly weighted average: the newest close counts N times, the oldest once.",
-        summaryAr: "متوسط موزون خطياً: آخر إغلاق بيتحسب N مرة وأقدم واحد مرة.",
+        summaryAr: "متوسط موزون خطيًا: يُحسب آخر إغلاق N مرة وأقدمها مرة واحدة.",
         credit: "Classic study (public domain)", source: `${WP}/Moving_average#Weighted_moving_average`,
         body: `
 input length = 20 "Length" 1..500
@@ -65,7 +65,7 @@ draw wma(close, length) name "WMA" color blue width 2
     { id: "hma", category: "averages", overlay: true, ...v1,
         titleEn: "Hull Moving Average", titleAr: "متوسط هَل المتحرك",
         summaryEn: "Fast, smooth average built from weighted averages to cut most of the lag.",
-        summaryAr: "متوسط سريع وناعم مبني من متوسطات موزونة عشان يقلل التأخير.",
+        summaryAr: "متوسط سريع وناعم مبني من متوسطات موزونة لتقليل التأخير.",
         credit: "Alan Hull", source: `${CS}/technical-overlays/hull-moving-average-hma`,
         body: `
 input length = 21 "Length" 2..500
@@ -75,7 +75,7 @@ draw h name "HMA" color h > prev(h) ? white : blue width 2
     { id: "dema", category: "averages", overlay: true, ...v1,
         titleEn: "Double Exponential Moving Average", titleAr: "المتوسط الأسي المزدوج (DEMA)",
         summaryEn: "2 x EMA minus the EMA of the EMA: less lag than a plain EMA of the same length.",
-        summaryAr: "ضعف الـ EMA ناقص الـ EMA بتاعه: تأخير أقل من EMA بنفس الطول.",
+        summaryAr: "ضعف الـ EMA ناقص الـ EMA الخاص به: تأخير أقل من EMA بالطول نفسه.",
         credit: "Patrick Mulloy", source: `${WP}/Double_exponential_moving_average`,
         body: `
 input length = 20 "Length" 1..500
@@ -86,7 +86,7 @@ draw 2 * e1 - e2 name "DEMA" color blue width 2
     { id: "tema", category: "averages", overlay: true, ...v1,
         titleEn: "Triple Exponential Moving Average", titleAr: "المتوسط الأسي الثلاثي (TEMA)",
         summaryEn: "Three stacked EMAs combined to follow price closely with little lag.",
-        summaryAr: "تلات متوسطات أسية متركبة بتمشي ورا السعر بتأخير قليل.",
+        summaryAr: "ثلاثة متوسطات أسية مركّبة تتبع السعر بتأخير قليل.",
         credit: "Patrick Mulloy", source: `${WP}/Triple_exponential_moving_average`,
         body: `
 input length = 20 "Length" 1..500
@@ -98,7 +98,7 @@ draw 3 * e1 - 3 * e2 + e3 name "TEMA" color blue width 2
     { id: "kama", category: "averages", overlay: true, ...v1,
         titleEn: "Kaufman Adaptive Moving Average", titleAr: "متوسط كوفمان التكيفي (KAMA)",
         summaryEn: "Speeds up when price trends cleanly and slows down in noise, using the efficiency ratio.",
-        summaryAr: "بيسرع لما السعر ماشي في اتجاه واضح وبيهدى وقت التذبذب، باستخدام نسبة الكفاءة.",
+        summaryAr: "يتسارع عندما يتحرك السعر في اتجاه واضح ويهدأ وقت التذبذب، باستخدام نسبة الكفاءة.",
         credit: "Perry Kaufman", source: `${CS}/technical-overlays/kaufmans-adaptive-moving-average-kama`,
         body: `
 input length = 10 "Efficiency length" 2..200
@@ -123,16 +123,16 @@ draw k name "KAMA" color blue width 2
     { id: "vwap", category: "averages", overlay: true, ...v1,
         titleEn: "VWAP", titleAr: "متوسط السعر المرجح بالحجم (VWAP)",
         summaryEn: "Average price weighted by volume, restarting every day (UTC).",
-        summaryAr: "متوسط السعر مرجح بالحجم، وبيبدأ من جديد كل يوم (بتوقيت UTC).",
+        summaryAr: "متوسط السعر مرجّحًا بالحجم، ويبدأ من جديد كل يوم (بتوقيت UTC).",
         credit: "Classic study (public domain)", source: `${WP}/Volume-weighted_average_price`,
         body: `
 draw vwap() name "VWAP" color gold width 2
 ` },
     // ---------------------------------------------------------------- channels
     { id: "bollinger", category: "channels", overlay: true, ...v1,
-        titleEn: "Bollinger Bands", titleAr: "بولنجر باندز",
+        titleEn: "Bollinger Bands", titleAr: "نطاقات بولينجر",
         summaryEn: "A moving average with bands K standard deviations above and below it.",
-        summaryAr: "متوسط متحرك وحواليه نطاقين على بعد K انحراف معياري.",
+        summaryAr: "متوسط متحرك وحوله نطاقان على بُعد K انحراف معياري.",
         credit: "John Bollinger", source: `${WP}/Bollinger_Bands`,
         body: `
 input length = 20 "Length" 2..500
@@ -145,7 +145,7 @@ draw lower name "Lower" color fade(blue, 0.8)
     { id: "keltner", category: "channels", overlay: true, ...v1,
         titleEn: "Keltner Channels", titleAr: "قنوات كيلتنر",
         summaryEn: "An EMA with bands set a multiple of the average true range away.",
-        summaryAr: "متوسط أسي وحواليه نطاقين على بعد مضاعف من متوسط المدى الحقيقي.",
+        summaryAr: "متوسط أسي وحوله نطاقان على بُعد مضاعف من متوسط المدى الحقيقي.",
         credit: "Chester Keltner (ATR version popularised by Linda Bradford Raschke)", source: `${CS}/technical-overlays/keltner-channels`,
         body: `
 input length = 20 "EMA length" 1..500
@@ -160,7 +160,7 @@ draw mid - mult * a name "Lower" color fade(blue, 0.8)
     { id: "donchian", category: "channels", overlay: true, ...v1,
         titleEn: "Donchian Channels", titleAr: "قنوات دونشيان",
         summaryEn: "Highest high and lowest low of the last N bars, with the midpoint.",
-        summaryAr: "أعلى قمة وأقل قاع في آخر N شمعة، والنص بينهم.",
+        summaryAr: "أعلى قمة وأدنى قاع في آخر N شمعة، والمنتصف بينهما.",
         credit: "Richard Donchian", source: `${WP}/Donchian_channel`,
         body: `
 input length = 20 "Length" 1..500
@@ -173,7 +173,7 @@ draw dn name "Lower" color blue
     { id: "envelopes", category: "channels", overlay: true, ...v1,
         titleEn: "Moving Average Envelopes", titleAr: "أغلفة المتوسط المتحرك",
         summaryEn: "A moving average with lines a fixed percentage above and below it.",
-        summaryAr: "متوسط متحرك وخطين فوقه وتحته بنسبة مئوية ثابتة.",
+        summaryAr: "متوسط متحرك وخطان فوقه وتحته بنسبة مئوية ثابتة.",
         credit: "Classic study (public domain)", source: `${CS}/technical-overlays`,
         body: `
 input length = 20 "Length" 1..500
@@ -188,7 +188,7 @@ draw mid * (1 - percent / 100) name "Lower" color fade(blue, 0.8)
     { id: "parabolic-sar", category: "trend", overlay: true, ...v1,
         titleEn: "Parabolic SAR", titleAr: "البارابوليك سار",
         summaryEn: "Stop-and-reverse dots that trail price and speed up as the trend extends.",
-        summaryAr: "نقط وقف وانعكاس بتمشي ورا السعر وبتسرع كل ما الترند يطول.",
+        summaryAr: "نقاط وقف وانعكاس تتبع السعر وتتسارع كلما طال الاتجاه.",
         credit: "J. Welles Wilder Jr.", source: `${WP}/Parabolic_SAR`,
         body: `
 input start = 0.02 "Start" 0.001..1
@@ -241,7 +241,7 @@ if bar > 2 and not up and prev(up) then alert "Parabolic SAR flipped down at {cl
     { id: "supertrend", category: "trend", overlay: true, ...v1,
         titleEn: "SuperTrend", titleAr: "سوبر ترند",
         summaryEn: "ATR bands around the bar midpoint; the line flips sides when price closes through it.",
-        summaryAr: "نطاقات ATR حوالين نص الشمعة؛ الخط بيقلب ناحيته لما السعر يقفل عدّاه.",
+        summaryAr: "نطاقات ATR حول منتصف الشمعة؛ ينقلب الخط إلى الجهة الأخرى عندما يُغلق السعر متجاوزًا إياه.",
         credit: "Olivier Seban", source: "https://www.barchart.com/education/technical-indicators/supertrend",
         body: `
 input period = 10 "ATR period" 1..200
@@ -315,7 +315,7 @@ draw cloudB name "Leading span B" color fade(blue, 0.8)
     { id: "adx", category: "trend", ...v1,
         titleEn: "ADX and DMI", titleAr: "مؤشر ADX وخطوط الاتجاه DMI",
         summaryEn: "Trend strength (ADX) with the plus and minus directional lines.",
-        summaryAr: "قوة الترند (ADX) مع خطي الاتجاه الموجب والسالب.",
+        summaryAr: "قوة الاتجاه (ADX) مع خطي الاتجاه الموجب والسالب.",
         credit: "J. Welles Wilder Jr.", source: `${WP}/Average_directional_movement_index`,
         body: `
 input length = 14 "Length" 1..200
@@ -329,7 +329,7 @@ level threshold name "Trend" color gray dashed
     { id: "aroon", category: "trend", ...v1,
         titleEn: "Aroon", titleAr: "أرون",
         summaryEn: "How recently the highest high and lowest low happened, as 0 to 100.",
-        summaryAr: "من قد إيه حصلت أعلى قمة وأقل قاع، من 0 لـ 100.",
+        summaryAr: "منذ متى حدثت أعلى قمة وأدنى قاع، من 0 إلى 100.",
         credit: "Tushar Chande", source: `${CS}/technical-indicators/aroon`,
         body: `
 input length = 14 "Length" 1..500
@@ -344,7 +344,7 @@ level 30 color fade(gray, 0.5) dashed
     { id: "pivots-classic", category: "levels", overlay: true, ...v1,
         titleEn: "Classic Pivot Points (daily)", titleAr: "نقاط الارتكاز الكلاسيكية (يومي)",
         summaryEn: "Floor-trader pivot, three resistances and three supports from the previous day (UTC).",
-        summaryAr: "نقطة الارتكاز وتلات مقاومات وتلات دعوم من اليوم اللي فات (بتوقيت UTC).",
+        summaryAr: "نقطة الارتكاز وثلاث مقاومات وثلاثة دعوم من اليوم السابق (بتوقيت UTC).",
         credit: "Classic floor-trader pivots (public domain)", source: `${WP}/Pivot_point_(technical_analysis)`,
         body: `
 let day = floor(time / 86400000)
@@ -389,7 +389,7 @@ draw s3 name "S3" as steps color fade(blue, 0.6)
     { id: "rsi", category: "momentum", ...v1,
         titleEn: "Relative Strength Index", titleAr: "مؤشر القوة النسبية (RSI)",
         summaryEn: "Wilder's 0 to 100 momentum oscillator with overbought and oversold zones.",
-        summaryAr: "مذبذب زخم من 0 لـ 100 بتاع وايلدر، مع منطقتي تشبع شراء وبيع.",
+        summaryAr: "مذبذب الزخم لوايلدر من 0 إلى 100، مع منطقتي تشبّع شرائي وبيعي.",
         credit: "J. Welles Wilder Jr.", source: `${WP}/Relative_strength_index`,
         body: `
 input length = 14 "Length" 2..200
@@ -406,7 +406,7 @@ if crossup(r, lower) then alert "RSI left oversold: {r}"
     { id: "stochastic", category: "momentum", ...v1,
         titleEn: "Stochastic Oscillator", titleAr: "الاستوكاستيك",
         summaryEn: "Where the close sits inside the recent high-low range, with a signal line.",
-        summaryAr: "مكان الإغلاق جوه مدى القمة والقاع الأخير، مع خط إشارة.",
+        summaryAr: "موضع الإغلاق داخل مدى القمة والقاع الأخير، مع خط إشارة.",
         credit: "George Lane", source: `${WP}/Stochastic_oscillator`,
         body: `
 input length = 14 "%K length" 1..200
@@ -421,7 +421,7 @@ level 20 color gray dashed
     { id: "stoch-rsi", category: "momentum", ...v1,
         titleEn: "Stochastic RSI", titleAr: "ستوكاستيك RSI",
         summaryEn: "The stochastic formula applied to RSI instead of price, for a faster oscillator.",
-        summaryAr: "معادلة الاستوكاستيك متطبقة على الـ RSI بدل السعر، فبيطلع مذبذب أسرع.",
+        summaryAr: "معادلة الاستوكاستيك مطبقة على الـ RSI بدلًا من السعر، فينتج مذبذب أسرع.",
         credit: "Tushar Chande and Stanley Kroll", source: `${CS}/technical-indicators`,
         body: `
 input rsiLength = 14 "RSI length" 2..200
@@ -442,7 +442,7 @@ level 20 color gray dashed
     { id: "macd", category: "momentum", ...v1,
         titleEn: "MACD", titleAr: "الماكد (MACD)",
         summaryEn: "Difference of two EMAs, its signal line and the histogram between them.",
-        summaryAr: "الفرق بين متوسطين أسيين، وخط الإشارة، والهيستوجرام بينهم.",
+        summaryAr: "الفرق بين متوسطين أسيين، وخط الإشارة، والمدرّج التكراري بينهما.",
         credit: "Gerald Appel", source: `${WP}/MACD`,
         body: `
 input fast = 12 "Fast length" 1..200
@@ -459,7 +459,7 @@ if crossdown(line, sig) then alert "MACD crossed below signal"
     { id: "cci", category: "momentum", ...v1,
         titleEn: "Commodity Channel Index", titleAr: "مؤشر قناة السلع (CCI)",
         summaryEn: "Distance of the typical price from its average, scaled by mean deviation.",
-        summaryAr: "بعد السعر النموذجي عن متوسطه، مقسوم على متوسط الانحراف.",
+        summaryAr: "بُعد السعر النموذجي عن متوسطه، مقسومًا على متوسط الانحراف.",
         credit: "Donald Lambert", source: `${WP}/Commodity_channel_index`,
         body: `
 input length = 20 "Length" 2..500
@@ -471,7 +471,7 @@ level -100 color gray dashed
     { id: "williams-r", category: "momentum", ...v1,
         titleEn: "Williams %R", titleAr: "وليامز %R",
         summaryEn: "Close relative to the recent high-low range, from 0 down to -100.",
-        summaryAr: "الإغلاق بالنسبة لمدى القمة والقاع الأخير، من 0 لحد -100.",
+        summaryAr: "الإغلاق بالنسبة إلى مدى القمة والقاع الأخير، من 0 إلى -100.",
         credit: "Larry Williams", source: `${WP}/Williams_%25R`,
         body: `
 input length = 14 "Length" 1..500
@@ -492,7 +492,7 @@ level 0 color fade(gray, 0.5)
     { id: "awesome", category: "momentum", ...v1,
         titleEn: "Awesome Oscillator", titleAr: "المذبذب الرائع (AO)",
         summaryEn: "5-bar minus 34-bar simple average of the bar midpoint, as columns.",
-        summaryAr: "متوسط 5 شمعات ناقص متوسط 34 شمعة لنص الشمعة، على شكل أعمدة.",
+        summaryAr: "متوسط 5 شموع ناقص متوسط 34 شمعة لمنتصف الشمعة، على شكل أعمدة.",
         credit: "Bill Williams", source: `${CS}/technical-indicators`,
         body: `
 input fast = 5 "Fast" 1..100
@@ -504,7 +504,7 @@ level 0 color fade(gray, 0.5)
     { id: "ultimate", category: "momentum", ...v1,
         titleEn: "Ultimate Oscillator", titleAr: "المذبذب النهائي",
         summaryEn: "Buying pressure averaged over three windows (7, 14 and 28 bars) and weighted 4:2:1.",
-        summaryAr: "ضغط الشراء متوسط على تلات فترات (7 و14 و28) وموزون 4:2:1.",
+        summaryAr: "متوسط ضغط الشراء على ثلاث فترات (7 و14 و28) موزونًا 4:2:1.",
         credit: "Larry Williams", source: `${WP}/Ultimate_oscillator`,
         body: `
 input short = 7 "Short" 1..100
@@ -522,7 +522,7 @@ level 30 color gray dashed
     { id: "trix", category: "momentum", ...v1,
         titleEn: "TRIX", titleAr: "تريكس (TRIX)",
         summaryEn: "One-bar percent change of a triple-smoothed EMA, with a signal line.",
-        summaryAr: "نسبة التغير لشمعة واحدة لمتوسط أسي متنعم تلات مرات، مع خط إشارة.",
+        summaryAr: "نسبة التغير لشمعة واحدة لمتوسط أسي منعّم ثلاث مرات، مع خط إشارة.",
         credit: "Jack Hutson", source: `${WP}/Trix_(technical_analysis)`,
         body: `
 input length = 15 "Length" 1..200
@@ -536,7 +536,7 @@ level 0 color fade(gray, 0.5)
     { id: "cmo", category: "momentum", ...v1,
         titleEn: "Chande Momentum Oscillator", titleAr: "مذبذب تشاندي للزخم",
         summaryEn: "Sum of up moves minus sum of down moves over their total, from -100 to 100.",
-        summaryAr: "مجموع الطلوع ناقص مجموع النزول على إجماليهم، من -100 لـ 100.",
+        summaryAr: "مجموع الصعود ناقص مجموع الهبوط مقسومًا على إجماليهما، من -100 إلى 100.",
         credit: "Tushar Chande", source: `${CS}/technical-indicators`,
         body: `
 input length = 9 "Length" 1..200
@@ -564,7 +564,7 @@ level 0 color fade(gray, 0.5)
     { id: "coppock", category: "momentum", ...v1,
         titleEn: "Coppock Curve", titleAr: "منحنى كوبوك",
         summaryEn: "Weighted average of two rates of change; designed for long-term bottoms on monthly charts.",
-        summaryAr: "متوسط موزون لمعدلين تغير؛ معمول للقيعان الطويلة على الشارت الشهري.",
+        summaryAr: "متوسط موزون لمعدلَي تغيّر؛ صُمّم للقيعان الطويلة على الشارت الشهري.",
         credit: "Edwin Coppock", source: `${WP}/Coppock_curve`,
         body: `
 input longRoc = 14 "Long ROC" 1..200
@@ -578,7 +578,7 @@ level 0 color fade(gray, 0.5)
     { id: "atr", category: "volatility", ...v1,
         titleEn: "Average True Range", titleAr: "متوسط المدى الحقيقي (ATR)",
         summaryEn: "Wilder-smoothed average of the true range: how much price usually moves per bar.",
-        summaryAr: "متوسط المدى الحقيقي بتنعيم وايلدر: السعر بيتحرك قد إيه عادة في الشمعة.",
+        summaryAr: "متوسط المدى الحقيقي بتنعيم وايلدر: مقدار تحرك السعر المعتاد في الشمعة.",
         credit: "J. Welles Wilder Jr.", source: `${WP}/Average_true_range`,
         body: `
 input length = 14 "Length" 1..500
@@ -587,7 +587,7 @@ draw atr(length) name "ATR" color blue width 2
     { id: "choppiness", category: "volatility", ...v1,
         titleEn: "Choppiness Index", titleAr: "مؤشر التذبذب العرضي (Choppiness)",
         summaryEn: "High values mean sideways chop, low values mean a directional move.",
-        summaryAr: "القيم العالية معناها سوق عرضي، والواطية معناها حركة في اتجاه.",
+        summaryAr: "القيم المرتفعة تعني سوقًا عرضيًا، والمنخفضة تعني حركة في اتجاه.",
         credit: "E. W. Dreiss", source: "https://www.barchart.com/trader/help/studies/chop.php",
         body: `
 input length = 14 "Length" 2..500
@@ -612,7 +612,7 @@ draw 100 * stdev(r, length) * sqrt(perYear) name "HV %" color blue width 2
     { id: "obv", category: "volume", ...v1,
         titleEn: "On Balance Volume", titleAr: "حجم التوازن (OBV)",
         summaryEn: "Running total that adds volume on up closes and subtracts it on down closes.",
-        summaryAr: "مجموع تراكمي بيزود الحجم لما الإغلاق يطلع وبيطرحه لما ينزل.",
+        summaryAr: "مجموع تراكمي يضيف الحجم عندما يرتفع الإغلاق ويطرحه عندما ينخفض.",
         credit: "Joseph Granville", source: `${WP}/On-balance_volume`,
         body: `
 input signal = 20 "Signal EMA" 1..500
@@ -623,7 +623,7 @@ draw ema(o, signal) name "Signal" color gold
     { id: "mfi", category: "volume", ...v1,
         titleEn: "Money Flow Index", titleAr: "مؤشر تدفق الأموال (MFI)",
         summaryEn: "A volume-weighted RSI built from the typical price.",
-        summaryAr: "RSI مرجح بالحجم ومبني على السعر النموذجي.",
+        summaryAr: "RSI مرجّح بالحجم ومبني على السعر النموذجي.",
         credit: "Gene Quong and Avrum Soudack", source: `${WP}/Money_flow_index`,
         body: `
 input length = 14 "Length" 1..500
@@ -647,7 +647,7 @@ level 0 color fade(gray, 0.5)
     { id: "accumulation-distribution", category: "volume", ...v1,
         titleEn: "Accumulation / Distribution", titleAr: "التجميع والتوزيع (A/D)",
         summaryEn: "Running total of money flow volume: where in the bar's range the close lands, times volume.",
-        summaryAr: "مجموع تراكمي لحجم تدفق الأموال: مكان الإغلاق في مدى الشمعة مضروب في الحجم.",
+        summaryAr: "مجموع تراكمي لحجم تدفق الأموال: موضع الإغلاق في مدى الشمعة مضروبًا في الحجم.",
         credit: "Marc Chaikin", source: `${WP}/Accumulation/distribution_index`,
         body: `
 let mfm = high > low ? ((close - low) - (high - close)) / (high - low) : 0
@@ -673,7 +673,7 @@ level 0 color fade(gray, 0.5)
     { id: "force-index", category: "volume", ...v1,
         titleEn: "Elder Force Index", titleAr: "مؤشر القوة لإلدر",
         summaryEn: "Price change times volume, smoothed with an EMA.",
-        summaryAr: "تغير السعر مضروب في الحجم، ومتنعم بمتوسط أسي.",
+        summaryAr: "تغيّر السعر مضروبًا في الحجم، ومنعّمًا بمتوسط أسي.",
         credit: "Alexander Elder", source: `${CS}/technical-indicators/force-index`,
         body: `
 input length = 13 "EMA length" 1..200
@@ -684,7 +684,7 @@ level 0 color fade(gray, 0.5)
     { id: "volume-ma", category: "volume", ...v1,
         titleEn: "Volume with Moving Average", titleAr: "الحجم مع متوسطه",
         summaryEn: "Volume columns with their simple average; bars above average are highlighted.",
-        summaryAr: "أعمدة الحجم مع متوسطها البسيط؛ اللي فوق المتوسط بتظهر أوضح.",
+        summaryAr: "أعمدة الحجم مع متوسطها البسيط؛ وتظهر الأعمدة التي فوق المتوسط أوضح.",
         credit: "Classic study (public domain)", source: `${CS}/technical-indicators`,
         body: `
 input length = 20 "Average length" 1..500

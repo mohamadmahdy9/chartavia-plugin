@@ -1,5 +1,5 @@
 # en: Anchored VWAP and range from a date you pick on a calendar
-# ar: VWAP مثبّت ورينج من تاريخ بتختاره من النتيجة
+# ar: VWAP مثبّت ونطاق من تاريخ تختاره من التقويم
 # shows: time inputs (date pickers), 0 = no date picked, keep sums that grow bar by bar
 indicator "Anchored VWAP from a date" overlay
 

@@ -1,5 +1,5 @@
 # en: One moving average, with its type picked from a list in the settings
-# ar: متوسط متحرك واحد، ونوعه بتختاره من قايمة في الإعدادات
+# ar: متوسط متحرك واحد، تختار نوعه من قائمة في الإعدادات
 # shows: input with options (a drop-down), yes/no input, input groups
 indicator "Average of your choice" overlay
 

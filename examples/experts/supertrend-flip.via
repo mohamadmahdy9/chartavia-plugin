@@ -1,5 +1,5 @@
 # en: SuperTrend expert: always in the market, flips long and short when the SuperTrend line flips
-# ar: خبير سوبر ترند: دايمًا في السوق، بيقلب شراء وبيع لما خط السوبر ترند يقلب
+# ar: خبير سوبر ترند: في السوق دائمًا، يقلب بين الشراء والبيع عندما ينقلب خط السوبر ترند
 # shows: a stateful indicator built with keep, trading on its signals
 expert "SuperTrend flip"
 

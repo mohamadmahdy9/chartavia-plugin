@@ -1,5 +1,5 @@
 # en: Channel breakout with a trailing ATR stop that only moves in the trade's favour (longs only)
-# ar: كسر قناة مع وقف متحرك بالـ ATR بيتحرك في صالح الصفقة بس (شراء بس)
+# ar: كسر قناة مع وقف متحرك بالـ ATR يتحرك في صالح الصفقة فقط (شراء فقط)
 # shows: option shorts = no, updating stop every bar, keep for the trailing level
 expert "Breakout with trailing stop"
 

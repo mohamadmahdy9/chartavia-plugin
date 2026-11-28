@@ -1,5 +1,5 @@
 # en: Yesterday's high, low and close, today's open and last week's range on any intraday chart
-# ar: أعلى وأدنى وإغلاق امبارح، وافتتاح النهارده، ورينج الأسبوع اللي فات على أي فريم أقل من يوم
+# ar: أعلى وأدنى وإغلاق الأمس، وافتتاح اليوم، ونطاق الأسبوع الماضي على أي إطار زمني أقل من يوم
 # shows: htf() for higher-timeframe values without look-ahead, draw as steps, crossing alerts
 indicator "Previous day levels" overlay
 

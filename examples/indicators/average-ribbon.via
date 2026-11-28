@@ -1,5 +1,5 @@
 # en: Moving-average ribbon that changes colour with the trend
-# ar: شريط متوسطات متحركة لونه بيتغير مع الاتجاه
+# ar: شريط متوسطات متحركة يتغير لونه مع الاتجاه
 # shows: several draw lines, a colour chosen by a condition, fade(), marks when the trend flips
 indicator "Average ribbon" overlay
 

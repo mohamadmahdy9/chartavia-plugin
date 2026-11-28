@@ -1,5 +1,5 @@
 # en: A small dashboard in the chart corner: trend, RSI, ADX, volatility and today's change
-# ar: لوحة صغيرة في ركن الشارت: الاتجاه وRSI وADX والتذبذب وتغيّر النهارده
+# ar: لوحة صغيرة في زاوية الشارت: الاتجاه وRSI وADX والتذبذب وتغيّر اليوم
 # shows: panel() and cell(), to_text(), joining text with +, unpacking adx()
 indicator "Market dashboard" overlay
 

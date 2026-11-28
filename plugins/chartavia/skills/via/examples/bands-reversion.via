@@ -1,5 +1,5 @@
 # en: Mean reversion on volatility bands: buy back inside the lower band, sell back inside the upper, exit at the middle
-# ar: ارتداد للمتوسط على نطاقات التذبذب: شراء لما يرجع جوه النطاق السفلي، بيع لما يرجع جوه العلوي، خروج عند النص
+# ar: ارتداد إلى المتوسط على نطاقات التذبذب: شراء عند العودة داخل النطاق السفلي، وبيع عند العودة داخل العلوي، وخروج عند المنتصف
 # shows: unpacking bands(), exit on a condition, position to know which side you are on
 expert "Bands mean reversion"
 

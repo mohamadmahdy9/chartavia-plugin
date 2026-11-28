@@ -1,5 +1,5 @@
 # en: MACD crosses traded only on chosen weekdays and hours, flat before the weekend
-# ar: تقاطعات الماكد بتتنفذ في أيام وساعات تختارها بس، ومن غير صفقات مفتوحة في الويك إند
+# ar: تقاطعات الماكد تُنفَّذ في أيام وساعات تختارها فقط، ودون صفقات مفتوحة في عطلة نهاية الأسبوع
 # shows: hour(), weekday(), unpacking macd(), exit on Friday evening
 expert "MACD with a time filter"
 

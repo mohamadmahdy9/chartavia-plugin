@@ -70,8 +70,8 @@ alerts) or an expert (trades), and what you want to be able to change. Examples:
 - "Mark every fair value gap bigger than half an ATR as a box that disappears once price fills it."
 - "An expert that buys when RSI crosses above 30 while price is above the 200 EMA, stop 1.5 ATR, target 2 times the stop, longs only."
 - "Turn my idea into a dashboard in the top left corner with trend, RSI and today's change."
-- «اعملي مؤشر يرسم قمم وقيعان السوق ويكتب عليها HH وLL»
-- «عايز إكسبرت بيشتري لما المتوسط 20 يقطع الـ 50 لفوق، ووقف الخسارة تحت آخر قاع»
+- «اكتب لي مؤشرًا يرسم قمم السوق وقيعانه ويكتب عليها HH وLL»
+- «أريد خبيرًا آليًا يشتري عندما يقطع المتوسط 20 المتوسط 50 صعودًا، ووقف الخسارة تحت آخر قاع»
 
 ## Step 4: run it on Chartavia
 
