@@ -94,6 +94,19 @@ Use `either(x, fallback)` to replace it.
   the value is a time in ms like the `time` series, `0` while no date is picked. An optional date in quotes,
   `"YYYY-MM-DD"` or `"YYYY-MM-DD HH:MM"` (UTC), is the default. Example:
   `input start = time "2026-11-20 14:00" "Start"` then `if start > 0 and time >= start then ...`.
+  `point` (Arabic `نقطة`) makes a chart point the user picks with the mouse, like an anchor of a drawing:
+  `input a = point ["YYYY-MM-DD HH:MM" [price]] ["label"] [group "Section"]`. When the script is run on a chart
+  and the point has no value yet, the chart asks "click the chart to pick point …"; after that the point shows as a
+  handle with its label that can be dragged to a new candle or price, and the script recalculates at once. The
+  settings show a "Pick on the chart" button for each point (re-pick one point and keep every other setting), a
+  date and a price box, and a button to pick all the points again. Each point gives three constants:
+  `a` is the time of its candle in ms (like a `time` input, `0` while not picked), `a_price` is the price picked
+  (`none` while not picked; with no price given, the close of that candle) and `a_bar` is that candle's bar number,
+  read against `bar` (`none` while not picked or older than the loaded history; past the newest candle it counts
+  on one bar per period). A time between candles (a weekend, a gap) lands on the candle before it. Do not name
+  anything `a_price` or `a_bar` yourself. Example:
+  `input t1 = point "T1"` and `input t2 = point "T2"`, then `if last and t1 > 0 and t2 > 0 then`
+  `new_line(t1_bar, t1_price, t2_bar, t2_price, blue)`.
   To pick a candle by its number instead, use a number input and compare it with `bar`
   (`input from = 300 "From bar"` then `if bar >= from then ...`). The chart can show each candle's number in the
   legend (chart settings → "Bar number in the legend"), and drawing coordinates use the same number.

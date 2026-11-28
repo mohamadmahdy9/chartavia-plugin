@@ -6,6 +6,7 @@ const errors_1 = require("./errors");
 const lexer_1 = require("./lexer");
 const GROUP_WORDS = ["group", "قسم"];
 const TIME_WORDS = ["time", "وقت"];
+const POINT_WORDS = ["point", "نقطة"];
 const DATE_RE = /^\d{4}-\d{2}-\d{2}([ T]\d{2}:\d{2})?$/;
 /** "2026-11-20" or "2026-11-20 14:30", read as UTC; null when the date does not exist. */
 function parseDate(text) {
@@ -133,8 +134,11 @@ class Parser {
                     // A colour default (#rrggbb or #rrggbbaa) makes a colour input, shown with a colour picker.
                     // `time` (Arabic وقت), optionally followed by a date in quotes, makes a date-and-time input: its value is a
                     // time in milliseconds like the `time` series, 0 when no date is set.
-                    let def, isTime = false;
-                    if (this.cur.type === "name" && TIME_WORDS.includes(this.cur.value)) {
+                    // `point` (Arabic نقطة) makes a chart point picked with the mouse: optional date in quotes, then an optional
+                    // price. Its value is the time like a `time` input; `<name>_price` and `<name>_bar` come with it.
+                    let def, isTime = false, point;
+                    const isPoint = this.cur.type === "name" && POINT_WORDS.includes(this.cur.value);
+                    if (this.cur.type === "name" && (TIME_WORDS.includes(this.cur.value) || isPoint)) {
                         this.next();
                         isTime = true;
                         def = 0;
@@ -146,6 +150,9 @@ class Parser {
                             def = d;
                             this.next();
                         }
+                        const nx = this.cur;
+                        if (isPoint)
+                            point = { price: nx.type === "num" || this.isOp("-", nx) ? this.signedNum() : 0 };
                     }
                     else
                         def = this.cur.type === "color" ? this.next().value : this.literal();
@@ -154,6 +161,8 @@ class Parser {
                     const s = { k: "input", name, def, ...pos };
                     if (isTime)
                         s.time = true;
+                    if (point)
+                        s.point = point;
                     if (this.cur.type === "str")
                         s.label = this.next().value;
                     if (!isTime && (this.cur.type === "num" || this.isOp("-"))) {

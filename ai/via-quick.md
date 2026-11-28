@@ -27,7 +27,7 @@ Rules that are easy to get wrong:
 - Do not name variables after built-ins or keywords: `close`, `high`, `bar`, `time`, `avg`, `blue`, `name`, `color`, `width`, `as`, `level`, `mark`, `stop`, `target`, `from`, `to`, `input`, `option`, `info`, `end`...
 - `repeat i from a to b` counts down when a > b, so `repeat k from 0 to len(xs) - 1` runs twice on an empty list. Guard it with `if len(xs) > 0 then`. Walk backwards when removing items.
 - `mark` keeps only the first 500 marks; for frequent signals use `new_label(bar, price, text, none, "above", color)` (keeps the newest 500).
-- Inputs: `input length = 14 "Length" 1..200`, `input show = yes "Show"`, `input col = #7480ff "Colour"`, `input kind = 0 "Type" options "A|B|C"` (value = position from 0), `input start = time "Start"` (date picker, 0 = not set), optional `group "Section"`.
+- Inputs: `input length = 14 "Length" 1..200`, `input show = yes "Show"`, `input col = #7480ff "Colour"`, `input kind = 0 "Type" options "A|B|C"` (value = position from 0), `input start = time "Start"` (date picker, 0 = not set), `input t1 = point "T1"` (picked by clicking the chart and draggable; gives `t1` time, `t1_price`, `t1_bar`; 0/none until picked), optional `group "Section"`.
 - Colours: `blue white ink gray sky gold sand rose mint violet`, `#rrggbb`, `#rrggbbaa`, `fade(color, 0..1)`. Chartavia's style is calm: `blue` for the main line and bullish signals, `white`/`gray` for secondary lines, `rose` sparingly for bearish. Avoid loud green/red.
 - Experts only: `option capital/fee/size/shorts`, `buy [size%]`, `sell [size%]`, `exit`, `stop price`, `target price`, and the series `position` (1, -1, 0), `entry_price`, `bars_in_trade`, `equity`, `profit`. Orders fill at the next bar's open; stops and targets are checked inside each bar (the stop wins if both are hit). `buy` while already long does nothing. Indicators can never trade.
 - Avoid look-ahead: compare with the previous bars' level, e.g. `close > prev(highest(high, 20))`. Fire signals once with `crossup`/`crossdown` or `cond and not prev(cond)`.
@@ -134,6 +134,19 @@ Use `either(x, fallback)` to replace it.
   the value is a time in ms like the `time` series, `0` while no date is picked. An optional date in quotes,
   `"YYYY-MM-DD"` or `"YYYY-MM-DD HH:MM"` (UTC), is the default. Example:
   `input start = time "2026-11-20 14:00" "Start"` then `if start > 0 and time >= start then ...`.
+  `point` (Arabic `نقطة`) makes a chart point the user picks with the mouse, like an anchor of a drawing:
+  `input a = point ["YYYY-MM-DD HH:MM" [price]] ["label"] [group "Section"]`. When the script is run on a chart
+  and the point has no value yet, the chart asks "click the chart to pick point …"; after that the point shows as a
+  handle with its label that can be dragged to a new candle or price, and the script recalculates at once. The
+  settings show a "Pick on the chart" button for each point (re-pick one point and keep every other setting), a
+  date and a price box, and a button to pick all the points again. Each point gives three constants:
+  `a` is the time of its candle in ms (like a `time` input, `0` while not picked), `a_price` is the price picked
+  (`none` while not picked; with no price given, the close of that candle) and `a_bar` is that candle's bar number,
+  read against `bar` (`none` while not picked or older than the loaded history; past the newest candle it counts
+  on one bar per period). A time between candles (a weekend, a gap) lands on the candle before it. Do not name
+  anything `a_price` or `a_bar` yourself. Example:
+  `input t1 = point "T1"` and `input t2 = point "T2"`, then `if last and t1 > 0 and t2 > 0 then`
+  `new_line(t1_bar, t1_price, t2_bar, t2_price, blue)`.
   To pick a candle by its number instead, use a number input and compare it with `bar`
   (`input from = 300 "From bar"` then `if bar >= from then ...`). The chart can show each candle's number in the
   legend (chart settings → "Bar number in the legend"), and drawing coordinates use the same number.

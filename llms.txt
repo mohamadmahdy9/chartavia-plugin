@@ -23,6 +23,7 @@ Read llms-full.txt (or ai/via-for-ai.md) for the complete reference, rules and c
 - [trailing-trend](https://github.com/mohamadmahdy9/chartavia-plugin/blob/main/examples/basics/trailing-trend.via): ATR trailing trend line (uses keep)
 - [arabic](https://github.com/mohamadmahdy9/chartavia-plugin/blob/main/examples/basics/arabic.via): A full script written in Arabic
 - [swing-structure](https://github.com/mohamadmahdy9/chartavia-plugin/blob/main/examples/basics/swing-structure.via): Swing structure with zones and a panel (Via 0.2)
+- [gann-two-points](https://github.com/mohamadmahdy9/chartavia-plugin/blob/main/examples/basics/gann-two-points.via): Gann angles from two points you pick on the chart
 - [expert-average-cross](https://github.com/mohamadmahdy9/chartavia-plugin/blob/main/examples/basics/expert-average-cross.via): Expert: trade the average cross
 - [expert-rsi-reversion](https://github.com/mohamadmahdy9/chartavia-plugin/blob/main/examples/basics/expert-rsi-reversion.via): Expert: RSI mean reversion with stop and target
 - [expert-breakout](https://github.com/mohamadmahdy9/chartavia-plugin/blob/main/examples/basics/expert-breakout.via): Expert: channel breakout with ATR stop
@@ -34,6 +35,7 @@ Read llms-full.txt (or ai/via-for-ai.md) for the complete reference, rules and c
 - [candle-patterns](https://github.com/mohamadmahdy9/chartavia-plugin/blob/main/examples/indicators/candle-patterns.via): Classic candle patterns: engulfing, hammer, shooting star and inside bar
 - [daily-average-any-timeframe](https://github.com/mohamadmahdy9/chartavia-plugin/blob/main/examples/indicators/daily-average-any-timeframe.via): A moving average of daily closes that you can see on any intraday chart
 - [fair-value-gaps](https://github.com/mohamadmahdy9/chartavia-plugin/blob/main/examples/indicators/fair-value-gaps.via): Fair value gaps (three-candle imbalances) drawn as boxes that disappear once filled
+- [gann-angles-two-points](https://github.com/mohamadmahdy9/chartavia-plugin/blob/main/examples/indicators/gann-angles-two-points.via): Gann angles from two points you pick on the chart: the fan, the star and the price box
 - [heikin-ashi-trend](https://github.com/mohamadmahdy9/chartavia-plugin/blob/main/examples/indicators/heikin-ashi-trend.via): Heikin Ashi trend: colours the normal candles by the smoothed Heikin Ashi direction
 - [market-dashboard](https://github.com/mohamadmahdy9/chartavia-plugin/blob/main/examples/indicators/market-dashboard.via): A small dashboard in the chart corner: trend, RSI, ADX, volatility and today's change
 - [previous-day-levels](https://github.com/mohamadmahdy9/chartavia-plugin/blob/main/examples/indicators/previous-day-levels.via): Yesterday's high, low and close, today's open and last week's range on any intraday chart
